@@ -27,5 +27,5 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         get() = tag!!
 
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentLoginBinding
-        get() =FragmentLoginBinding::inflate
+        get() = FragmentLoginBinding::inflate
 }
