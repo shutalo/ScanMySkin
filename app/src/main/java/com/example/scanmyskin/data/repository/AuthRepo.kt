@@ -1,8 +1,11 @@
 package com.example.scanmyskin.data.repository
 
+import android.content.res.Resources
 import android.util.Log
 import android.widget.Toast
+import com.example.scanmyskin.R
 import com.example.scanmyskin.ScanMySkin
+import com.example.scanmyskin.helpers.makeToast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
@@ -19,12 +22,12 @@ class AuthRepo {
         var isRegistrationSuccessful = false
         try {
             auth.createUserWithEmailAndPassword(email,password).await()
-            Log.d(TAG,"User added to database")
+            Log.d(TAG,Resources.getSystem().getString(R.string.user_added_to_database))
             isRegistrationSuccessful = true
-            Toast.makeText(ScanMySkin.context, "Registered successfully!", Toast.LENGTH_SHORT).show()
+            makeToast(Resources.getSystem().getString(R.string.registered_successfully))
         } catch (e: java.lang.Exception){
             Log.d(TAG ,e.message.toString())
-            Toast.makeText(ScanMySkin.context,e.message.toString(), Toast.LENGTH_SHORT).show()
+            makeToast(e.message.toString())
         }
         return isRegistrationSuccessful
     }
@@ -36,7 +39,7 @@ class AuthRepo {
             signingSuccessful = true
         } catch (e: Exception){
             Log.d(TAG,e.message.toString())
-            Toast.makeText(ScanMySkin.context,"Wrong username or password",Toast.LENGTH_SHORT).show()
+            makeToast(e.message.toString())
         }
         return signingSuccessful
     }
@@ -58,22 +61,29 @@ class AuthRepo {
         auth.sendPasswordResetEmail(email)
     }
 
-    suspend fun updatePassword(newPassword: String, confirmPassword: String){
+    suspend fun updatePassword(newPassword: String, confirmPassword: String): Boolean{
         if(newPassword == "" || confirmPassword == ""){
-            Toast.makeText(ScanMySkin.context,"Password entry must not be empty!", Toast.LENGTH_SHORT).show()
+            makeToast(ScanMySkin.context.getString(R.string.password_must_not_be_empty))
         } else if(newPassword == confirmPassword && newPassword.length < 6){
-            Toast.makeText(ScanMySkin.context,"Password too short!", Toast.LENGTH_SHORT).show()
+            makeToast(ScanMySkin.context.getString(R.string.password_short))
         } else if(newPassword != confirmPassword){
-            Toast.makeText(ScanMySkin.context,"Password must match!", Toast.LENGTH_SHORT).show()
+            makeToast(ScanMySkin.context.getString(R.string.password_must_match))
         } else if(newPassword == confirmPassword){
-            getCurrentUser().updatePassword(newPassword).await()
-            Toast.makeText(ScanMySkin.context,"Password changed successfully!", Toast.LENGTH_SHORT).show()
+            return try {
+                getCurrentUser().updatePassword(newPassword).await()
+                makeToast(ScanMySkin.context.getString(R.string.password_changed))
+                true
+            } catch (e: Exception){
+                Log.d(TAG, e.message.toString())
+                false
+            }
         }
+        return false
     }
 
     suspend fun deleteAccount(): Boolean{
         getCurrentUser().delete().await()
-        Toast.makeText(ScanMySkin.context,"Account deleted.",Toast.LENGTH_SHORT).show()
+        makeToast(Resources.getSystem().getString(R.string.acccount_deleted))
         return true
     }
 }

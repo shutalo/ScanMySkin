@@ -12,10 +12,18 @@
         tools:layout="@layout/fragment_register" >
         <action
             android:id="@+id/action_registrationFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_registrationFragment_to_homeActivity"
-            app:destination="@id/homeActivity" />
+            app:destination="@id/homeActivity"
+            app:exitAnim="@anim/fade_out"
+            app:enterAnim="@anim/slide_in_from_bot_to_top"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_in_from_top_to_bot"   />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -24,13 +32,25 @@
         tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/action_loginFragment_to_registrationFragment"
-            app:destination="@id/registrationFragment" />
+            app:destination="@id/registrationFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right"  />
         <action
             android:id="@+id/action_loginFragment_to_homeActivity"
-            app:destination="@id/homeActivity" />
+            app:destination="@id/homeActivity"
+            app:exitAnim="@anim/fade_out"
+            app:enterAnim="@anim/slide_in_from_bot_to_top"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_in_from_top_to_bot"  />
         <action
             android:id="@+id/action_loginFragment_to_resetPasswordFragment"
-            app:destination="@id/resetPasswordFragment" />
+            app:destination="@id/resetPasswordFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <activity
         android:id="@+id/homeActivity"
@@ -44,10 +64,18 @@
         tools:layout="@layout/fragment_starting" >
         <action
             android:id="@+id/action_startingFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:exitAnim="@anim/fade_out"
+            app:enterAnim="@anim/slide_in_from_bot_to_top"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_in_from_top_to_bot"  />
         <action
             android:id="@+id/action_startingFragment_to_registrationFragment"
-            app:destination="@id/registrationFragment" />
+            app:destination="@id/registrationFragment"
+            app:exitAnim="@anim/fade_out"
+            app:enterAnim="@anim/slide_in_from_bot_to_top"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_in_from_top_to_bot"  />
     </fragment>
     <fragment
         android:id="@+id/choosePasswordFragment"
@@ -55,7 +83,11 @@
         android:label="ChoosePasswordFragment" >
         <action
             android:id="@+id/action_choosePasswordFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/resetPasswordFragment"
@@ -63,6 +95,10 @@
         android:label="ResetPasswordFragment" >
         <action
             android:id="@+id/action_resetPasswordFragment_to_choosePasswordFragment"
-            app:destination="@id/choosePasswordFragment" />
+            app:destination="@id/choosePasswordFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 </navigation>

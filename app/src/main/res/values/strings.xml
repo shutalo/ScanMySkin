@@ -9,6 +9,10 @@
     <string name="want_new_password">I want new password</string>
     <string name="repeat_password">Repeat password</string>
     <string name="password">Password</string>
+    <string name="password_must_not_be_empty">Password entry must not be empty!</string>
+    <string name="password_short">Password too short!</string>
+    <string name="password_must_match">Password must match!</string>
+    <string name="password_changed">Password changed successfully!</string>
     <string name="email">Email</string>
     <string name="choose_password">Choose your password</string>
     <string name="make_sure_remember">Make sure you remember this time!</string>
@@ -23,4 +27,8 @@
     <string name="put_info">Put your info in and lets go!</string>
     <string name="password_error">Password must contain more than 8 characters!</string>
     <string name="email_error">Invalid email format.</string>
+    <string name="invalid_credentials">Wrong email or password</string>
+    <string name="registered_successfully">Registered successfully!</string>
+    <string name="user_added_to_database">User added to database</string>
+    <string name="acccount_deleted">Account deleted.</string>
 </resources>

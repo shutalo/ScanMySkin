@@ -12,12 +12,22 @@ import com.example.scanmyskin.R
 import com.example.scanmyskin.databinding.FragmentChoosePasswordBinding
 import com.example.scanmyskin.databinding.FragmentRegisterBinding
 import com.example.scanmyskin.ui.fragments.base.BaseFragment
+import com.example.scanmyskin.ui.fragments.viewmodels.AuthViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ChoosePasswordFragment : BaseFragment<FragmentChoosePasswordBinding>() {
+
+    private val viewModel by viewModel<AuthViewModel>()
+
     override fun setupUi(){
+        viewModel.isPasswordChangedSuccessfully.observe(this){
+            if(it){
+                findNavController().navigate(ChoosePasswordFragmentDirections.actionChoosePasswordFragmentToLoginFragment())
+            }
+        }
         binding.choose.setOnClickListener{
             YoYo.with(Techniques.Bounce).playOn(it)
-            findNavController().navigate(ChoosePasswordFragmentDirections.actionChoosePasswordFragmentToLoginFragment())
+            viewModel.changePassword(binding.password.toString(), binding.repeatPassword.toString())
         }
     }
 

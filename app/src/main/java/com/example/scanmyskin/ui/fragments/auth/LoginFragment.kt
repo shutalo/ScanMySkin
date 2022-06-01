@@ -10,13 +10,22 @@ import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.example.scanmyskin.databinding.FragmentLoginBinding
 import com.example.scanmyskin.ui.fragments.base.BaseFragment
+import com.example.scanmyskin.ui.fragments.viewmodels.AuthViewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
+    private val viewModel by sharedViewModel<AuthViewModel>()
+
     override fun setupUi(){
+        viewModel.isSigningInSuccessful.observe(this){
+            if(it){
+                findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToHomeActivity())
+            }
+        }
         binding.login.setOnClickListener{
             YoYo.with(Techniques.Bounce).playOn(it)
-            findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToHomeActivity())
+            viewModel.signIn(binding.email.toString(), binding.password.toString())
         }
         binding.forgotPasswordTv.setOnClickListener{
             YoYo.with(Techniques.Bounce).playOn(it)
