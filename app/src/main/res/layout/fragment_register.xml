@@ -131,9 +131,9 @@
         app:layout_constraintRight_toLeftOf="@id/rightGuideline"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="@dimen/margin_very_large"
-        android:background="@drawable/button"
+        android:background="@drawable/blue_button"
         android:text="@string/register"
-        style="@style/button"
+        style="@style/blue_button"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
