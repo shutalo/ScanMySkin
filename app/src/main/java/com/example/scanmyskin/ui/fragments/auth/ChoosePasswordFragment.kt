@@ -1,17 +1,16 @@
 package com.example.scanmyskin.ui.fragments.auth
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
-import com.daimajia.androidanimations.library.Techniques
-import com.daimajia.androidanimations.library.YoYo
+import com.example.scanmyskin.R
+import com.example.scanmyskin.databinding.FragmentChoosePasswordBinding
 import com.example.scanmyskin.databinding.FragmentRegisterBinding
 import com.example.scanmyskin.ui.fragments.base.BaseFragment
 
-class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
-
+class ChoosePasswordFragment : BaseFragment<FragmentChoosePasswordBinding>() {
     override fun setupUi(){
 //        binding.navigate.setOnClickListener{
 ////            YoYo.with(Techniques.Bounce).playOn(it)
@@ -20,9 +19,9 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
     }
 
     companion object {
-        fun newInstance() = RegisterFragment()
+        fun newInstance() = ChoosePasswordFragment()
     }
 
-    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentRegisterBinding
-        get() = FragmentRegisterBinding::inflate
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentChoosePasswordBinding
+        get() = FragmentChoosePasswordBinding::inflate
 }

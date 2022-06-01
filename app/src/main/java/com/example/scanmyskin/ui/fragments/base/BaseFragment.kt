@@ -11,10 +11,9 @@ import androidx.viewbinding.ViewBinding
 
 abstract class BaseFragment<viewBinding: ViewBinding> : Fragment() {
 
-    abstract val TAG : String
-
     private lateinit var _binding: viewBinding
-    val binding: viewBinding = _binding
+    val binding: viewBinding
+        get() = _binding
 
     abstract val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> viewBinding
 
@@ -24,14 +23,14 @@ abstract class BaseFragment<viewBinding: ViewBinding> : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.d(TAG,"onCreateView")
+        Log.d(this.javaClass.simpleName,"onCreateView")
         _binding = bindingInflater(layoutInflater, container, false)
         return _binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d(TAG,"onViewCreated")
+        Log.d(this.javaClass.simpleName,"onViewCreated")
         setupUi()
     }
 
@@ -39,21 +38,21 @@ abstract class BaseFragment<viewBinding: ViewBinding> : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        Log.d(TAG,"onResume")
+        Log.d(this.javaClass.simpleName,"onResume")
     }
 
     override fun onPause() {
         super.onPause()
-        Log.d(TAG,"onPause")
+        Log.d(this.javaClass.simpleName,"onPause")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d(TAG,"onDestroy")
+        Log.d(this.javaClass.simpleName,"onDestroy")
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        Log.d(TAG,"onAttach")
+        Log.d(this.javaClass.simpleName,"onAttach")
     }
 }

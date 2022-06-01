@@ -1,16 +1,17 @@
 package com.example.scanmyskin.ui.fragments.auth
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import com.daimajia.androidanimations.library.Techniques
-import com.daimajia.androidanimations.library.YoYo
+import com.example.scanmyskin.R
 import com.example.scanmyskin.databinding.FragmentRegisterBinding
+import com.example.scanmyskin.databinding.FragmentResetPasswordBinding
 import com.example.scanmyskin.ui.fragments.base.BaseFragment
 
-class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
+class ResetPasswordFragment : BaseFragment<FragmentResetPasswordBinding>() {
 
     override fun setupUi(){
 //        binding.navigate.setOnClickListener{
@@ -20,9 +21,9 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
     }
 
     companion object {
-        fun newInstance() = RegisterFragment()
+        fun newInstance() = ResetPasswordFragment()
     }
 
-    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentRegisterBinding
-        get() = FragmentRegisterBinding::inflate
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentResetPasswordBinding
+        get() = FragmentResetPasswordBinding::inflate
 }

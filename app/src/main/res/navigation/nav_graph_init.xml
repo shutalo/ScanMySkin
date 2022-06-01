@@ -3,19 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_init"
-    app:startDestination="@id/splashScreenFragment">
+    app:startDestination="@id/loginFragment">
 
-    <fragment
-        android:id="@+id/splashScreenFragment"
-        android:name="com.example.scanmyskin.ui.fragments.splash.SplashScreenFragment"
-        android:label="SplashScreenFragment"
-        tools:layout="@layout/fragment_splash_screen" >
-        <action
-            android:id="@+id/action_splashScreenFragment_to_loginFragment"
-            app:destination="@id/loginFragment"
-            app:enterAnim="@anim/slide_in_from_bot_to_top"
-            app:exitAnim="@anim/fade_out" />
-    </fragment>
     <fragment
         android:id="@+id/registrationFragment"
         android:name="com.example.scanmyskin.ui.fragments.auth.RegisterFragment"
@@ -23,14 +12,10 @@
         tools:layout="@layout/fragment_register" >
         <action
             android:id="@+id/action_registrationFragment_to_loginFragment"
-            app:destination="@id/loginFragment"
-            app:enterAnim="@anim/slide_in_from_bot_to_top"
-            app:exitAnim="@anim/fade_out"
-            app:popUpTo="@id/registrationFragment"
-            app:popUpToInclusive="true" />
+            app:destination="@id/loginFragment" />
         <action
-            android:id="@+id/action_registrationFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            android:id="@+id/action_registrationFragment_to_homeActivity"
+            app:destination="@id/homeActivity" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -38,21 +23,15 @@
         android:label="LoginFragment"
         tools:layout="@layout/fragment_login" >
         <action
-            android:id="@+id/action_registrationFragment_to_loginFragment"
-            app:destination="@id/registrationFragment"
-            app:enterAnim="@anim/slide_in_from_bot_to_top"
-            app:exitAnim="@anim/fade_out"
-            app:launchSingleTop="false"
-            app:popUpTo="@id/loginFragment"
-            app:popUpToInclusive="true" />
+            android:id="@+id/action_loginFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
         <action
-            android:id="@+id/action_loginFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            android:id="@+id/action_loginFragment_to_homeActivity"
+            app:destination="@id/homeActivity" />
     </fragment>
-    <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.example.scanmyskin.ui.fragments.home.HomeFragment"
-        android:label="HomeFragment"
-        tools:layout="@layout/fragment_home" >
-    </fragment>
+    <activity
+        android:id="@+id/homeActivity"
+        android:name="com.example.scanmyskin.ui.activities.HomeActivity"
+        android:label="HomeActivity"
+        tools:layout="@layout/activity_home" />
 </navigation>

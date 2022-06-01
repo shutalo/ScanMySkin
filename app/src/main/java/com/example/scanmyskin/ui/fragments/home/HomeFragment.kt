@@ -20,9 +20,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         fun newInstance() = HomeFragment()
     }
 
-    override val TAG: String
-        get() = this.tag!!
-
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentHomeBinding
         get() = FragmentHomeBinding::inflate
 }

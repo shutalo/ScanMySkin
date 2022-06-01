@@ -3,4 +3,22 @@
     <string name="scan">Scan</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="welcome_back">Welcome back</string>
+    <string name="log_in_to_your_account">Log in to your account</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="want_new_password">I want new password</string>
+    <string name="repeat_password">Repeat password</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="choose_password">Choose your password</string>
+    <string name="make_sure_remember">Make sure you remember this time!</string>
+    <string name="confirm">Confirm</string>
+    <string name="log_in">Log in</string>
+    <string name="register">Register</string>
+    <string name="cant_remember">Can\'t remember?</string>
+    <string name="no_worries">No worries let’s get you a new one!</string>
+    <string name="create_new_account">Create your new account.</string>
+    <string name="create_my_account">Create my account</string>
+    <string name="create_account">Create account</string>
+    <string name="put_info">Put your info in and lets go!</string>
 </resources>

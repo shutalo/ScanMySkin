@@ -5,14 +5,18 @@ import com.example.scanmyskin.TensorFlow.Classifier
 
 import android.graphics.Bitmap
 import android.util.Log
+import android.view.LayoutInflater
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import com.example.scanmyskin.R
-import com.example.scanmyskin.databinding.ActivityMainBinding
+import com.example.scanmyskin.databinding.ActivityHomeBinding
+import com.example.scanmyskin.databinding.ActivityLoginBinding
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 
-class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks{
+class HomeActivity : BaseActivity<ActivityHomeBinding>(), EasyPermissions.PermissionCallbacks{
+
+    override val bindingInflater: (LayoutInflater) -> ActivityHomeBinding
+        get() = ActivityHomeBinding::inflate
 
     companion object {
         private const val TAG = "MainActivity"
@@ -27,15 +31,11 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks{
         private const val REQUEST_CODE_PERMISSIONS = 1
     }
 
-    private lateinit var binding: ActivityMainBinding
 //    private var classifier: Classifier? = null
 //    private var initializeJob: Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        this.supportActionBar?.hide()
-        binding = ActivityMainBinding.inflate(layoutInflater)
         askForPermissions()
 //        initializeTensorClassifier()
 //        binding.buttonScan.setOnClickListener {

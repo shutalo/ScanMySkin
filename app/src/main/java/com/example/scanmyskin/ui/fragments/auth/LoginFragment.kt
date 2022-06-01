@@ -1,6 +1,7 @@
 package com.example.scanmyskin.ui.fragments.auth
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,18 +14,15 @@ import com.example.scanmyskin.ui.fragments.base.BaseFragment
 class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
     override fun setupUi(){
-        binding.navigate.setOnClickListener{
-            YoYo.with(Techniques.Bounce).playOn(it)
-            findNavController().navigate(LoginFragmentDirections.actionRegistrationFragmentToLoginFragment())
-        }
+//        binding.navigate.setOnClickListener{
+////            YoYo.with(Techniques.Bounce).playOn(it)
+//            findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToRegistrationFragment())
+//        }
     }
 
     companion object {
         fun newInstance() = LoginFragment()
     }
-
-    override val TAG: String
-        get() = tag!!
 
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentLoginBinding
         get() = FragmentLoginBinding::inflate
