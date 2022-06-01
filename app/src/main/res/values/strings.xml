@@ -21,4 +21,6 @@
     <string name="create_my_account">Create my account</string>
     <string name="create_account">Create account</string>
     <string name="put_info">Put your info in and lets go!</string>
+    <string name="password_error">Password must contain more than 8 characters!</string>
+    <string name="email_error">Invalid email format.</string>
 </resources>

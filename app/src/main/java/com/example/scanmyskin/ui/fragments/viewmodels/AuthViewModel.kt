@@ -4,57 +4,60 @@ import android.app.Activity
 import android.content.Intent
 import android.provider.MediaStore
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.scanmyskin.R
 import com.example.scanmyskin.ScanMySkin
+import com.example.scanmyskin.data.repository.AuthRepo
+import com.example.scanmyskin.helpers.isEmailValid
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.launch
 
-class AuthViewModel : ViewModel() {
+class AuthViewModel(private val repo: AuthRepo) : ViewModel() {
 
-    companion object {
-        val REQUEST_TAKE_PHOTO = 0
-        val REQUEST_SELECT_IMAGE_IN_ALBUM = 1
-    }
+    private val TAG = "AuthViewModel"
+    private var _isUserRegisteredSuccessfully: MutableLiveData<Boolean> = MutableLiveData(false)
+    var isUserRegisteredSuccessfully: LiveData<Boolean> = _isUserRegisteredSuccessfully
+    private var _isPasswordChangeRequested: MutableLiveData<Boolean> = MutableLiveData(false)
+    var isPasswordChangeRequested: LiveData<Boolean> = _isPasswordChangeRequested
+    private var _isUserSignedIn: MutableLiveData<Boolean?> = MutableLiveData(null)
+    var isUserSignedIn: LiveData<Boolean?> = _isUserSignedIn
+    private var _isSigningInSuccessful: MutableLiveData<Boolean> = MutableLiveData(false)
+    var isSigningInSuccessful: LiveData<Boolean> = _isSigningInSuccessful
 
-    fun takePhoto(activity: Activity) {
+    fun register(email: String, password: String){
         viewModelScope.launch {
-            val bottomSheetDialog: BottomSheetDialog = BottomSheetDialog(activity)
-            bottomSheetDialog.setContentView(R.layout.dialog_take_photo)
-            val takePhotoButton : ImageButton = bottomSheetDialog.findViewById(R.id.takePhoto)!!
-            val chooseFromGallery : ImageButton = bottomSheetDialog.findViewById(R.id.gallery)!!
-
-            takePhotoButton.setOnClickListener {
-                bottomSheetDialog.dismiss()
-                val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                if (intent.resolveActivity(ScanMySkin.context.packageManager) != null) {
-                    ActivityCompat.startActivityForResult(
-                        activity,
-                        intent,
-                        REQUEST_TAKE_PHOTO,
-                        null
-                    )
+            if(email.isEmailValid()){
+                if(password.length < 8){
+                    Toast.makeText(ScanMySkin.context,R.string.password_error, Toast.LENGTH_SHORT).show()
                 } else {
-//                    Log.d(MainActivity.TAG,"Photo could not be taken!")
+                    _isUserRegisteredSuccessfully.postValue(repo.register(email,password))
                 }
+            } else {
+                Toast.makeText(ScanMySkin.context,R.string.email_error, Toast.LENGTH_SHORT).show()
             }
-            chooseFromGallery.setOnClickListener {
-                bottomSheetDialog.dismiss()
-                val intent = Intent(Intent.ACTION_GET_CONTENT)
-                intent.type = "image/*"
-                if (intent.resolveActivity(ScanMySkin.context.packageManager) != null) {
-                    ActivityCompat.startActivityForResult(
-                        activity,
-                        intent,
-                        REQUEST_SELECT_IMAGE_IN_ALBUM,
-                        null
-                    )
-                }
-            }
-            bottomSheetDialog.show()
         }
     }
 
+    fun signIn(email: String, password: String){
+        viewModelScope.launch {
+            _isSigningInSuccessful.postValue(repo.signIn(email,password))
+        }
+    }
+
+    fun changePassword(email: String){
+        viewModelScope.launch {
+            repo.changePassword(email)
+            _isPasswordChangeRequested.postValue(true)
+        }
+    }
+
+    fun getCurrentUser(): FirebaseUser {
+        return repo.getCurrentUser()
+    }
 }
