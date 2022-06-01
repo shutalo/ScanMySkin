@@ -14,10 +14,14 @@ import com.example.scanmyskin.ui.fragments.base.BaseFragment
 class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
     override fun setupUi(){
-//        binding.navigate.setOnClickListener{
-////            YoYo.with(Techniques.Bounce).playOn(it)
-//            findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToRegistrationFragment())
-//        }
+        binding.login.setOnClickListener{
+            YoYo.with(Techniques.Bounce).playOn(it)
+            findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToHomeActivity())
+        }
+        binding.forgotPasswordTv.setOnClickListener{
+            YoYo.with(Techniques.Bounce).playOn(it)
+            findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToResetPasswordFragment())
+        }
     }
 
     companion object {

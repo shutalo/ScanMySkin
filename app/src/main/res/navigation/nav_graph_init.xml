@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_init"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/startingFragment">
 
     <fragment
         android:id="@+id/registrationFragment"
@@ -28,10 +28,41 @@
         <action
             android:id="@+id/action_loginFragment_to_homeActivity"
             app:destination="@id/homeActivity" />
+        <action
+            android:id="@+id/action_loginFragment_to_resetPasswordFragment"
+            app:destination="@id/resetPasswordFragment" />
     </fragment>
     <activity
         android:id="@+id/homeActivity"
         android:name="com.example.scanmyskin.ui.activities.HomeActivity"
         android:label="HomeActivity"
         tools:layout="@layout/activity_home" />
+    <fragment
+        android:id="@+id/startingFragment"
+        android:name="com.example.scanmyskin.ui.fragments.auth.StartingFragment"
+        android:label="fragment_starting"
+        tools:layout="@layout/fragment_starting" >
+        <action
+            android:id="@+id/action_startingFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_startingFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/choosePasswordFragment"
+        android:name="com.example.scanmyskin.ui.fragments.auth.ChoosePasswordFragment"
+        android:label="ChoosePasswordFragment" >
+        <action
+            android:id="@+id/action_choosePasswordFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/resetPasswordFragment"
+        android:name="com.example.scanmyskin.ui.fragments.auth.ResetPasswordFragment"
+        android:label="ResetPasswordFragment" >
+        <action
+            android:id="@+id/action_resetPasswordFragment_to_choosePasswordFragment"
+            app:destination="@id/choosePasswordFragment" />
+    </fragment>
 </navigation>

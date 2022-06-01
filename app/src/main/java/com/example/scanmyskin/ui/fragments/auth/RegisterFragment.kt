@@ -13,10 +13,10 @@ import com.example.scanmyskin.ui.fragments.base.BaseFragment
 class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
 
     override fun setupUi(){
-//        binding.navigate.setOnClickListener{
-////            YoYo.with(Techniques.Bounce).playOn(it)
-//            findNavController().navigate(com.example.scanmyskin.ui.fragments.auth.RegisterFragmentDirections.actionRegistrationFragmentToHomeActivity())
-//        }
+        binding.register.setOnClickListener{
+            YoYo.with(Techniques.Bounce).playOn(it)
+            findNavController().navigate(RegisterFragmentDirections.actionRegistrationFragmentToHomeActivity())
+        }
     }
 
     companion object {
