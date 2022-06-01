@@ -10,13 +10,18 @@ import android.widget.Toast
 import com.example.scanmyskin.R
 import com.example.scanmyskin.databinding.ActivityHomeBinding
 import com.example.scanmyskin.databinding.ActivityLoginBinding
+import com.example.scanmyskin.ui.fragments.viewmodels.AuthViewModel
+import com.example.scanmyskin.ui.fragments.viewmodels.HomeViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 
-class HomeActivity : BaseActivity<ActivityHomeBinding>(), EasyPermissions.PermissionCallbacks{
+class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>(), EasyPermissions.PermissionCallbacks{
 
     override val bindingInflater: (LayoutInflater) -> ActivityHomeBinding
         get() = ActivityHomeBinding::inflate
+
+    override val viewModel: HomeViewModel by viewModel()
 
     companion object {
         private const val TAG = "MainActivity"

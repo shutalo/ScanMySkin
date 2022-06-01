@@ -1,7 +1,8 @@
 package com.example.scanmyskin
 
 import android.app.Application
-import com.example.scanmyskin.di.appModules
+import com.example.scanmyskin.di.networkModule
+import com.example.scanmyskin.di.repositoryModule
 import com.example.scanmyskin.di.viewModelModules
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.GlobalContext.startKoin
@@ -12,7 +13,7 @@ class ScanMySkin : Application() {
         context = this
         startKoin(){
             androidContext(this@ScanMySkin)
-            modules(viewModelModules, appModules)
+            modules(viewModelModules, networkModule, repositoryModule)
         }
     }
 

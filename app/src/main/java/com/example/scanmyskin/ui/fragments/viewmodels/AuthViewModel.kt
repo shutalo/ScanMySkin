@@ -1,60 +1,89 @@
 package com.example.scanmyskin.ui.fragments.viewmodels
 
-import android.app.Activity
-import android.content.Intent
-import android.provider.MediaStore
-import android.widget.ImageButton
-import androidx.core.app.ActivityCompat
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.scanmyskin.R
 import com.example.scanmyskin.ScanMySkin
-import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.example.scanmyskin.data.repository.AuthRepo
+import com.example.scanmyskin.helpers.isEmailValid
+import com.example.scanmyskin.helpers.isPasswordValid
+import com.example.scanmyskin.helpers.makeToast
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.launch
 
-class AuthViewModel : ViewModel() {
+class AuthViewModel(private val repo: AuthRepo) : BaseViewModel() {
 
-    companion object {
-        val REQUEST_TAKE_PHOTO = 0
-        val REQUEST_SELECT_IMAGE_IN_ALBUM = 1
-    }
+    private val TAG = "AuthViewModel"
+    private var _isUserRegisteredSuccessfully: MutableLiveData<Boolean> = MutableLiveData(false)
+    var isUserRegisteredSuccessfully: LiveData<Boolean> = _isUserRegisteredSuccessfully
+    private var _isPasswordChangeRequested: MutableLiveData<Boolean> = MutableLiveData(false)
+    var isPasswordChangeRequested: LiveData<Boolean> = _isPasswordChangeRequested
+    private var _isUserSignedIn: MutableLiveData<Boolean?> = MutableLiveData(null)
+    var isUserSignedIn: LiveData<Boolean?> = _isUserSignedIn
+    private var _isSigningInSuccessful: MutableLiveData<Boolean> = MutableLiveData(false)
+    var isSigningInSuccessful: LiveData<Boolean> = _isSigningInSuccessful
+    private var _isPasswordChangedSuccessfully: MutableLiveData<Boolean> = MutableLiveData(false)
+    var isPasswordChangedSuccessfully: LiveData<Boolean> = _isPasswordChangedSuccessfully
 
-    fun takePhoto(activity: Activity) {
+    fun register(email: String, password: String, repeatPassword: String){
         viewModelScope.launch {
-            val bottomSheetDialog: BottomSheetDialog = BottomSheetDialog(activity)
-            bottomSheetDialog.setContentView(R.layout.dialog_take_photo)
-            val takePhotoButton : ImageButton = bottomSheetDialog.findViewById(R.id.takePhoto)!!
-            val chooseFromGallery : ImageButton = bottomSheetDialog.findViewById(R.id.gallery)!!
-
-            takePhotoButton.setOnClickListener {
-                bottomSheetDialog.dismiss()
-                val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                if (intent.resolveActivity(ScanMySkin.context.packageManager) != null) {
-                    ActivityCompat.startActivityForResult(
-                        activity,
-                        intent,
-                        REQUEST_TAKE_PHOTO,
-                        null
-                    )
+            if(email.isEmailValid()){
+                if(password.length > 8){
+                    if(password.isNotEmpty()){
+                        if(password.isPasswordValid()){
+                            if(password == repeatPassword){
+                                shouldShowProgressDialog(true)
+                                _isUserRegisteredSuccessfully.postValue(repo.register(email,password))
+                            } else {
+                                makeToast(ScanMySkin.context.getString(R.string.password_must_match))
+                            }
+                        } else {
+                            makeToast(ScanMySkin.context.getString(R.string.password_wrong_format))
+                        }
+                    } else {
+                        makeToast(ScanMySkin.context.getString(R.string.password_must_not_be_empty))
+                    }
                 } else {
-//                    Log.d(MainActivity.TAG,"Photo could not be taken!")
+                    makeToast(ScanMySkin.context.getString(R.string.password_short))
                 }
+            } else {
+                makeToast(ScanMySkin.context.getString(R.string.email_error))
             }
-            chooseFromGallery.setOnClickListener {
-                bottomSheetDialog.dismiss()
-                val intent = Intent(Intent.ACTION_GET_CONTENT)
-                intent.type = "image/*"
-                if (intent.resolveActivity(ScanMySkin.context.packageManager) != null) {
-                    ActivityCompat.startActivityForResult(
-                        activity,
-                        intent,
-                        REQUEST_SELECT_IMAGE_IN_ALBUM,
-                        null
-                    )
-                }
-            }
-            bottomSheetDialog.show()
         }
     }
 
+    fun signIn(email: String, password: String){
+        viewModelScope.launch {
+            shouldShowProgressDialog(true)
+            _isSigningInSuccessful.postValue(repo.signIn(email,password))
+        }
+    }
+
+    fun requestPasswordChange(email: String){
+        viewModelScope.launch {
+            if(email.isEmailValid()){
+                _isPasswordChangeRequested.postValue(repo.changePassword(email))
+            } else {
+                makeToast(ScanMySkin.context.getString(R.string.email_error))
+            }
+        }
+    }
+
+    fun changePassword(oldPassword: String, newPassword: String){
+        viewModelScope.launch {
+            shouldShowProgressDialog(true)
+            _isPasswordChangedSuccessfully.postValue(repo.updatePassword(oldPassword,newPassword))
+        }
+    }
+
+    fun getCurrentUser(): FirebaseUser {
+        return repo.getCurrentUser()
+    }
+
+    fun shouldShowProgressDialog(value: Boolean){
+        _shouldShowProgressDialog.postValue(value)
+    }
 }
