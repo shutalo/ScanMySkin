@@ -1,26 +1,20 @@
 package com.example.scanmyskin.ui.fragments.viewmodels
 
-import android.app.Activity
-import android.content.Intent
-import android.content.res.Resources
-import android.provider.MediaStore
-import android.widget.ImageButton
-import android.widget.Toast
-import androidx.core.app.ActivityCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.scanmyskin.R
 import com.example.scanmyskin.ScanMySkin
 import com.example.scanmyskin.data.repository.AuthRepo
 import com.example.scanmyskin.helpers.isEmailValid
+import com.example.scanmyskin.helpers.isPasswordValid
 import com.example.scanmyskin.helpers.makeToast
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.launch
 
-class AuthViewModel(private val repo: AuthRepo) : ViewModel() {
+class AuthViewModel(private val repo: AuthRepo) : BaseViewModel() {
 
     private val TAG = "AuthViewModel"
     private var _isUserRegisteredSuccessfully: MutableLiveData<Boolean> = MutableLiveData(false)
@@ -34,13 +28,26 @@ class AuthViewModel(private val repo: AuthRepo) : ViewModel() {
     private var _isPasswordChangedSuccessfully: MutableLiveData<Boolean> = MutableLiveData(false)
     var isPasswordChangedSuccessfully: LiveData<Boolean> = _isPasswordChangedSuccessfully
 
-    fun register(email: String, password: String){
+    fun register(email: String, password: String, repeatPassword: String){
         viewModelScope.launch {
             if(email.isEmailValid()){
-                if(password.length < 8){
-                    makeToast(ScanMySkin.context.getString(R.string.password_error))
+                if(password.length > 8){
+                    if(password.isNotEmpty()){
+                        if(password.isPasswordValid()){
+                            if(password == repeatPassword){
+                                shouldShowProgressDialog(true)
+                                _isUserRegisteredSuccessfully.postValue(repo.register(email,password))
+                            } else {
+                                makeToast(ScanMySkin.context.getString(R.string.password_must_match))
+                            }
+                        } else {
+                            makeToast(ScanMySkin.context.getString(R.string.password_wrong_format))
+                        }
+                    } else {
+                        makeToast(ScanMySkin.context.getString(R.string.password_must_not_be_empty))
+                    }
                 } else {
-                    _isUserRegisteredSuccessfully.postValue(repo.register(email,password))
+                    makeToast(ScanMySkin.context.getString(R.string.password_short))
                 }
             } else {
                 makeToast(ScanMySkin.context.getString(R.string.email_error))
@@ -50,6 +57,7 @@ class AuthViewModel(private val repo: AuthRepo) : ViewModel() {
 
     fun signIn(email: String, password: String){
         viewModelScope.launch {
+            shouldShowProgressDialog(true)
             _isSigningInSuccessful.postValue(repo.signIn(email,password))
         }
     }
@@ -58,20 +66,25 @@ class AuthViewModel(private val repo: AuthRepo) : ViewModel() {
         viewModelScope.launch {
             if(email.isEmailValid()){
                 repo.changePassword(email)
+                _isPasswordChangeRequested.postValue(true)
             } else {
                 makeToast(ScanMySkin.context.getString(R.string.email_error))
             }
-            _isPasswordChangeRequested.postValue(true)
         }
     }
 
     fun changePassword(oldPassword: String, newPassword: String){
         viewModelScope.launch {
+            shouldShowProgressDialog(true)
             _isPasswordChangedSuccessfully.postValue(repo.updatePassword(oldPassword,newPassword))
         }
     }
 
     fun getCurrentUser(): FirebaseUser {
         return repo.getCurrentUser()
+    }
+
+    fun shouldShowProgressDialog(value: Boolean){
+        _shouldShowProgressDialog.postValue(value)
     }
 }

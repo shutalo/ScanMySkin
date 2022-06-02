@@ -12,7 +12,7 @@ import com.example.scanmyskin.ScanMySkin
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.launch
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel : BaseViewModel() {
     companion object {
         val REQUEST_TAKE_PHOTO = 0
         val REQUEST_SELECT_IMAGE_IN_ALBUM = 1

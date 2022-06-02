@@ -20,12 +20,14 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     override fun setupUi(){
         viewModel.isSigningInSuccessful.observe(this){
             if(it){
+                viewModel.shouldShowProgressDialog(false)
                 findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToHomeActivity())
             }
         }
         binding.login.setOnClickListener{
             YoYo.with(Techniques.Bounce).playOn(it)
-            viewModel.signIn(binding.email.toString(), binding.password.toString())
+            showProgressDialog()
+            viewModel.signIn(binding.email.text.toString(), binding.password.text.toString())
         }
         binding.forgotPasswordTv.setOnClickListener{
             YoYo.with(Techniques.Bounce).playOn(it)

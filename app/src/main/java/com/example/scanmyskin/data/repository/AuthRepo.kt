@@ -5,6 +5,7 @@ import android.util.Log
 import android.widget.Toast
 import com.example.scanmyskin.R
 import com.example.scanmyskin.ScanMySkin
+import com.example.scanmyskin.helpers.isPasswordValid
 import com.example.scanmyskin.helpers.makeToast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -22,9 +23,9 @@ class AuthRepo {
         var isRegistrationSuccessful = false
         try {
             auth.createUserWithEmailAndPassword(email,password).await()
-            Log.d(TAG,Resources.getSystem().getString(R.string.user_added_to_database))
+            Log.d(TAG,ScanMySkin.context.getString(R.string.user_added_to_database))
             isRegistrationSuccessful = true
-            makeToast(Resources.getSystem().getString(R.string.registered_successfully))
+            makeToast(ScanMySkin.context.getString(R.string.registered_successfully))
         } catch (e: java.lang.Exception){
             Log.d(TAG ,e.message.toString())
             makeToast(e.message.toString())
@@ -48,11 +49,6 @@ class AuthRepo {
         auth.signOut()
     }
 
-    fun checkIfUserIsSignedIn() : Boolean {
-        val currentUser : FirebaseUser? = auth.currentUser
-        return currentUser != null
-    }
-
     fun getCurrentUser(): FirebaseUser {
         return auth.currentUser!!
     }
@@ -62,28 +58,24 @@ class AuthRepo {
     }
 
     suspend fun updatePassword(newPassword: String, confirmPassword: String): Boolean{
-        if(newPassword == "" || confirmPassword == ""){
-            makeToast(ScanMySkin.context.getString(R.string.password_must_not_be_empty))
-        } else if(newPassword == confirmPassword && newPassword.length < 6){
-            makeToast(ScanMySkin.context.getString(R.string.password_short))
-        } else if(newPassword != confirmPassword){
-            makeToast(ScanMySkin.context.getString(R.string.password_must_match))
-        } else if(newPassword == confirmPassword){
-            return try {
+        return if(newPassword.isPasswordValid() && newPassword == confirmPassword){
+            try {
                 getCurrentUser().updatePassword(newPassword).await()
                 makeToast(ScanMySkin.context.getString(R.string.password_changed))
                 true
             } catch (e: Exception){
                 Log.d(TAG, e.message.toString())
+                makeToast(e.message.toString())
                 false
             }
+        } else {
+            false
         }
-        return false
     }
 
     suspend fun deleteAccount(): Boolean{
         getCurrentUser().delete().await()
-        makeToast(Resources.getSystem().getString(R.string.acccount_deleted))
+        makeToast(Resources.getSystem().getString(R.string.account_deleted))
         return true
     }
 }

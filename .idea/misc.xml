@@ -6,6 +6,8 @@
         <entry key="..\:/Users/lukas/AndroidStudioProjects/ScanMySkin/app/src/main/res/drawable-v24/ic_camera.xml" value="0.356" />
         <entry key="..\:/Users/lukas/AndroidStudioProjects/ScanMySkin/app/src/main/res/drawable-v24/ic_gallery.xml" value="0.356" />
         <entry key="..\:/Users/lukas/AndroidStudioProjects/ScanMySkin/app/src/main/res/drawable/button.xml" value="0.2905" />
+        <entry key="..\:/Users/lukas/AndroidStudioProjects/ScanMySkin/app/src/main/res/drawable/progress.xml" value="0.22" />
+        <entry key="..\:/Users/lukas/AndroidStudioProjects/ScanMySkin/app/src/main/res/drawable/progress_dialog.xml" value="0.2905" />
         <entry key="..\:/Users/lukas/AndroidStudioProjects/ScanMySkin/app/src/main/res/drawable/transparent_button.xml" value="0.2905" />
         <entry key="..\:/Users/lukas/AndroidStudioProjects/ScanMySkin/app/src/main/res/drawable/white_button.xml" value="0.2905" />
         <entry key="..\:/Users/lukas/AndroidStudioProjects/ScanMySkin/app/src/main/res/font/poppins.xml" value="0.396875" />
@@ -23,6 +25,7 @@
         <entry key="..\:/Users/lukas/AndroidStudioProjects/ScanMySkin/app/src/main/res/layout/fragment_reset_password.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/lukas/AndroidStudioProjects/ScanMySkin/app/src/main/res/layout/fragment_splash_screen.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/lukas/AndroidStudioProjects/ScanMySkin/app/src/main/res/layout/fragment_starting.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/lukas/AndroidStudioProjects/ScanMySkin/app/src/main/res/layout/progress_dialog.xml" value="0.35260416666666666" />
         <entry key="..\:/Users/lukas/AndroidStudioProjects/ScanMySkin/app/src/main/res/layout/splash_screen_activity.xml" value="0.36666666666666664" />
       </map>
     </option>

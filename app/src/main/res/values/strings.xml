@@ -10,7 +10,7 @@
     <string name="repeat_password">Repeat password</string>
     <string name="password">Password</string>
     <string name="password_must_not_be_empty">Password entry must not be empty!</string>
-    <string name="password_short">Password too short!</string>
+    <string name="password_wrong_format">Password must contain at least 1 upper case and special character!</string>
     <string name="password_must_match">Password must match!</string>
     <string name="password_changed">Password changed successfully!</string>
     <string name="email">Email</string>
@@ -25,10 +25,11 @@
     <string name="create_my_account">Create my account</string>
     <string name="create_account">Create account</string>
     <string name="put_info">Put your info in and lets go!</string>
-    <string name="password_error">Password must contain more than 8 characters!</string>
+    <string name="password_short">Password must contain more than 8 characters!</string>
     <string name="email_error">Invalid email format.</string>
     <string name="invalid_credentials">Wrong email or password</string>
     <string name="registered_successfully">Registered successfully!</string>
     <string name="user_added_to_database">User added to database</string>
-    <string name="acccount_deleted">Account deleted.</string>
+    <string name="account_deleted">Account deleted.</string>
+    <string name="please_wait">Please wait…</string>
 </resources>

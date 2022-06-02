@@ -22,12 +22,14 @@ class ChoosePasswordFragment : BaseFragment<FragmentChoosePasswordBinding>() {
     override fun setupUi(){
         viewModel.isPasswordChangedSuccessfully.observe(this){
             if(it){
+                viewModel.shouldShowProgressDialog(false)
                 findNavController().navigate(ChoosePasswordFragmentDirections.actionChoosePasswordFragmentToLoginFragment())
             }
         }
         binding.choose.setOnClickListener{
             YoYo.with(Techniques.Bounce).playOn(it)
-            viewModel.changePassword(binding.password.toString(), binding.repeatPassword.toString())
+            showProgressDialog()
+            viewModel.changePassword(binding.password.text.toString(), binding.repeatPassword.text.toString())
         }
     }
 

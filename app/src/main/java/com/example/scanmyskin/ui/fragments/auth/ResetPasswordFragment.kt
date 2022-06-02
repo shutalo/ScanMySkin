@@ -27,7 +27,7 @@ class ResetPasswordFragment : BaseFragment<FragmentResetPasswordBinding>() {
         }
         binding.reset.setOnClickListener{
             YoYo.with(Techniques.Bounce).playOn(it)
-            viewModel.requestPasswordChange(binding.email.toString())
+            viewModel.requestPasswordChange(binding.email.text.toString())
         }
     }
 
