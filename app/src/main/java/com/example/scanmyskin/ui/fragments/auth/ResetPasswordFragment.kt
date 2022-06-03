@@ -13,11 +13,12 @@ import com.example.scanmyskin.databinding.FragmentRegisterBinding
 import com.example.scanmyskin.databinding.FragmentResetPasswordBinding
 import com.example.scanmyskin.ui.fragments.base.BaseFragment
 import com.example.scanmyskin.ui.fragments.viewmodels.AuthViewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ResetPasswordFragment : BaseFragment<FragmentResetPasswordBinding>() {
 
-    private val viewModel by viewModel<AuthViewModel>()
+    private val viewModel by sharedViewModel<AuthViewModel>()
 
     override fun setupUi(){
         viewModel.isPasswordChangeRequested.observe(this){
