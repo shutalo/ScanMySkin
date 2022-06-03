@@ -53,8 +53,15 @@ class AuthRepo {
         return auth.currentUser!!
     }
 
-    fun changePassword(email: String){
-        auth.sendPasswordResetEmail(email)
+    suspend fun changePassword(email: String): Boolean{
+        return try {
+            auth.sendPasswordResetEmail(email).await()
+            makeToast(ScanMySkin.context.getString(R.string.email_for_password_reset))
+            true
+        } catch (e: Exception){
+            Log.d(TAG, e.message.toString())
+            false
+        }
     }
 
     suspend fun updatePassword(newPassword: String, confirmPassword: String): Boolean{

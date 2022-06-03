@@ -22,7 +22,8 @@ class ResetPasswordFragment : BaseFragment<FragmentResetPasswordBinding>() {
     override fun setupUi(){
         viewModel.isPasswordChangeRequested.observe(this){
             if(it){
-                findNavController().navigate(ResetPasswordFragmentDirections.actionResetPasswordFragmentToChoosePasswordFragment())
+//                findNavController().navigate(ResetPasswordFragmentDirections.actionResetPasswordFragmentToChoosePasswordFragment())
+                activity?.onBackPressed()
             }
         }
         binding.reset.setOnClickListener{

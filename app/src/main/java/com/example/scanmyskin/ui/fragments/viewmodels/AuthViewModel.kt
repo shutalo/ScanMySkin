@@ -65,8 +65,7 @@ class AuthViewModel(private val repo: AuthRepo) : BaseViewModel() {
     fun requestPasswordChange(email: String){
         viewModelScope.launch {
             if(email.isEmailValid()){
-                repo.changePassword(email)
-                _isPasswordChangeRequested.postValue(true)
+                _isPasswordChangeRequested.postValue(repo.changePassword(email))
             } else {
                 makeToast(ScanMySkin.context.getString(R.string.email_error))
             }

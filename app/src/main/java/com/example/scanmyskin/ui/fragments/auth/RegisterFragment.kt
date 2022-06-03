@@ -1,7 +1,9 @@
 package com.example.scanmyskin.ui.fragments.auth
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.ActivityNavigator
 import androidx.navigation.fragment.findNavController
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
@@ -20,7 +22,12 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
         viewModel.isUserRegisteredSuccessfully.observe(this) {
             if (it) {
                 viewModel.shouldShowProgressDialog(false)
-                findNavController().navigate(RegisterFragmentDirections.actionRegistrationFragmentToHomeActivity())
+                val extras = ActivityNavigator.Extras.Builder()
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                    .build()
+                findNavController().navigate(RegisterFragmentDirections.actionRegistrationFragmentToHomeActivity(), extras)
             }
         }
         binding.register.setOnClickListener{
