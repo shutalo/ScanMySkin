@@ -33,4 +33,6 @@
     <string name="user_added_to_database">User added to database</string>
     <string name="account_deleted">Account deleted.</string>
     <string name="please_wait">Please wait…</string>
+    <string name="info">Info</string>
+    <string name="history">History</string>
 </resources>

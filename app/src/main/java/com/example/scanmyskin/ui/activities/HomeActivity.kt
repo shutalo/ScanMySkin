@@ -7,6 +7,8 @@ import android.graphics.Bitmap
 import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Toast
+import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
 import com.example.scanmyskin.R
 import com.example.scanmyskin.databinding.ActivityHomeBinding
 import com.example.scanmyskin.databinding.ActivityLoginBinding
@@ -41,7 +43,9 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>(), EasyPer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        this.supportActionBar?.hide()
         askForPermissions()
+        NavigationUI.setupWithNavController(binding.bottomNavigationView,findNavController(R.id.fragmentContainer))
 //        initializeTensorClassifier()
 //        binding.buttonScan.setOnClickListener {
 //
