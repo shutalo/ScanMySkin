@@ -19,24 +19,20 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
     override fun setupUi(){
         viewModel.isSigningInSuccessful.observe(this){
+            viewModel.shouldShowProgressDialog(false)
             if(it){
-                viewModel.shouldShowProgressDialog(false)
                 findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToHomeActivity())
             }
         }
         binding.login.setOnClickListener{
             YoYo.with(Techniques.Bounce).playOn(it)
-            showProgressDialog()
-            viewModel.signIn(binding.email.text.toString(), binding.password.text.toString())
+//            viewModel.signIn(binding.email.text.toString(), binding.password.text.toString())
+            findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToHomeActivity())
         }
         binding.forgotPasswordTv.setOnClickListener{
             YoYo.with(Techniques.Bounce).playOn(it)
             findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToResetPasswordFragment())
         }
-    }
-
-    companion object {
-        fun newInstance() = LoginFragment()
     }
 
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentLoginBinding

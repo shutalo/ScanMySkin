@@ -25,10 +25,6 @@ class StartingFragment : BaseFragment<FragmentStartingBinding>() {
         }
     }
 
-    companion object {
-        fun newInstance() = ChoosePasswordFragment()
-    }
-
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentStartingBinding
         get() = FragmentStartingBinding::inflate
 }

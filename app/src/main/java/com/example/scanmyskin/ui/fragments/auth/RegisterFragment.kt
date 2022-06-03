@@ -20,8 +20,8 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
 
     override fun setupUi(){
         viewModel.isUserRegisteredSuccessfully.observe(this) {
+            viewModel.shouldShowProgressDialog(false)
             if (it) {
-                viewModel.shouldShowProgressDialog(false)
                 val extras = ActivityNavigator.Extras.Builder()
                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -34,10 +34,6 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
             YoYo.with(Techniques.Bounce).playOn(it)
             viewModel.register(binding.email.text.toString(), binding.password.text.toString(), binding.repeatPassword.text.toString())
         }
-    }
-
-    companion object {
-        fun newInstance() = RegisterFragment()
     }
 
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentRegisterBinding

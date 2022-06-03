@@ -34,10 +34,6 @@ class ChoosePasswordFragment : BaseFragment<FragmentChoosePasswordBinding>() {
         }
     }
 
-    companion object {
-        fun newInstance() = ChoosePasswordFragment()
-    }
-
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentChoosePasswordBinding
         get() = FragmentChoosePasswordBinding::inflate
 }

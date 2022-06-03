@@ -33,10 +33,6 @@ class ResetPasswordFragment : BaseFragment<FragmentResetPasswordBinding>() {
         }
     }
 
-    companion object {
-        fun newInstance() = ResetPasswordFragment()
-    }
-
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentResetPasswordBinding
         get() = FragmentResetPasswordBinding::inflate
 }
