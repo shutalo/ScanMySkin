@@ -19,8 +19,6 @@ class AuthViewModel(private val repo: FirebaseRepo) : BaseViewModel() {
     var isUserRegisteredSuccessfully: LiveData<Boolean> = _isUserRegisteredSuccessfully
     private var _isPasswordChangeRequested: MutableLiveData<Boolean> = MutableLiveData(false)
     var isPasswordChangeRequested: LiveData<Boolean> = _isPasswordChangeRequested
-    private var _isUserSignedIn: MutableLiveData<Boolean?> = MutableLiveData(null)
-    var isUserSignedIn: LiveData<Boolean?> = _isUserSignedIn
     private var _isSigningInSuccessful: MutableLiveData<Boolean> = MutableLiveData(false)
     var isSigningInSuccessful: LiveData<Boolean> = _isSigningInSuccessful
     private var _isPasswordChangedSuccessfully: MutableLiveData<Boolean> = MutableLiveData(false)
@@ -57,10 +55,6 @@ class AuthViewModel(private val repo: FirebaseRepo) : BaseViewModel() {
             shouldShowProgressDialog(true)
             _isPasswordChangedSuccessfully.postValue(repo.updatePassword(oldPassword,newPassword))
         }
-    }
-
-    fun getCurrentUser(): FirebaseUser {
-        return repo.getCurrentUser()
     }
 
     fun shouldShowProgressDialog(value: Boolean){
