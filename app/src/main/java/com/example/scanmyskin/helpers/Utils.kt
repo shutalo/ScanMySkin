@@ -58,23 +58,3 @@ fun validateRegistrationInput(email: String, password: String, confirmedPassword
     }
     return false
 }
-//            if(email.isEmailValid()){
-//                if(password.length > 8){
-//                    if(password.isNotEmpty()){
-//                        if(password.isPasswordValid()){
-//                            if(password == repeatPassword){
-//
-//                            } else {
-//                                makeToast(ScanMySkin.context.getString(R.string.password_must_match))
-//                            }
-//                        } else {
-//                            makeToast(ScanMySkin.context.getString(R.string.password_wrong_format))
-//                        }
-//                    } else {
-//                        makeToast(ScanMySkin.context.getString(R.string.password_must_not_be_empty))
-//                    }
-//                } else {
-//                    makeToast(ScanMySkin.context.getString(R.string.password_short))
-//                }
-//            } else {
-//                makeToast(ScanMySkin.context.getString(R.string.email_error))
