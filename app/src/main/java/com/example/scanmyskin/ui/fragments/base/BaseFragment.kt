@@ -1,6 +1,5 @@
 package com.example.scanmyskin.ui.fragments.base
 
-import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -9,9 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
-import com.example.scanmyskin.helpers.ProgressDialog
 import com.example.scanmyskin.ui.activities.BaseActivity
-import com.example.scanmyskin.ui.fragments.viewmodels.BaseViewModel
 
 abstract class BaseFragment<viewBinding: ViewBinding> : Fragment() {
 

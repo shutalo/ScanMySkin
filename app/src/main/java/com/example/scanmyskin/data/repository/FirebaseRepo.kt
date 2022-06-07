@@ -13,11 +13,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.tasks.await
 
-class AuthRepo {
-    private val TAG = "AuthRepo"
-    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
-    private val database: FirebaseFirestore = FirebaseFirestore.getInstance()
-    private val storage = FirebaseStorage.getInstance("gs://scanmyskin.appspot.com")
+class FirebaseRepo(private val auth: FirebaseAuth, private val database: FirebaseFirestore, private val storage: FirebaseStorage) {
+    private val TAG = "FirebaseRepo"
 
     suspend fun register(email: String, password: String): Boolean{
         var isRegistrationSuccessful = false
