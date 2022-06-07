@@ -10,7 +10,7 @@
     <string name="repeat_password">Repeat password</string>
     <string name="password">Password</string>
     <string name="password_must_not_be_empty">Password entry must not be empty!</string>
-    <string name="password_wrong_format">Password must contain at least 1 upper case and special character!</string>
+    <string name="password_wrong_format">Password must be at least 8 characters long, containing at least 1 upper case and special character</string>
     <string name="password_must_match">Password must match!</string>
     <string name="password_changed">Password changed successfully!</string>
     <string name="email_for_password_reset">We have sent you an email.</string>

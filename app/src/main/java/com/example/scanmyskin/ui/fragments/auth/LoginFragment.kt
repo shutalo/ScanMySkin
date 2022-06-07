@@ -26,8 +26,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         }
         binding.login.setOnClickListener{
             YoYo.with(Techniques.Bounce).playOn(it)
-//            viewModel.signIn(binding.email.text.toString(), binding.password.text.toString())
-            findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToHomeActivity())
+            viewModel.signIn(binding.email.text.toString(), binding.password.text.toString())
         }
         binding.forgotPasswordTv.setOnClickListener{
             YoYo.with(Techniques.Bounce).playOn(it)

@@ -11,6 +11,7 @@ import com.example.scanmyskin.data.repository.AuthRepo
 import com.example.scanmyskin.helpers.isEmailValid
 import com.example.scanmyskin.helpers.isPasswordValid
 import com.example.scanmyskin.helpers.makeToast
+import com.example.scanmyskin.helpers.validateRegistrationInput
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.launch
 
@@ -28,29 +29,11 @@ class AuthViewModel(private val repo: AuthRepo) : BaseViewModel() {
     private var _isPasswordChangedSuccessfully: MutableLiveData<Boolean> = MutableLiveData(false)
     var isPasswordChangedSuccessfully: LiveData<Boolean> = _isPasswordChangedSuccessfully
 
-    fun register(email: String, password: String, repeatPassword: String){
+    fun register(email: String, password: String, confirmedPassword: String){
         viewModelScope.launch {
-            if(email.isEmailValid()){
-                if(password.length > 8){
-                    if(password.isNotEmpty()){
-                        if(password.isPasswordValid()){
-                            if(password == repeatPassword){
-                                shouldShowProgressDialog(true)
-                                _isUserRegisteredSuccessfully.postValue(repo.register(email,password))
-                            } else {
-                                makeToast(ScanMySkin.context.getString(R.string.password_must_match))
-                            }
-                        } else {
-                            makeToast(ScanMySkin.context.getString(R.string.password_wrong_format))
-                        }
-                    } else {
-                        makeToast(ScanMySkin.context.getString(R.string.password_must_not_be_empty))
-                    }
-                } else {
-                    makeToast(ScanMySkin.context.getString(R.string.password_short))
-                }
-            } else {
-                makeToast(ScanMySkin.context.getString(R.string.email_error))
+            if(validateRegistrationInput(email,password,confirmedPassword)){
+                shouldShowProgressDialog(true)
+                _isUserRegisteredSuccessfully.postValue(repo.register(email,password))
             }
         }
     }
