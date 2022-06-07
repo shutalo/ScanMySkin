@@ -2,20 +2,17 @@ package com.example.scanmyskin.ui.fragments.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.scanmyskin.R
 import com.example.scanmyskin.ScanMySkin
-import com.example.scanmyskin.data.repository.AuthRepo
+import com.example.scanmyskin.data.repository.FirebaseRepo
 import com.example.scanmyskin.helpers.isEmailValid
-import com.example.scanmyskin.helpers.isPasswordValid
 import com.example.scanmyskin.helpers.makeToast
 import com.example.scanmyskin.helpers.validateRegistrationInput
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.launch
 
-class AuthViewModel(private val repo: AuthRepo) : BaseViewModel() {
+class AuthViewModel(private val repo: FirebaseRepo) : BaseViewModel() {
 
     private val TAG = "AuthViewModel"
     private var _isUserRegisteredSuccessfully: MutableLiveData<Boolean> = MutableLiveData(false)
