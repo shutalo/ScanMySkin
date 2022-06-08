@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android/ScanMySkin/app/src/main/res/layout/dialog_take_photo.xml" value="0.36666666666666664" />
         <entry key="..\:/Android/ScanMySkin/app/src/main/res/layout/disease_item.xml" value="0.33" />
         <entry key="..\:/Android/ScanMySkin/app/src/main/res/layout/disease_url_item.xml" value="0.36666666666666664" />
         <entry key="..\:/Android/ScanMySkin/app/src/main/res/layout/fragment_disease_info.xml" value="0.36666666666666664" />
