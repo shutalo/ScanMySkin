@@ -61,7 +61,7 @@ val dataModule = module {
         val diseaseURLs : List<String> = arrayOfStrings[index]?.toList() ?: listOf()
         diseases.add(Disease(diseaseTitles[index], diseaseDescriptions[index], diseaseURLs))
     }
-    factory { DiseaseRecyclerViewAdapter(diseases) }
+    factory { diseases.toList() }
 }
 
 //fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {

@@ -39,235 +39,236 @@
     <string name="permission_granted">permissions granted!</string>
     <string name="permission_explanation">We need permissions for scanning images</string>
     <string name="permission_granted_already">permission granted already!</string>
+    <string name="find_more_info">You can find more info here</string>
 
-        <string-array name="disease_titles">
-            <item>Acne</item>
-            <item>Actinic keratosis</item>
-            <item>Basall cell carcinom</item>
-            <item>Candida</item>
-            <item>Eczema</item>
-            <item>Herpes</item>
-            <item>Lichen planus</item>
-            <item>Lichen sclerosus</item>
-            <item>Lupus</item>
-            <item>Melanoma</item>
-            <item>Pityriasis</item>
-            <item>Psoriasis</item>
-            <item>Rhus</item>
-            <item>Rosacea</item>
-            <item>Scabies</item>
-            <item>Seborrheic dermatitis</item>
-            <item>Seborrheic keratosis</item>
-            <item>Tinea</item>
-            <item>Vasculitis</item>
-            <item>Vitiligo</item>
-        </string-array>
+    <string-array name="disease_titles">
+        <item>Acne</item>
+        <item>Actinic keratosis</item>
+        <item>Basall cell carcinom</item>
+        <item>Candida</item>
+        <item>Eczema</item>
+        <item>Herpes</item>
+        <item>Lichen planus</item>
+        <item>Lichen sclerosus</item>
+        <item>Lupus</item>
+        <item>Melanoma</item>
+        <item>Pityriasis</item>
+        <item>Psoriasis</item>
+        <item>Rhus</item>
+        <item>Rosacea</item>
+        <item>Scabies</item>
+        <item>Seborrheic dermatitis</item>
+        <item>Seborrheic keratosis</item>
+        <item>Tinea</item>
+        <item>Vasculitis</item>
+        <item>Vitiligo</item>
+    </string-array>
 
-        <string-array name="disease_descriptions">
-            <item>Acne</item>
-            <item>Actinic keratosis</item>
-            <item>Basall cell carcinom</item>
-            <item>Candida</item>
-            <item>Eczema</item>
-            <item>Herpes</item>
-            <item>Lichen planus</item>
-            <item>Lichen sclerosus</item>
-            <item>Lupus</item>
-            <item>Melanoma</item>
-            <item>Pityriasis</item>
-            <item>Psoriasis</item>
-            <item>Rhus</item>
-            <item>Rosacea</item>
-            <item>Scabies</item>
-            <item>Seborrheic dermatitis</item>
-            <item>Seborrheic keratosis</item>
-            <item>Tinea</item>
-            <item>Vasculitis</item>
-            <item>Vitiligo</item>
-        </string-array>
+    <string-array name="disease_descriptions">
+        <item>Acne</item>
+        <item>Actinic keratosis</item>
+        <item>Basall cell carcinom</item>
+        <item>Candida</item>
+        <item>Eczema</item>
+        <item>Herpes</item>
+        <item>Lichen planus</item>
+        <item>Lichen sclerosus</item>
+        <item>Lupus</item>
+        <item>Melanoma</item>
+        <item>Pityriasis</item>
+        <item>Psoriasis</item>
+        <item>Rhus</item>
+        <item>Rosacea</item>
+        <item>Scabies</item>
+        <item>Seborrheic dermatitis</item>
+        <item>Seborrheic keratosis</item>
+        <item>Tinea</item>
+        <item>Vasculitis</item>
+        <item>Vitiligo</item>
+    </string-array>
 
 
-        <string-array name="acne_urls">
-            <item>carURLS</item>
-            <item>carURLS</item>
-            <item>carURLS</item>
-            <item>carURLS</item>
-            <item>carURLS</item>
-            <item>carURLS</item>
-        </string-array>
-        <string-array name="actinic_keratosis_urls">
-            <item>carURLS</item>
-            <item>carURLS</item>
-            <item>carURLS</item>
-            <item>carURLS</item>
-            <item>carURLS</item>
-            <item>carURLS</item>
-        </string-array>
-        <string-array name="basall_cell_carcinom_urls">
-            <item>eczemaURLS</item>
-            <item>eczemaURLS</item>
-            <item>eczemaURLS</item>
-            <item>eczemaURLS</item>
-            <item>eczemaURLS</item>
-            <item>eczemaURLS</item>
-        </string-array>
-        <string-array name="candida_urls">
-            <item>melanomaURLS</item>
-            <item>melanomaURLS</item>
-            <item>melanomaURLS</item>
-            <item>melanomaURLS</item>
-            <item>melanomaURLS</item>
-            <item>melanomaURLS</item>
-        </string-array>
-        <string-array name="eczema_urls">
-            <item>melanomaURLS</item>
-            <item>melanomaURLS</item>
-            <item>melanomaURLS</item>
-            <item>melanomaURLS</item>
-            <item>melanomaURLS</item>
-            <item>melanomaURLS</item>
-        </string-array>
-        <string-array name="herpes_urls">
-            <item>carURLS</item>
-            <item>carURLS</item>
-            <item>carURLS</item>
-            <item>carURLS</item>
-            <item>carURLS</item>
-            <item>carURLS</item>
-        </string-array>
-        <string-array name="lichen_planus_urls">
-            <item>carURLS</item>
-            <item>carURLS</item>
-            <item>carURLS</item>
-            <item>carURLS</item>
-            <item>carURLS</item>
-            <item>carURLS</item>
-        </string-array>
-        <string-array name="lichen_sclerosus_urls">
-            <item>eczemaURLS</item>
-            <item>eczemaURLS</item>
-            <item>eczemaURLS</item>
-            <item>eczemaURLS</item>
-            <item>eczemaURLS</item>
-            <item>eczemaURLS</item>
-        </string-array>
-        <string-array name="lupus_urls">
-            <item>melanomaURLS</item>
-            <item>melanomaURLS</item>
-            <item>melanomaURLS</item>
-            <item>melanomaURLS</item>
-            <item>melanomaURLS</item>
-            <item>melanomaURLS</item>
-        </string-array>
-        <string-array name="melanoma_urls">
-            <item>melanomaURLS</item>
-            <item>melanomaURLS</item>
-            <item>melanomaURLS</item>
-            <item>melanomaURLS</item>
-            <item>melanomaURLS</item>
-            <item>melanomaURLS</item>
-        </string-array>
-        <string-array name="pityriasis_urls">
-            <item>carURLS</item>
-            <item>carURLS</item>
-            <item>carURLS</item>
-            <item>carURLS</item>
-            <item>carURLS</item>
-            <item>carURLS</item>
-        </string-array>
-        <string-array name="psoriasis_urls">
-            <item>carURLS</item>
-            <item>carURLS</item>
-            <item>carURLS</item>
-            <item>carURLS</item>
-            <item>carURLS</item>
-            <item>carURLS</item>
-        </string-array>
-        <string-array name="rhus_urls">
-            <item>eczemaURLS</item>
-            <item>eczemaURLS</item>
-            <item>eczemaURLS</item>
-            <item>eczemaURLS</item>
-            <item>eczemaURLS</item>
-            <item>eczemaURLS</item>
-        </string-array>
-        <string-array name="rosacea_urls">
-            <item>melanomaURLS</item>
-            <item>melanomaURLS</item>
-            <item>melanomaURLS</item>
-            <item>melanomaURLS</item>
-            <item>melanomaURLS</item>
-            <item>melanomaURLS</item>
-        </string-array>
-        <string-array name="scabies_urls">
-            <item>melanomaURLS</item>
-            <item>melanomaURLS</item>
-            <item>melanomaURLS</item>
-            <item>melanomaURLS</item>
-            <item>melanomaURLS</item>
-            <item>melanomaURLS</item>
-        </string-array>
-        <string-array name="seborrheic_dermatitis_urls">
-            <item>carURLS</item>
-            <item>carURLS</item>
-            <item>carURLS</item>
-            <item>carURLS</item>
-            <item>carURLS</item>
-            <item>carURLS</item>
-        </string-array>
-        <string-array name="seborrheic_keratosis_urls">
-            <item>carURLS</item>
-            <item>carURLS</item>
-            <item>carURLS</item>
-            <item>carURLS</item>
-            <item>carURLS</item>
-            <item>carURLS</item>
-        </string-array>
-        <string-array name="tinea_urls">
-            <item>eczemaURLS</item>
-            <item>eczemaURLS</item>
-            <item>eczemaURLS</item>
-            <item>eczemaURLS</item>
-            <item>eczemaURLS</item>
-            <item>eczemaURLS</item>
-        </string-array>
-        <string-array name="vasculitis_urls">
-            <item>melanomaURLS</item>
-            <item>melanomaURLS</item>
-            <item>melanomaURLS</item>
-            <item>melanomaURLS</item>
-            <item>melanomaURLS</item>
-            <item>melanomaURLS</item>
-        </string-array>
-        <string-array name="vitiligo_urls">
-            <item>melanomaURLS</item>
-            <item>melanomaURLS</item>
-            <item>melanomaURLS</item>
-            <item>melanomaURLS</item>
-            <item>melanomaURLS</item>
-            <item>melanomaURLS</item>
-        </string-array>
+    <string-array name="acne_urls">
+        <item>carURLS</item>
+        <item>carURLS</item>
+        <item>carURLS</item>
+        <item>carURLS</item>
+        <item>carURLS</item>
+        <item>carURLS</item>
+    </string-array>
+    <string-array name="actinic_keratosis_urls">
+        <item>carURLS</item>
+        <item>carURLS</item>
+        <item>carURLS</item>
+        <item>carURLS</item>
+        <item>carURLS</item>
+        <item>carURLS</item>
+    </string-array>
+    <string-array name="basall_cell_carcinom_urls">
+        <item>eczemaURLS</item>
+        <item>eczemaURLS</item>
+        <item>eczemaURLS</item>
+        <item>eczemaURLS</item>
+        <item>eczemaURLS</item>
+        <item>eczemaURLS</item>
+    </string-array>
+    <string-array name="candida_urls">
+        <item>melanomaURLS</item>
+        <item>melanomaURLS</item>
+        <item>melanomaURLS</item>
+        <item>melanomaURLS</item>
+        <item>melanomaURLS</item>
+        <item>melanomaURLS</item>
+    </string-array>
+    <string-array name="eczema_urls">
+        <item>melanomaURLS</item>
+        <item>melanomaURLS</item>
+        <item>melanomaURLS</item>
+        <item>melanomaURLS</item>
+        <item>melanomaURLS</item>
+        <item>melanomaURLS</item>
+    </string-array>
+    <string-array name="herpes_urls">
+        <item>carURLS</item>
+        <item>carURLS</item>
+        <item>carURLS</item>
+        <item>carURLS</item>
+        <item>carURLS</item>
+        <item>carURLS</item>
+    </string-array>
+    <string-array name="lichen_planus_urls">
+        <item>carURLS</item>
+        <item>carURLS</item>
+        <item>carURLS</item>
+        <item>carURLS</item>
+        <item>carURLS</item>
+        <item>carURLS</item>
+    </string-array>
+    <string-array name="lichen_sclerosus_urls">
+        <item>eczemaURLS</item>
+        <item>eczemaURLS</item>
+        <item>eczemaURLS</item>
+        <item>eczemaURLS</item>
+        <item>eczemaURLS</item>
+        <item>eczemaURLS</item>
+    </string-array>
+    <string-array name="lupus_urls">
+        <item>melanomaURLS</item>
+        <item>melanomaURLS</item>
+        <item>melanomaURLS</item>
+        <item>melanomaURLS</item>
+        <item>melanomaURLS</item>
+        <item>melanomaURLS</item>
+    </string-array>
+    <string-array name="melanoma_urls">
+        <item>melanomaURLS</item>
+        <item>melanomaURLS</item>
+        <item>melanomaURLS</item>
+        <item>melanomaURLS</item>
+        <item>melanomaURLS</item>
+        <item>melanomaURLS</item>
+    </string-array>
+    <string-array name="pityriasis_urls">
+        <item>carURLS</item>
+        <item>carURLS</item>
+        <item>carURLS</item>
+        <item>carURLS</item>
+        <item>carURLS</item>
+        <item>carURLS</item>
+    </string-array>
+    <string-array name="psoriasis_urls">
+        <item>carURLS</item>
+        <item>carURLS</item>
+        <item>carURLS</item>
+        <item>carURLS</item>
+        <item>carURLS</item>
+        <item>carURLS</item>
+    </string-array>
+    <string-array name="rhus_urls">
+        <item>eczemaURLS</item>
+        <item>eczemaURLS</item>
+        <item>eczemaURLS</item>
+        <item>eczemaURLS</item>
+        <item>eczemaURLS</item>
+        <item>eczemaURLS</item>
+    </string-array>
+    <string-array name="rosacea_urls">
+        <item>melanomaURLS</item>
+        <item>melanomaURLS</item>
+        <item>melanomaURLS</item>
+        <item>melanomaURLS</item>
+        <item>melanomaURLS</item>
+        <item>melanomaURLS</item>
+    </string-array>
+    <string-array name="scabies_urls">
+        <item>melanomaURLS</item>
+        <item>melanomaURLS</item>
+        <item>melanomaURLS</item>
+        <item>melanomaURLS</item>
+        <item>melanomaURLS</item>
+        <item>melanomaURLS</item>
+    </string-array>
+    <string-array name="seborrheic_dermatitis_urls">
+        <item>carURLS</item>
+        <item>carURLS</item>
+        <item>carURLS</item>
+        <item>carURLS</item>
+        <item>carURLS</item>
+        <item>carURLS</item>
+    </string-array>
+    <string-array name="seborrheic_keratosis_urls">
+        <item>carURLS</item>
+        <item>carURLS</item>
+        <item>carURLS</item>
+        <item>carURLS</item>
+        <item>carURLS</item>
+        <item>carURLS</item>
+    </string-array>
+    <string-array name="tinea_urls">
+        <item>eczemaURLS</item>
+        <item>eczemaURLS</item>
+        <item>eczemaURLS</item>
+        <item>eczemaURLS</item>
+        <item>eczemaURLS</item>
+        <item>eczemaURLS</item>
+    </string-array>
+    <string-array name="vasculitis_urls">
+        <item>melanomaURLS</item>
+        <item>melanomaURLS</item>
+        <item>melanomaURLS</item>
+        <item>melanomaURLS</item>
+        <item>melanomaURLS</item>
+        <item>melanomaURLS</item>
+    </string-array>
+    <string-array name="vitiligo_urls">
+        <item>melanomaURLS</item>
+        <item>melanomaURLS</item>
+        <item>melanomaURLS</item>
+        <item>melanomaURLS</item>
+        <item>melanomaURLS</item>
+        <item>melanomaURLS</item>
+    </string-array>
 
-        <array name="disease_urls">
-            <item>@array/acne_urls</item>
-            <item>@array/actinic_keratosis_urls</item>
-            <item>@array/basall_cell_carcinom_urls</item>
-            <item>@array/candida_urls</item>
-            <item>@array/eczema_urls</item>
-            <item>@array/herpes_urls</item>
-            <item>@array/lichen_planus_urls</item>
-            <item>@array/lichen_sclerosus_urls</item>
-            <item>@array/lupus_urls</item>
-            <item>@array/melanoma_urls</item>
-            <item>@array/pityriasis_urls</item>
-            <item>@array/psoriasis_urls</item>
-            <item>@array/rhus_urls</item>
-            <item>@array/rosacea_urls</item>
-            <item>@array/scabies_urls</item>
-            <item>@array/seborrheic_dermatitis_urls</item>
-            <item>@array/seborrheic_keratosis_urls</item>
-            <item>@array/tinea_urls</item>
-            <item>@array/vasculitis_urls</item>
-            <item>@array/vitiligo_urls</item>
-        </array>
+    <array name="disease_urls">
+        <item>@array/acne_urls</item>
+        <item>@array/actinic_keratosis_urls</item>
+        <item>@array/basall_cell_carcinom_urls</item>
+        <item>@array/candida_urls</item>
+        <item>@array/eczema_urls</item>
+        <item>@array/herpes_urls</item>
+        <item>@array/lichen_planus_urls</item>
+        <item>@array/lichen_sclerosus_urls</item>
+        <item>@array/lupus_urls</item>
+        <item>@array/melanoma_urls</item>
+        <item>@array/pityriasis_urls</item>
+        <item>@array/psoriasis_urls</item>
+        <item>@array/rhus_urls</item>
+        <item>@array/rosacea_urls</item>
+        <item>@array/scabies_urls</item>
+        <item>@array/seborrheic_dermatitis_urls</item>
+        <item>@array/seborrheic_keratosis_urls</item>
+        <item>@array/tinea_urls</item>
+        <item>@array/vasculitis_urls</item>
+        <item>@array/vitiligo_urls</item>
+    </array>
 </resources>
