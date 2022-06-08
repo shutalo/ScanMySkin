@@ -21,4 +21,12 @@
         <item name="android:fontFamily">@font/poppins</item>
         <item name="cornerRadius">8dp</item>
     </style>
+    <style name="diseaseTitle" parent="TextAppearance.MaterialComponents.Headline3">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/title_black</item>
+    </style>
+    <style name="diseaseDescription" parent="TextAppearance.MaterialComponents.Headline4">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/dark_gray</item>
+    </style>
 </resources>
