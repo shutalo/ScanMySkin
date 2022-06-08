@@ -1,11 +1,10 @@
-package com.example.scanmyskin.ui.fragments.viewmodels
+package com.example.scanmyskin.ui.viewmodels
 
 import android.app.Activity
 import android.content.Intent
 import android.provider.MediaStore
 import android.widget.ImageButton
 import androidx.core.app.ActivityCompat
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.scanmyskin.R
 import com.example.scanmyskin.ScanMySkin

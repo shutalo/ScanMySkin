@@ -1,9 +1,7 @@
 package com.example.scanmyskin.ui.activities
 
 import android.os.Bundle
-import com.example.scanmyskin.TensorFlow.Classifier
 
-import android.graphics.Bitmap
 import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Toast
@@ -12,9 +10,7 @@ import androidx.navigation.ui.NavigationUI
 import com.example.scanmyskin.R
 import com.example.scanmyskin.ScanMySkin
 import com.example.scanmyskin.databinding.ActivityHomeBinding
-import com.example.scanmyskin.databinding.ActivityLoginBinding
-import com.example.scanmyskin.ui.fragments.viewmodels.AuthViewModel
-import com.example.scanmyskin.ui.fragments.viewmodels.HomeViewModel
+import com.example.scanmyskin.ui.viewmodels.HomeViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions

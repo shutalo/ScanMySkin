@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_infoFragment_to_scanFragment"
             app:destination="@id/scanFragment" />
+        <action
+            android:id="@+id/action_infoFragment_to_diseaseInfoFragment"
+            app:destination="@id/diseaseInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/historyFragment"
@@ -40,5 +43,26 @@
         <action
             android:id="@+id/action_scanFragment_to_historyFragment"
             app:destination="@id/historyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/diseaseInfoFragment"
+        android:name="com.example.scanmyskin.ui.fragments.home.info.DiseaseInfoFragment"
+        android:label="fragment_disease_info"
+        tools:layout="@layout/fragment_disease_info" >
+        <action
+            android:id="@+id/action_diseaseInfoFragment_to_webViewFragment"
+            app:destination="@id/webViewFragment" />
+        <argument
+            android:name="disease"
+            app:argType="com.example.scanmyskin.data.models.Disease" />
+    </fragment>
+    <fragment
+        android:id="@+id/webViewFragment"
+        android:name="com.example.scanmyskin.ui.fragments.home.info.WebViewFragment"
+        android:label="fragment_web_view"
+        tools:layout="@layout/fragment_web_view" >
+        <argument
+            android:name="url"
+            app:argType="string" />
     </fragment>
 </navigation>

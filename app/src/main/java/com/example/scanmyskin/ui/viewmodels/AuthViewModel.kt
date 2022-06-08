@@ -1,4 +1,4 @@
-package com.example.scanmyskin.ui.fragments.viewmodels
+package com.example.scanmyskin.ui.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,7 +9,6 @@ import com.example.scanmyskin.data.repository.FirebaseRepo
 import com.example.scanmyskin.helpers.isEmailValid
 import com.example.scanmyskin.helpers.makeToast
 import com.example.scanmyskin.helpers.validateRegistrationInput
-import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.launch
 
 class AuthViewModel(private val repo: FirebaseRepo) : BaseViewModel() {

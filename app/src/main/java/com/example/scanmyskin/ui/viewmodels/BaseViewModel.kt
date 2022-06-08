@@ -1,4 +1,4 @@
-package com.example.scanmyskin.ui.fragments.viewmodels
+package com.example.scanmyskin.ui.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

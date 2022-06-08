@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "395374740838",
+    "project_id": "scanmyskin",
+    "storage_bucket": "scanmyskin.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:395374740838:android:841836aeb5aae16faeb4a7",
+        "android_client_info": {
+          "package_name": "com.example.scanmyskin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "395374740838-t5f6jjdfdqhgk0v72p1s816b2n4s4f30.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwlsChqSBCdL_fHrnyqdPbQLWu7VvD7Js"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "395374740838-t5f6jjdfdqhgk0v72p1s816b2n4s4f30.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

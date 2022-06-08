@@ -9,10 +9,8 @@ import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.example.scanmyskin.databinding.FragmentRegisterBinding
 import com.example.scanmyskin.ui.fragments.base.BaseFragment
-import com.example.scanmyskin.ui.fragments.viewmodels.AuthViewModel
+import com.example.scanmyskin.ui.viewmodels.AuthViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import java.util.*
-import kotlin.concurrent.schedule
 
 class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
 
