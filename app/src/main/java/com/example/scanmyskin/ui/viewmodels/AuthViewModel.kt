@@ -55,8 +55,4 @@ class AuthViewModel(private val repo: FirebaseRepo) : BaseViewModel() {
             _isPasswordChangedSuccessfully.postValue(repo.updatePassword(oldPassword,newPassword))
         }
     }
-
-    fun shouldShowProgressDialog(value: Boolean){
-        _shouldShowProgressDialog.postValue(value)
-    }
 }
