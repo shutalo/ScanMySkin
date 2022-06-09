@@ -20,6 +20,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
         viewModel.isUserRegisteredSuccessfully.observe(this) {
             viewModel.shouldShowProgressDialog(false)
             if (it) {
+                activity?.finish()
                 val extras = ActivityNavigator.Extras.Builder()
                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

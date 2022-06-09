@@ -1,10 +1,12 @@
 package com.example.scanmyskin.ui.fragments.auth
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.ActivityNavigator
 import androidx.navigation.fragment.findNavController
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
@@ -27,7 +29,13 @@ class StartingFragment : BaseFragment<FragmentStartingBinding>() {
             Timer().schedule(500){
                 activity?.runOnUiThread {
                     if(it){
-                        findNavController().navigate(StartingFragmentDirections.actionStartingFragmentToHomeActivity())
+                        activity?.finish()
+                        val extras = ActivityNavigator.Extras.Builder()
+                            .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                            .build()
+                        findNavController().navigate(StartingFragmentDirections.actionStartingFragmentToHomeActivity(), extras)
                     } else {
                         with(binding){
                             authenticationFormLayout.visibility = View.VISIBLE

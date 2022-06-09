@@ -1,7 +1,9 @@
 package com.example.scanmyskin.ui.fragments.auth
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.ActivityNavigator
 import androidx.navigation.fragment.findNavController
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
@@ -18,7 +20,13 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         viewModel.isSigningInSuccessful.observe(this){
             viewModel.shouldShowProgressDialog(false)
             if(it){
-                findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToHomeActivity())
+                activity?.finish()
+                val extras = ActivityNavigator.Extras.Builder()
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                    .build()
+                findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToHomeActivity(), extras)
             }
         }
         binding.login.setOnClickListener{
