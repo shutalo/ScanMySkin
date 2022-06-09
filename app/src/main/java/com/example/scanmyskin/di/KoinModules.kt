@@ -47,19 +47,8 @@ val dataModule = module {
     val diseases: ArrayList<Disease> = ArrayList()
     val diseaseTitles : List<String> = ScanMySkin.context.resources.getStringArray(R.array.disease_titles).toList()
     val diseaseDescriptions : List<String> = ScanMySkin.context.resources.getStringArray(R.array.disease_descriptions).toList()
-    val typedArray = ScanMySkin.context.resources.obtainTypedArray(R.array.disease_urls)
-    val n = typedArray.length()
-    val arrayOfStrings: Array<Array<String>?> = arrayOfNulls(n)
-    for (i in 0 until n) {
-        val id: Int = typedArray.getResourceId(i, 0)
-        if (id > 0) {
-            arrayOfStrings[i] = ScanMySkin.context.resources.getStringArray(id)
-        }
-    }
-    typedArray.recycle()
     for(index in diseaseTitles.indices){
-        val diseaseURLs : List<String> = arrayOfStrings[index]?.toList() ?: listOf()
-        diseases.add(Disease(diseaseTitles[index], diseaseDescriptions[index], diseaseURLs))
+        diseases.add(Disease(diseaseTitles[index], diseaseDescriptions[index]))
     }
     factory { diseases.toList() }
 }

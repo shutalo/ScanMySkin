@@ -6,6 +6,7 @@ import android.provider.MediaStore
 import android.widget.ImageButton
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.scanmyskin.R
 import com.example.scanmyskin.ScanMySkin
@@ -18,6 +19,8 @@ class HomeViewModel(private val repo: FirebaseRepo) : BaseViewModel() {
 
     private var _isUserSignedOut: SingleLiveEvent<Boolean> = SingleLiveEvent()
     var isUserSignedOut: LiveData<Boolean> = _isUserSignedOut
+    private var _urlsRetrieved: MutableLiveData<HashMap<String, String>> = MutableLiveData()
+    var urlsRetrieved: LiveData<HashMap<String, String>> = _urlsRetrieved
 
     companion object {
         val REQUEST_TAKE_PHOTO = 0
@@ -66,6 +69,13 @@ class HomeViewModel(private val repo: FirebaseRepo) : BaseViewModel() {
         viewModelScope.launch {
             repo.signOut()
             _isUserSignedOut.postValue(true)
+        }
+    }
+
+    fun retrieveUrls(disease: String){
+        viewModelScope.launch {
+            shouldShowProgressDialog(true)
+            _urlsRetrieved.postValue(repo.retrieveUrls(disease))
         }
     }
 }

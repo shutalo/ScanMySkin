@@ -2,7 +2,6 @@ package com.example.scanmyskin.data.repository
 
 import android.content.res.Resources
 import android.util.Log
-import android.widget.Toast
 import com.example.scanmyskin.R
 import com.example.scanmyskin.ScanMySkin
 import com.example.scanmyskin.helpers.isPasswordValid
@@ -86,5 +85,10 @@ class FirebaseRepo(private val auth: FirebaseAuth, private val database: Firebas
         getCurrentUser().delete().await()
         makeToast(Resources.getSystem().getString(R.string.account_deleted))
         return true
+    }
+
+    suspend fun retrieveUrls(disease: String): HashMap<String, String>? {
+        val snapshot = database.collection("urls").document("links").get().await()
+        return (snapshot.data as? HashMap<String, HashMap<String, String>>?)?.get(disease)
     }
 }

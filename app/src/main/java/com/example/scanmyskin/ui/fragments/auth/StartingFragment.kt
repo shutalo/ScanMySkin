@@ -1,8 +1,6 @@
 package com.example.scanmyskin.ui.fragments.auth
 
 import android.content.Intent
-import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +8,6 @@ import androidx.navigation.ActivityNavigator
 import androidx.navigation.fragment.findNavController
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
-import com.example.scanmyskin.R
-import com.example.scanmyskin.databinding.FragmentChoosePasswordBinding
 import com.example.scanmyskin.databinding.FragmentStartingBinding
 import com.example.scanmyskin.helpers.shortDelay
 import com.example.scanmyskin.helpers.veryShortDelay

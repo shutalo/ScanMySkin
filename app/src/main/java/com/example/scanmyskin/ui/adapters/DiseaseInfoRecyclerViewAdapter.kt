@@ -10,7 +10,15 @@ import com.example.scanmyskin.databinding.DiseaseItemBinding
 import com.example.scanmyskin.databinding.DiseaseUrlItemBinding
 import com.example.scanmyskin.helpers.veryShortDelay
 
-class DiseaseInfoRecyclerViewAdapter(private val diseaseUrls: List<String>, private val listener: OnUrlClicked) : RecyclerView.Adapter<DiseaseInfoRecyclerViewAdapter.DiseaseInfoViewHolder>() {
+class DiseaseInfoRecyclerViewAdapter(private val diseaseUrls: HashMap<String, String>, private val listener: OnUrlClicked) : RecyclerView.Adapter<DiseaseInfoRecyclerViewAdapter.DiseaseInfoViewHolder>() {
+
+    private var keys: ArrayList<String> = ArrayList()
+
+    init {
+        diseaseUrls.keys.forEach{
+            keys.add(it)
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DiseaseInfoViewHolder {
         val binding = DiseaseUrlItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -18,7 +26,7 @@ class DiseaseInfoRecyclerViewAdapter(private val diseaseUrls: List<String>, priv
     }
 
     override fun onBindViewHolder(holder: DiseaseInfoViewHolder, position: Int) {
-        holder.bind(diseaseUrls[position], listener)
+        holder.bind(diseaseUrls[keys[position]]!!, listener)
     }
 
     override fun getItemCount(): Int {
