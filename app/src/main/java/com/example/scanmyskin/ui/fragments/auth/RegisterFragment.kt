@@ -8,6 +8,7 @@ import androidx.navigation.fragment.findNavController
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.example.scanmyskin.databinding.FragmentRegisterBinding
+import com.example.scanmyskin.helpers.veryShortDelay
 import com.example.scanmyskin.ui.fragments.base.BaseFragment
 import com.example.scanmyskin.ui.viewmodels.AuthViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -30,8 +31,9 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
             }
         }
         binding.register.setOnClickListener{
-            YoYo.with(Techniques.Bounce).playOn(it)
-            viewModel.register(binding.email.text.toString(), binding.password.text.toString(), binding.repeatPassword.text.toString())
+            YoYo.with(Techniques.Pulse).duration(veryShortDelay).onEnd{
+                viewModel.register(binding.email.text.toString(), binding.password.text.toString(), binding.repeatPassword.text.toString())
+            }.playOn(it)
         }
     }
 

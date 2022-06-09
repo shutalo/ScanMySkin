@@ -18,7 +18,11 @@
             app:destination="@id/scanFragment" />
         <action
             android:id="@+id/action_infoFragment_to_diseaseInfoFragment"
-            app:destination="@id/diseaseInfoFragment" />
+            app:destination="@id/diseaseInfoFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/historyFragment"
@@ -51,7 +55,11 @@
         tools:layout="@layout/fragment_disease_info" >
         <action
             android:id="@+id/action_diseaseInfoFragment_to_webViewFragment"
-            app:destination="@id/webViewFragment" />
+            app:destination="@id/webViewFragment"
+            app:exitAnim="@anim/fade_out"
+            app:enterAnim="@anim/slide_in_from_bot_to_top"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_in_from_top_to_bot"  />
         <argument
             android:name="disease"
             app:argType="com.example.scanmyskin.data.models.Disease" />

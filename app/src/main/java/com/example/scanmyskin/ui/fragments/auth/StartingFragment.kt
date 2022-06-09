@@ -13,6 +13,8 @@ import com.daimajia.androidanimations.library.YoYo
 import com.example.scanmyskin.R
 import com.example.scanmyskin.databinding.FragmentChoosePasswordBinding
 import com.example.scanmyskin.databinding.FragmentStartingBinding
+import com.example.scanmyskin.helpers.shortDelay
+import com.example.scanmyskin.helpers.veryShortDelay
 import com.example.scanmyskin.ui.fragments.base.BaseFragment
 import com.example.scanmyskin.ui.viewmodels.AuthViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -41,12 +43,14 @@ class StartingFragment : BaseFragment<FragmentStartingBinding>() {
                             authenticationFormLayout.visibility = View.VISIBLE
                             YoYo.with(Techniques.SlideInUp).playOn(authenticationFormLayout)
                             register.setOnClickListener{ button ->
-                                YoYo.with(Techniques.Bounce).playOn(button)
-                                findNavController().navigate(StartingFragmentDirections.actionStartingFragmentToRegistrationFragment())
+                                YoYo.with(Techniques.Pulse).duration(shortDelay).onEnd{
+                                    findNavController().navigate(StartingFragmentDirections.actionStartingFragmentToRegistrationFragment())
+                                }.playOn(button)
                             }
                             login.setOnClickListener{ button ->
-                                YoYo.with(Techniques.Bounce).playOn(button)
-                                findNavController().navigate(StartingFragmentDirections.actionStartingFragmentToLoginFragment())
+                                YoYo.with(Techniques.Pulse).duration(veryShortDelay).onEnd{
+                                    findNavController().navigate(StartingFragmentDirections.actionStartingFragmentToLoginFragment())
+                                }.playOn(button)
                             }
                         }
                     }

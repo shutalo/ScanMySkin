@@ -4,8 +4,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.daimajia.androidanimations.library.Techniques
+import com.daimajia.androidanimations.library.YoYo
 import com.example.scanmyskin.data.models.Disease
 import com.example.scanmyskin.databinding.DiseaseItemBinding
+import com.example.scanmyskin.helpers.shortDelay
+import com.example.scanmyskin.helpers.veryShortDelay
 
 class DiseaseRecyclerViewAdapter(private val diseases: List<Disease>, private val listener: OnDiseaseClicked) : RecyclerView.Adapter<DiseaseRecyclerViewAdapter.DiseaseViewHolder>() {
 
@@ -15,22 +19,23 @@ class DiseaseRecyclerViewAdapter(private val diseases: List<Disease>, private va
     }
 
     override fun onBindViewHolder(holder: DiseaseViewHolder, position: Int) {
-        holder.bind(diseases[position])
+        holder.bind(diseases[position], listener)
     }
 
     override fun getItemCount(): Int {
         return diseases.size
     }
 
-    inner class DiseaseViewHolder(itemView: DiseaseItemBinding) : RecyclerView.ViewHolder(itemView.root){
-        private val titleTv = itemView.title
-        private val descriptionTv = itemView.description
-        private val cardView = itemView.diseaseCardView
-        fun bind(disease: Disease){
-            titleTv.text = disease.title
-            descriptionTv.text = disease.description
-            cardView.setOnClickListener{
-                listener.onDiseaseClicked(disease)
+    class DiseaseViewHolder(private val binding: DiseaseItemBinding) : RecyclerView.ViewHolder(binding.root){
+        fun bind(disease: Disease, listener: OnDiseaseClicked){
+            binding.apply {
+                title.text = disease.title
+                description.text = disease.description
+                diseaseCardView.setOnClickListener{
+                    YoYo.with(Techniques.Pulse).duration(veryShortDelay).onEnd{
+                        listener.onDiseaseClicked(disease)
+                    }.playOn(root)
+                }
             }
         }
     }

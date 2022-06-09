@@ -44,7 +44,7 @@
     <string-array name="disease_titles">
         <item>Acne</item>
         <item>Actinic keratosis</item>
-        <item>Basall cell carcinom</item>
+        <item>Basal cell carcinoma</item>
         <item>Candida</item>
         <item>Eczema</item>
         <item>Herpes</item>
@@ -65,28 +65,27 @@
     </string-array>
 
     <string-array name="disease_descriptions">
-        <item>Acne</item>
-        <item>Actinic keratosis</item>
-        <item>Basall cell carcinom</item>
-        <item>Candida</item>
-        <item>Eczema</item>
-        <item>Herpes</item>
-        <item>Lichen planus</item>
-        <item>Lichen sclerosus</item>
-        <item>Lupus</item>
-        <item>Melanoma</item>
-        <item>Pityriasis</item>
-        <item>Psoriasis</item>
-        <item>Rhus</item>
-        <item>Rosacea</item>
-        <item>Scabies</item>
-        <item>Seborrheic dermatitis</item>
-        <item>Seborrheic keratosis</item>
-        <item>Tinea</item>
-        <item>Vasculitis</item>
-        <item>Vitiligo</item>
+        <item>Acne Description</item>
+        <item>Actinic keratosis Description</item>
+        <item>Basal cell carcinoma Description</item>
+        <item>Candida Description</item>
+        <item>Eczema Description</item>
+        <item>Herpes Description</item>
+        <item>Lichen planus Description</item>
+        <item>Lichen sclerosus Description</item>
+        <item>Lupus Description</item>
+        <item>Melanoma Description</item>
+        <item>Pityriasis Description</item>
+        <item>Psoriasis Description</item>
+        <item>Rhus Description</item>
+        <item>Rosacea Description</item>
+        <item>Scabies Description</item>
+        <item>Seborrheic dermatitis Description</item>
+        <item>Seborrheic keratosis Description</item>
+        <item>Tinea Description</item>
+        <item>Vasculitis Description</item>
+        <item>Vitiligo Description</item>
     </string-array>
-
 
     <string-array name="acne_urls">
         <item>carURLS</item>
@@ -104,7 +103,7 @@
         <item>carURLS</item>
         <item>carURLS</item>
     </string-array>
-    <string-array name="basall_cell_carcinom_urls">
+    <string-array name="basal_cell_carcinoma_urls">
         <item>eczemaURLS</item>
         <item>eczemaURLS</item>
         <item>eczemaURLS</item>
@@ -177,7 +176,7 @@
         <item>carURLS</item>
     </string-array>
     <string-array name="psoriasis_urls">
-        <item>carURLS</item>
+        <item>https://en.wikipedia.org/wiki/Psoriasis</item>
         <item>carURLS</item>
         <item>carURLS</item>
         <item>carURLS</item>
@@ -252,7 +251,7 @@
     <array name="disease_urls">
         <item>@array/acne_urls</item>
         <item>@array/actinic_keratosis_urls</item>
-        <item>@array/basall_cell_carcinom_urls</item>
+        <item>@array/basal_cell_carcinoma_urls</item>
         <item>@array/candida_urls</item>
         <item>@array/eczema_urls</item>
         <item>@array/herpes_urls</item>

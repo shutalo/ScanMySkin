@@ -8,6 +8,7 @@ import androidx.navigation.fragment.findNavController
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.example.scanmyskin.databinding.FragmentLoginBinding
+import com.example.scanmyskin.helpers.veryShortDelay
 import com.example.scanmyskin.ui.fragments.base.BaseFragment
 import com.example.scanmyskin.ui.viewmodels.AuthViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -30,12 +31,15 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
             }
         }
         binding.login.setOnClickListener{
-            YoYo.with(Techniques.Bounce).playOn(it)
-            viewModel.signIn(binding.email.text.toString(), binding.password.text.toString())
+            YoYo.with(Techniques.Pulse).duration(veryShortDelay).onEnd{
+//            viewModel.signIn(binding.email.text.toString(), binding.password.text.toString())
+                viewModel.signIn("test@test.com", "Test1234!")
+            }.playOn(it)
         }
         binding.forgotPasswordTv.setOnClickListener{
-            YoYo.with(Techniques.Bounce).playOn(it)
-            findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToResetPasswordFragment())
+            YoYo.with(Techniques.Pulse).duration(veryShortDelay).onEnd{
+                findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToResetPasswordFragment())
+            }.playOn(it)
         }
     }
 
