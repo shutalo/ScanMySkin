@@ -11,7 +11,7 @@ class ScanMySkin : Application() {
         context = this
         startKoin(){
             androidContext(this@ScanMySkin)
-            modules(viewModelModules, networkModule, repositoryModule, firebaseModule, dataModule)
+            modules(viewModelModules, networkModule, repositoryModule, firebaseModule)
         }
     }
 

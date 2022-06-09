@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.scanmyskin.R
 import com.example.scanmyskin.ScanMySkin
+import com.example.scanmyskin.data.models.Disease
 import com.example.scanmyskin.data.repository.FirebaseRepo
 import com.example.scanmyskin.helpers.SingleLiveEvent
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -19,8 +20,8 @@ class HomeViewModel(private val repo: FirebaseRepo) : BaseViewModel() {
 
     private var _isUserSignedOut: SingleLiveEvent<Boolean> = SingleLiveEvent()
     var isUserSignedOut: LiveData<Boolean> = _isUserSignedOut
-    private var _urlsRetrieved: MutableLiveData<HashMap<String, String>> = MutableLiveData()
-    var urlsRetrieved: LiveData<HashMap<String, String>> = _urlsRetrieved
+    private var _diseasesRetrieved: MutableLiveData<List<Disease>> = MutableLiveData()
+    var diseasesRetrieved: LiveData<List<Disease>> = _diseasesRetrieved
 
     companion object {
         val REQUEST_TAKE_PHOTO = 0
@@ -72,10 +73,10 @@ class HomeViewModel(private val repo: FirebaseRepo) : BaseViewModel() {
         }
     }
 
-    fun retrieveUrls(disease: String){
+    fun retrieveDiseases(){
         viewModelScope.launch {
             shouldShowProgressDialog(true)
-            _urlsRetrieved.postValue(repo.retrieveUrls(disease))
+            _diseasesRetrieved.postValue(repo.retrieveDiseases())
         }
     }
 }

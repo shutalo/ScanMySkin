@@ -4,6 +4,7 @@ import android.content.res.Resources
 import android.util.Log
 import com.example.scanmyskin.R
 import com.example.scanmyskin.ScanMySkin
+import com.example.scanmyskin.data.models.Disease
 import com.example.scanmyskin.helpers.isPasswordValid
 import com.example.scanmyskin.helpers.makeToast
 import com.google.firebase.auth.FirebaseAuth
@@ -87,8 +88,12 @@ class FirebaseRepo(private val auth: FirebaseAuth, private val database: Firebas
         return true
     }
 
-    suspend fun retrieveUrls(disease: String): HashMap<String, String>? {
-        val snapshot = database.collection("urls").document("links").get().await()
-        return (snapshot.data as? HashMap<String, HashMap<String, String>>?)?.get(disease)
+    suspend fun retrieveDiseases(): List<Disease>? {
+        val snapshot = database.collection("diseases").get().await()
+        val diseases: ArrayList<Disease> = ArrayList()
+        snapshot.forEach {
+            diseases.add(Disease(it.data["title"] as String,it.data["description"] as String,it.data["urls"] as HashMap<String, String>))
+        }
+        return diseases
     }
 }

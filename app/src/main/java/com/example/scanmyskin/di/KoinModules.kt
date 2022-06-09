@@ -43,16 +43,6 @@ val networkModule = module {
 //    single { get<Retrofit>().create(GithubSearchApi::class.java) }
 }
 
-val dataModule = module {
-    val diseases: ArrayList<Disease> = ArrayList()
-    val diseaseTitles : List<String> = ScanMySkin.context.resources.getStringArray(R.array.disease_titles).toList()
-    val diseaseDescriptions : List<String> = ScanMySkin.context.resources.getStringArray(R.array.disease_descriptions).toList()
-    for(index in diseaseTitles.indices){
-        diseases.add(Disease(diseaseTitles[index], diseaseDescriptions[index]))
-    }
-    factory { diseases.toList() }
-}
-
 //fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
 //    return Retrofit.Builder().baseUrl("").client(okHttpClient)
 //        .addConverterFactory(GsonConverterFactory.create()).build()

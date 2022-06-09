@@ -18,14 +18,11 @@ class DiseaseInfoFragment : BaseFragment<FragmentDiseaseInfoBinding>(), DiseaseI
 
     override fun setupUi(){
         val disease = diseaseInfoFragmentArgs.disease
+        diseaseInfoRecyclerViewAdapter = DiseaseInfoRecyclerViewAdapter(diseaseInfoFragmentArgs.disease.urls, this)
         with(binding){
+            binding.diseaseUrlsRecyclerView.adapter = diseaseInfoRecyclerViewAdapter
             titleTv.text = disease.title
             descriptionTv.text = disease.description
-        }
-        viewModel.urlsRetrieved.observe(this){
-            diseaseInfoRecyclerViewAdapter = DiseaseInfoRecyclerViewAdapter(it, this)
-            binding.diseaseUrlsRecyclerView.adapter = diseaseInfoRecyclerViewAdapter
-            dismissProgressDialog()
         }
     }
 
