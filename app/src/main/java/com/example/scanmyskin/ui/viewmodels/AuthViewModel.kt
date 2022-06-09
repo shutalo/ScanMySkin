@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.scanmyskin.R
 import com.example.scanmyskin.ScanMySkin
 import com.example.scanmyskin.data.repository.FirebaseRepo
+import com.example.scanmyskin.helpers.SingleLiveEvent
 import com.example.scanmyskin.helpers.isEmailValid
 import com.example.scanmyskin.helpers.makeToast
 import com.example.scanmyskin.helpers.validateRegistrationInput
@@ -22,6 +23,8 @@ class AuthViewModel(private val repo: FirebaseRepo) : BaseViewModel() {
     var isSigningInSuccessful: LiveData<Boolean> = _isSigningInSuccessful
     private var _isPasswordChangedSuccessfully: MutableLiveData<Boolean> = MutableLiveData(false)
     var isPasswordChangedSuccessfully: LiveData<Boolean> = _isPasswordChangedSuccessfully
+    private var _isUserSignedIn: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    var isUserSignedIn: LiveData<Boolean> = _isUserSignedIn
 
     fun register(email: String, password: String, confirmedPassword: String){
         viewModelScope.launch {
@@ -53,6 +56,12 @@ class AuthViewModel(private val repo: FirebaseRepo) : BaseViewModel() {
         viewModelScope.launch {
             shouldShowProgressDialog(true)
             _isPasswordChangedSuccessfully.postValue(repo.updatePassword(oldPassword,newPassword))
+        }
+    }
+
+    fun checkIfUserIsSignedIn(){
+        viewModelScope.launch {
+            _isUserSignedIn.postValue(repo.checkIfUserIsSignedIn())
         }
     }
 }

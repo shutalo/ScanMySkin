@@ -77,6 +77,11 @@ class FirebaseRepo(private val auth: FirebaseAuth, private val database: Firebas
         }
     }
 
+    fun checkIfUserIsSignedIn() : Boolean {
+        val currentUser : FirebaseUser? = auth.currentUser
+        return currentUser != null
+    }
+
     suspend fun deleteAccount(): Boolean{
         getCurrentUser().delete().await()
         makeToast(Resources.getSystem().getString(R.string.account_deleted))

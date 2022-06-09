@@ -12,16 +12,38 @@ import com.example.scanmyskin.R
 import com.example.scanmyskin.databinding.FragmentChoosePasswordBinding
 import com.example.scanmyskin.databinding.FragmentStartingBinding
 import com.example.scanmyskin.ui.fragments.base.BaseFragment
+import com.example.scanmyskin.ui.viewmodels.AuthViewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import java.util.*
+import kotlin.concurrent.schedule
 
 class StartingFragment : BaseFragment<FragmentStartingBinding>() {
+
+    private val viewModel by sharedViewModel<AuthViewModel>()
+
     override fun setupUi(){
-        binding.register.setOnClickListener{
-            YoYo.with(Techniques.Bounce).playOn(it)
-            findNavController().navigate(StartingFragmentDirections.actionStartingFragmentToRegistrationFragment())
-        }
-        binding.login.setOnClickListener{
-            YoYo.with(Techniques.Bounce).playOn(it)
-            findNavController().navigate(StartingFragmentDirections.actionStartingFragmentToLoginFragment())
+        viewModel.checkIfUserIsSignedIn()
+        viewModel.isUserSignedIn.observe(this){
+            Timer().schedule(500){
+                activity?.runOnUiThread {
+                    if(it){
+                        findNavController().navigate(StartingFragmentDirections.actionStartingFragmentToHomeActivity())
+                    } else {
+                        with(binding){
+                            authenticationFormLayout.visibility = View.VISIBLE
+                            YoYo.with(Techniques.SlideInUp).playOn(authenticationFormLayout)
+                            register.setOnClickListener{ button ->
+                                YoYo.with(Techniques.Bounce).playOn(button)
+                                findNavController().navigate(StartingFragmentDirections.actionStartingFragmentToRegistrationFragment())
+                            }
+                            login.setOnClickListener{ button ->
+                                YoYo.with(Techniques.Bounce).playOn(button)
+                                findNavController().navigate(StartingFragmentDirections.actionStartingFragmentToLoginFragment())
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 

@@ -76,6 +76,9 @@
             app:enterAnim="@anim/slide_in_from_bot_to_top"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/slide_in_from_top_to_bot"  />
+        <action
+            android:id="@+id/action_startingFragment_to_homeActivity"
+            app:destination="@id/homeActivity" />
     </fragment>
     <fragment
         android:id="@+id/choosePasswordFragment"

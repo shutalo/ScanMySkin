@@ -5,14 +5,20 @@ import android.content.Intent
 import android.provider.MediaStore
 import android.widget.ImageButton
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.example.scanmyskin.R
 import com.example.scanmyskin.ScanMySkin
 import com.example.scanmyskin.data.repository.FirebaseRepo
+import com.example.scanmyskin.helpers.SingleLiveEvent
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.launch
 
 class HomeViewModel(private val repo: FirebaseRepo) : BaseViewModel() {
+
+    private var _isUserSignedOut: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    var isUserSignedOut: LiveData<Boolean> = _isUserSignedOut
+
     companion object {
         val REQUEST_TAKE_PHOTO = 0
         val REQUEST_SELECT_IMAGE_IN_ALBUM = 1
@@ -53,6 +59,13 @@ class HomeViewModel(private val repo: FirebaseRepo) : BaseViewModel() {
                 }
             }
             bottomSheetDialog.show()
+        }
+    }
+
+    fun signOut(){
+        viewModelScope.launch {
+            repo.signOut()
+            _isUserSignedOut.postValue(true)
         }
     }
 }

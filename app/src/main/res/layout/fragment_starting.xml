@@ -7,22 +7,6 @@
     tools:context=".ui.fragments.auth.StartingFragment"
     android:background="@color/blue">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/leftGuideline"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        app:layout_constraintGuide_begin="24dp"
-        android:orientation="vertical">
-    </androidx.constraintlayout.widget.Guideline>
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/rightGuideline"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        app:layout_constraintGuide_end="24dp"
-        android:orientation="vertical">
-    </androidx.constraintlayout.widget.Guideline>
-
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,30 +16,55 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:src="@drawable/logo"/>
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/login"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        app:layout_constraintLeft_toRightOf="@id/leftGuideline"
-        app:layout_constraintRight_toLeftOf="@id/rightGuideline"
-        app:layout_constraintBottom_toTopOf="@id/register"
-        android:layout_marginBottom="@dimen/margin_medium"
-        android:background="@drawable/white_button"
-        android:text="@string/log_in"
-        style="@style/white_button"
-        />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/authenticationFormLayout"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/register"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        app:layout_constraintLeft_toRightOf="@id/leftGuideline"
-        app:layout_constraintRight_toLeftOf="@id/rightGuideline"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="@dimen/margin_very_large"
-        android:background="@drawable/transparent_button"
-        android:text="@string/create_account"
-        style="@style/blue_button"
-        />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/leftGuideline"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:layout_constraintGuide_begin="24dp"
+            android:orientation="vertical">
+        </androidx.constraintlayout.widget.Guideline>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/rightGuideline"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:layout_constraintGuide_end="24dp"
+            android:orientation="vertical">
+        </androidx.constraintlayout.widget.Guideline>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/login"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            app:layout_constraintLeft_toRightOf="@id/leftGuideline"
+            app:layout_constraintRight_toLeftOf="@id/rightGuideline"
+            app:layout_constraintBottom_toTopOf="@id/register"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:background="@drawable/white_button"
+            android:text="@string/log_in"
+            style="@style/white_button"
+            />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/register"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            app:layout_constraintLeft_toRightOf="@id/leftGuideline"
+            app:layout_constraintRight_toLeftOf="@id/rightGuideline"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="@dimen/margin_very_large"
+            android:background="@drawable/transparent_button"
+            android:text="@string/create_account"
+            style="@style/blue_button"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
