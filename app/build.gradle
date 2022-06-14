@@ -131,4 +131,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore:24.1.2'
     //firebase storage
     implementation 'com.google.firebase:firebase-storage:20.0.1'
+    //crashing duplicate class
+    implementation 'com.google.android.gms:play-services-vision:20.1.3'
 }
