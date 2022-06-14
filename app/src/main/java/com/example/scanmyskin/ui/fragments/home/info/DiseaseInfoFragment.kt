@@ -7,14 +7,11 @@ import androidx.navigation.fragment.navArgs
 import com.example.scanmyskin.databinding.FragmentDiseaseInfoBinding
 import com.example.scanmyskin.ui.adapters.DiseaseInfoRecyclerViewAdapter
 import com.example.scanmyskin.ui.fragments.base.BaseFragment
-import com.example.scanmyskin.ui.viewmodels.HomeViewModel
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class DiseaseInfoFragment : BaseFragment<FragmentDiseaseInfoBinding>(), DiseaseInfoRecyclerViewAdapter.OnUrlClicked {
 
     private val diseaseInfoFragmentArgs: DiseaseInfoFragmentArgs by navArgs()
     private lateinit var diseaseInfoRecyclerViewAdapter: DiseaseInfoRecyclerViewAdapter
-    private val viewModel by sharedViewModel<HomeViewModel>()
 
     override fun setupUi(){
         val disease = diseaseInfoFragmentArgs.disease

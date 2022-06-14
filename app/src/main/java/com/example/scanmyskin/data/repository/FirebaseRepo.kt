@@ -1,7 +1,18 @@
 package com.example.scanmyskin.data.repository
 
+import android.app.Activity
+import android.content.Context
+import android.content.Context.CAMERA_SERVICE
 import android.content.res.Resources
+import android.graphics.Bitmap
+import android.hardware.camera2.CameraAccessException
+import android.hardware.camera2.CameraCharacteristics
+import android.hardware.camera2.CameraManager
+import android.net.Uri
+import android.os.Build
 import android.util.Log
+import android.util.SparseIntArray
+import androidx.annotation.RequiresApi
 import com.example.scanmyskin.R
 import com.example.scanmyskin.ScanMySkin
 import com.example.scanmyskin.data.models.Disease
@@ -10,10 +21,16 @@ import com.example.scanmyskin.helpers.makeToast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ml.vision.FirebaseVision
+import com.google.firebase.ml.vision.cloud.FirebaseVisionCloudDetectorOptions
+import com.google.firebase.ml.vision.common.FirebaseVisionImage
+import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.tasks.await
+import java.io.IOException
 
-class FirebaseRepo(private val auth: FirebaseAuth, private val database: FirebaseFirestore, private val storage: FirebaseStorage) {
+
+class FirebaseRepo(private val applicationContext: Context, private val auth: FirebaseAuth, private val database: FirebaseFirestore, private val storage: FirebaseStorage, private val options: FirebaseVisionCloudDetectorOptions) {
     private val TAG = "FirebaseRepo"
 
     suspend fun register(email: String, password: String): Boolean{
@@ -95,5 +112,27 @@ class FirebaseRepo(private val auth: FirebaseAuth, private val database: Firebas
             diseases.add(Disease(it.data["title"] as String,it.data["description"] as String,it.data["urls"] as HashMap<String, String>))
         }
         return diseases
+    }
+
+    suspend fun processImageFromBitmap(image: Bitmap){
+        val image = FirebaseVisionImage.fromBitmap(image)
+    }
+
+    suspend fun processImageFromUri(uri: Uri){
+        val image: FirebaseVisionImage
+        try {
+            image = FirebaseVisionImage.fromFilePath(applicationContext, uri)
+            processImage(image)
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+    }
+
+    private suspend fun processImage(image: FirebaseVisionImage){
+        val detector = FirebaseVision.getInstance().cloudImageLabeler
+        val result = detector.processImage(image).await()
+        result.forEach {
+            Log.d(TAG,it.toString())
+        }
     }
 }

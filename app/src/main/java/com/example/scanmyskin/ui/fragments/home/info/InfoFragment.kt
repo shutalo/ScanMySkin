@@ -8,9 +8,7 @@ import com.example.scanmyskin.databinding.FragmentInfoBinding
 import com.example.scanmyskin.ui.adapters.DiseaseRecyclerViewAdapter
 import com.example.scanmyskin.ui.fragments.base.BaseFragment
 import com.example.scanmyskin.ui.viewmodels.HomeViewModel
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import java.util.*
 
 class InfoFragment : BaseFragment<FragmentInfoBinding>(), DiseaseRecyclerViewAdapter.OnDiseaseClicked {
 

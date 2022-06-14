@@ -2,6 +2,8 @@ package com.example.scanmyskin.ui.viewmodels
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
+import android.net.Uri
 import android.provider.MediaStore
 import android.widget.ImageButton
 import androidx.core.app.ActivityCompat
@@ -63,6 +65,18 @@ class HomeViewModel(private val repo: FirebaseRepo) : BaseViewModel() {
                 }
             }
             bottomSheetDialog.show()
+        }
+    }
+
+    fun processImageFromBitmap(image: Bitmap){
+        viewModelScope.launch {
+            repo.processImageFromBitmap(image)
+        }
+    }
+
+    fun processImageFromUri(image: Uri){
+        viewModelScope.launch {
+            repo.processImageFromUri(image)
         }
     }
 
