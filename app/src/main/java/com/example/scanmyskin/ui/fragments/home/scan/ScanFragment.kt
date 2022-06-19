@@ -3,16 +3,14 @@ package com.example.scanmyskin.ui.fragments.home.scan
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.ImageDecoder
-import android.os.Build
+import android.net.Uri
+import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
+import com.bumptech.glide.Glide
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
-import com.example.scanmyskin.R
 import com.example.scanmyskin.databinding.FragmentScanBinding
 import com.example.scanmyskin.helpers.veryShortDelay
 import com.example.scanmyskin.ui.fragments.base.BaseFragment
@@ -21,6 +19,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
+
 
 class ScanFragment : BaseFragment<FragmentScanBinding>() {
 
@@ -39,16 +41,22 @@ class ScanFragment : BaseFragment<FragmentScanBinding>() {
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentScanBinding
         get() = FragmentScanBinding::inflate
 
-    @RequiresApi(Build.VERSION_CODES.R)
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
+//        super.onActivityResult(requestCode, resultCode, data)
         if(resultCode != Activity.RESULT_CANCELED){
-            var image: Bitmap = BitmapFactory.decodeResource(requireContext().resources, R.drawable.camera_placeholder)
             if(requestCode == HomeViewModel.REQUEST_TAKE_PHOTO && resultCode == Activity.RESULT_OK){
                 CoroutineScope(Dispatchers.IO).launch {
                     try{
-                        image = data?.extras?.get("data") as Bitmap
-                        viewModel.processImageFromBitmap(image)
+                        val image = data?.extras?.get("data") as Bitmap
+                        val file = viewModel.createFile()
+                        val out = FileOutputStream(file)
+                        image.compress(Bitmap.CompressFormat.JPEG, 100, out)
+                        out.flush()
+                        out.close()
+                        Glide.with(binding.root)
+                            .load(Uri.fromFile(file))
+                            .into(binding.imageContainer)
+                        viewModel.processImageFromUri(Uri.fromFile(file))
                     } catch (e: Exception){
                         Log.d(TAG,e.message.toString())
                     }
@@ -56,12 +64,15 @@ class ScanFragment : BaseFragment<FragmentScanBinding>() {
 
             } else if(requestCode == HomeViewModel.REQUEST_SELECT_IMAGE_IN_ALBUM && resultCode == Activity.RESULT_OK){
                 val imageUri = data?.data
-                if (imageUri != null) {
-                    image = ImageDecoder.decodeBitmap(ImageDecoder.createSource(requireContext().contentResolver, imageUri))
-                    viewModel.processImageFromUri(imageUri)
+                imageUri?.let {
+                    Glide.with(binding.root)
+                        .load(it)
+                        .into(binding.imageContainer)
+                    viewModel.processImageFromUri(it)
                 }
             }
-            binding.imageContainer.setImageBitmap(image)
         }
     }
+
+
 }

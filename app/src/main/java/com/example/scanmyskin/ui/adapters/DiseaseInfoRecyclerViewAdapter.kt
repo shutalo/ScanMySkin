@@ -26,7 +26,7 @@ class DiseaseInfoRecyclerViewAdapter(private val diseaseUrls: HashMap<String, St
     }
 
     override fun onBindViewHolder(holder: DiseaseInfoViewHolder, position: Int) {
-        holder.bind(diseaseUrls[keys[position]]!!, listener)
+        holder.bind(diseaseUrls[keys[position]]!!, keys[position], listener)
     }
 
     override fun getItemCount(): Int {
@@ -34,9 +34,9 @@ class DiseaseInfoRecyclerViewAdapter(private val diseaseUrls: HashMap<String, St
     }
 
     inner class DiseaseInfoViewHolder(private val binding: DiseaseUrlItemBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(url: String, listener: OnUrlClicked){
+        fun bind(url: String, title: String, listener: OnUrlClicked){
             binding.apply {
-                titleTv.text = url
+                titleTv.text = title
                 root.setOnClickListener{
                     YoYo.with(Techniques.FadeOut).playOn(it)
                 }
