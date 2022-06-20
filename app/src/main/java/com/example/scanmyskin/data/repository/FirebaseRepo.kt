@@ -114,25 +114,25 @@ class FirebaseRepo(private val applicationContext: Context, private val auth: Fi
         return diseases
     }
 
-    suspend fun processImageFromBitmap(image: Bitmap){
-        val image = FirebaseVisionImage.fromBitmap(image)
-    }
-
-    suspend fun processImageFromUri(uri: Uri){
-        val image: FirebaseVisionImage
-        try {
-            image = FirebaseVisionImage.fromFilePath(applicationContext, uri)
-            processImage(image)
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-    }
-
-    private suspend fun processImage(image: FirebaseVisionImage){
-        val detector = FirebaseVision.getInstance().cloudImageLabeler
-        val result = detector.processImage(image).await()
-        result.forEach {
-            Log.d(TAG,it.toString())
-        }
-    }
+//    suspend fun processImageFromBitmap(image: Bitmap){
+//        val image = FirebaseVisionImage.fromBitmap(image)
+//    }
+//
+//    suspend fun processImageFromUri(uri: Uri){
+//        val image: FirebaseVisionImage
+//        try {
+//            image = FirebaseVisionImage.fromFilePath(applicationContext, uri)
+//            processImage(image)
+//        } catch (e: IOException) {
+//            e.printStackTrace()
+//        }
+//    }
+//
+//    private suspend fun processImage(image: FirebaseVisionImage){
+//        val detector = FirebaseVision.getInstance().cloudImageLabeler
+//        val result = detector.processImage(image).await()
+//        result.forEach {
+//            Log.d(TAG,it.toString())
+//        }
+//    }
 }

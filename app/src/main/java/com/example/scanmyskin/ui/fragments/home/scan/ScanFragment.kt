@@ -4,7 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
-import android.os.Environment
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -18,8 +18,8 @@ import com.example.scanmyskin.ui.viewmodels.HomeViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 
@@ -31,6 +31,9 @@ class ScanFragment : BaseFragment<FragmentScanBinding>() {
     private val viewModel by sharedViewModel<HomeViewModel>()
 
     override fun setupUi(){
+        viewModel.imageUri?.let {
+            updateImage(it)
+        }
         binding.scan.setOnClickListener{
             YoYo.with(Techniques.Pulse).duration(veryShortDelay).onEnd{
                 viewModel.takePhoto(requireActivity())
@@ -42,21 +45,15 @@ class ScanFragment : BaseFragment<FragmentScanBinding>() {
         get() = FragmentScanBinding::inflate
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
         if(resultCode != Activity.RESULT_CANCELED){
             if(requestCode == HomeViewModel.REQUEST_TAKE_PHOTO && resultCode == Activity.RESULT_OK){
                 CoroutineScope(Dispatchers.IO).launch {
                     try{
-                        val image = data?.extras?.get("data") as Bitmap
-                        val file = viewModel.createFile()
-                        val out = FileOutputStream(file)
-                        image.compress(Bitmap.CompressFormat.JPEG, 100, out)
-                        out.flush()
-                        out.close()
-                        Glide.with(binding.root)
-                            .load(Uri.fromFile(file))
-                            .into(binding.imageContainer)
-                        viewModel.processImageFromUri(Uri.fromFile(file))
+                        withContext(Dispatchers.Main) {
+                            viewModel.imageUri = Uri.fromFile(viewModel.imagePath?.let { File(it) })
+                            updateImage(Uri.fromFile(viewModel.imagePath?.let { File(it) }))
+                        }
+                        viewModel.imageUri?.let { viewModel.processImage(it) }
                     } catch (e: Exception){
                         Log.d(TAG,e.message.toString())
                     }
@@ -65,14 +62,21 @@ class ScanFragment : BaseFragment<FragmentScanBinding>() {
             } else if(requestCode == HomeViewModel.REQUEST_SELECT_IMAGE_IN_ALBUM && resultCode == Activity.RESULT_OK){
                 val imageUri = data?.data
                 imageUri?.let {
-                    Glide.with(binding.root)
-                        .load(it)
-                        .into(binding.imageContainer)
-                    viewModel.processImageFromUri(it)
+                    viewModel.imageUri = it
+                    updateImage(it)
+                    viewModel.processImage(it)
                 }
             }
         }
     }
 
-
+    private fun updateImage(uri: Uri){
+        try {
+            Glide.with(binding.root)
+                .load(uri)
+                .into(binding.imageContainer)
+        } catch (e: Exception){
+            e.printStackTrace()
+        }
+    }
 }

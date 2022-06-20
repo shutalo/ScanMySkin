@@ -12,6 +12,7 @@ import androidx.navigation.ui.NavigationUI
 import com.example.scanmyskin.R
 import com.example.scanmyskin.ScanMySkin
 import com.example.scanmyskin.databinding.ActivityHomeBinding
+import com.example.scanmyskin.ui.adapters.DiseaseRecyclerViewAdapter
 import com.example.scanmyskin.ui.viewmodels.HomeViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import pub.devrel.easypermissions.AppSettingsDialog
@@ -33,8 +34,11 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>(), EasyPer
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.supportActionBar?.hide()
-        viewModel.retrieveDiseases()
         askForPermissions()
+        viewModel.retrieveDiseases()
+        viewModel.diseasesRetrieved.observe(this){
+            dismissProgressDialog()
+        }
         NavigationUI.setupWithNavController(binding.bottomNavigationView,findNavController(R.id.fragmentContainer))
     }
 
@@ -63,6 +67,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>(), EasyPer
             Log.d(TAG, "permissions denied!")
             AppSettingsDialog.Builder(this).build().show()
             Toast.makeText(this,ScanMySkin.context.getString(R.string.permission_denied), Toast.LENGTH_SHORT).show()
+            finish()
         }
     }
 

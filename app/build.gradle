@@ -58,7 +58,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.6.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'com.google.firebase:firebase-ml-vision:24.1.0'
+    implementation 'com.google.mlkit:common:18.3.0'
 
     //testing
     testImplementation 'junit:junit:4.13.2'
@@ -131,6 +131,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore:24.1.2'
     //firebase storage
     implementation 'com.google.firebase:firebase-storage:20.0.1'
+    //firebase ml
+    implementation 'com.google.firebase:firebase-ml-vision:24.1.0'
+    implementation 'com.google.mlkit:image-labeling-custom:17.0.1'
     //crashing duplicate class
     implementation 'com.google.android.gms:play-services-vision:20.1.3'
 

@@ -17,7 +17,6 @@ class InfoFragment : BaseFragment<FragmentInfoBinding>(), DiseaseRecyclerViewAda
 
     override fun setupUi(){
         viewModel.diseasesRetrieved.observe(this){
-            dismissProgressDialog()
             diseaseRecyclerViewAdapter = DiseaseRecyclerViewAdapter(it,this)
             binding.diseasesRecyclerView.adapter = diseaseRecyclerViewAdapter
         }
