@@ -1,10 +1,8 @@
 package com.example.scanmyskin.ui.viewmodels
 
-import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.hardware.camera2.CameraAccessException
 import android.hardware.camera2.CameraCharacteristics
@@ -19,7 +17,6 @@ import android.view.Surface
 import android.widget.ImageButton
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat.startActivityForResult
-import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -28,20 +25,17 @@ import com.example.scanmyskin.R
 import com.example.scanmyskin.ScanMySkin
 import com.example.scanmyskin.data.models.Disease
 import com.example.scanmyskin.data.repository.FirebaseRepo
-import com.example.scanmyskin.helpers.ImageClassifier
 import com.example.scanmyskin.helpers.SingleLiveEvent
-import com.example.scanmyskin.helpers.makeToast
-import com.example.scanmyskin.ui.activities.HomeActivity
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import pub.devrel.easypermissions.EasyPermissions
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
-class HomeViewModel(private val repo: FirebaseRepo, private val imageClassifier: ImageClassifier) : BaseViewModel() {
+class HomeViewModel(private val repo: FirebaseRepo) : BaseViewModel() {
 
     private val TAG = "HomeViewModel"
 
@@ -175,27 +169,23 @@ class HomeViewModel(private val repo: FirebaseRepo, private val imageClassifier:
 
     fun processImage(image: Bitmap){
         viewModelScope.launch {
-            imageClassifier.processImage(image, 0)
+            repo.processImage(image, 0)
         }
     }
 
     fun processImage(image: Uri){
         viewModelScope.launch {
-            imageClassifier.processImage(image)
+            repo.processImage(image).collect {
+                if(it.isNotEmpty()){
+                    for (label in it) {
+                        Log.d(TAG, label.text)
+                        Log.d(TAG, label.confidence.toString())
+                        Log.d(TAG, label.index.toString())
+                    }
+                }
+            }
         }
     }
-
-//    fun processImageFromBitmap(image: Bitmap){
-//        viewModelScope.launch {
-//            repo.processImageFromBitmap(image)
-//        }
-//    }
-//
-//    fun processImageFromUri(image: Uri){
-//        viewModelScope.launch {
-//            repo.processImageFromUri(image)
-//        }
-//    }
 
     fun signOut(){
         viewModelScope.launch {

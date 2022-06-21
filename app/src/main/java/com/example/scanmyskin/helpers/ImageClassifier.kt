@@ -2,9 +2,14 @@ package com.example.scanmyskin.helpers
 
 import android.graphics.Bitmap
 import android.net.Uri
+import android.util.Log
 import com.example.scanmyskin.ScanMySkin.Companion.context
 import com.google.mlkit.vision.common.InputImage
+import com.google.mlkit.vision.label.ImageLabel
 import com.google.mlkit.vision.label.ImageLabeler
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.tasks.await
 import java.nio.ByteBuffer
 
 class ImageClassifier(private val labeler: ImageLabeler) {
@@ -29,34 +34,34 @@ class ImageClassifier(private val labeler: ImageLabeler) {
         return InputImage.fromBitmap(bitmap, rotationDegrees)
     }
 
-    fun processImage(image: Uri){
-        labelImage(getInputImageFromUri(image))
+    suspend fun processImage(image: Uri): Flow<List<ImageLabel>> = flow{
+        emit(labelImage(getInputImageFromUri(image)))
     }
 
-    fun processImage(image: Bitmap, rotationDegrees: Int){
-        labelImage(getInputImageFromBitmap(image, rotationDegrees))
+    suspend fun processImage(image: Bitmap, rotationDegrees: Int): Flow<List<ImageLabel>> = flow{
+        emit(labelImage(getInputImageFromBitmap(image, rotationDegrees)))
     }
 
-    fun processImage(image: ByteBuffer, rotationDegrees: Int = 0){
-        labelImage(getInputImageFromByteArray(image, rotationDegrees))
+    suspend fun processImage(image: ByteBuffer, rotationDegrees: Int = 0): Flow<List<ImageLabel>> = flow{
+        emit(labelImage(getInputImageFromByteArray(image, rotationDegrees)))
     }
 
-    private fun labelImage(image: InputImage){
+    private suspend fun labelImage(image: InputImage): List<ImageLabel> {
+        var results: List<ImageLabel> = ArrayList()
         labeler.process(image)
-            .addOnSuccessListener { labels ->
-                // Task completed successfully
-                // ...
-                for (label in labels) {
-                    val text = label.text
-                    val confidence = label.confidence
-                    val index = label.index
-                }
-                makeToast("Labeling successful.")
-            }
             .addOnFailureListener { e ->
-                // Task failed with an exception
-                // ...
+                e.printStackTrace()
                 makeToast("Labeling failed.")
             }
+            .addOnSuccessListener { labels ->
+                makeToast("Labeling successful.")
+                for (label in labels) {
+                    Log.d(TAG, label.text)
+                    Log.d(TAG, label.confidence.toString())
+                    Log.d(TAG, label.index.toString())
+                }
+                results = labels
+            }.await()
+        return results
     }
 }

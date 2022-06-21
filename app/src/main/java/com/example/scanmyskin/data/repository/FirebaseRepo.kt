@@ -1,37 +1,46 @@
 package com.example.scanmyskin.data.repository
 
-import android.app.Activity
 import android.content.Context
-import android.content.Context.CAMERA_SERVICE
 import android.content.res.Resources
 import android.graphics.Bitmap
-import android.hardware.camera2.CameraAccessException
-import android.hardware.camera2.CameraCharacteristics
-import android.hardware.camera2.CameraManager
 import android.net.Uri
-import android.os.Build
 import android.util.Log
-import android.util.SparseIntArray
-import androidx.annotation.RequiresApi
 import com.example.scanmyskin.R
 import com.example.scanmyskin.ScanMySkin
 import com.example.scanmyskin.data.models.Disease
+import com.example.scanmyskin.helpers.ImageClassifier
 import com.example.scanmyskin.helpers.isPasswordValid
 import com.example.scanmyskin.helpers.makeToast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ml.vision.FirebaseVision
-import com.google.firebase.ml.vision.cloud.FirebaseVisionCloudDetectorOptions
-import com.google.firebase.ml.vision.common.FirebaseVisionImage
-import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata
+import kotlinx.coroutines.flow.Flow
 import com.google.firebase.storage.FirebaseStorage
+import com.google.mlkit.common.model.CustomRemoteModel
+import com.google.mlkit.common.model.RemoteModelManager
+import com.google.mlkit.vision.label.ImageLabel
+import com.google.mlkit.vision.label.ImageLabeling
+import com.google.mlkit.vision.label.custom.CustomImageLabelerOptions
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
-import java.io.IOException
 
 
-class FirebaseRepo(private val applicationContext: Context, private val auth: FirebaseAuth, private val database: FirebaseFirestore, private val storage: FirebaseStorage, private val options: FirebaseVisionCloudDetectorOptions) {
+class FirebaseRepo(private val applicationContext: Context, private val auth: FirebaseAuth, private val database: FirebaseFirestore, private val storage: FirebaseStorage, private val remoteModel: CustomRemoteModel) {
     private val TAG = "FirebaseRepo"
+
+    private lateinit var imageClassifier: ImageClassifier
+
+    init {
+        RemoteModelManager.getInstance().isModelDownloaded(remoteModel)
+            .addOnSuccessListener {
+                if(it){
+                    Log.d(TAG, "model available")
+                    val options = CustomImageLabelerOptions.Builder(remoteModel).setConfidenceThreshold(0.0f).build()
+                    imageClassifier = ImageClassifier(ImageLabeling.getClient(options))
+                }
+            }
+    }
 
     suspend fun register(email: String, password: String): Boolean{
         var isRegistrationSuccessful = false
@@ -114,25 +123,15 @@ class FirebaseRepo(private val applicationContext: Context, private val auth: Fi
         return diseases
     }
 
-//    suspend fun processImageFromBitmap(image: Bitmap){
-//        val image = FirebaseVisionImage.fromBitmap(image)
-//    }
-//
-//    suspend fun processImageFromUri(uri: Uri){
-//        val image: FirebaseVisionImage
-//        try {
-//            image = FirebaseVisionImage.fromFilePath(applicationContext, uri)
-//            processImage(image)
-//        } catch (e: IOException) {
-//            e.printStackTrace()
-//        }
-//    }
-//
-//    private suspend fun processImage(image: FirebaseVisionImage){
-//        val detector = FirebaseVision.getInstance().cloudImageLabeler
-//        val result = detector.processImage(image).await()
-//        result.forEach {
-//            Log.d(TAG,it.toString())
-//        }
-//    }
+    suspend fun processImage(image: Bitmap, rotationDegrees: Int): Flow<List<ImageLabel>> = flow {
+        imageClassifier.processImage(image, rotationDegrees).collect {
+            emit(it)
+        }
+    }
+
+    suspend fun processImage(image: Uri): Flow<List<ImageLabel>> = flow {
+        imageClassifier.processImage(image).collect {
+            emit(it)
+        }
+    }
 }

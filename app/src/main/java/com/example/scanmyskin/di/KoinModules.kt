@@ -9,7 +9,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ml.vision.cloud.FirebaseVisionCloudDetectorOptions
 import com.google.firebase.storage.FirebaseStorage
+import com.google.mlkit.common.model.CustomRemoteModel
 import com.google.mlkit.common.model.LocalModel
+import com.google.mlkit.common.model.RemoteModel
+import com.google.mlkit.linkfirebase.FirebaseModelSource
 import com.google.mlkit.vision.label.ImageLabeling
 import com.google.mlkit.vision.label.custom.CustomImageLabelerOptions
 import okhttp3.OkHttpClient
@@ -21,7 +24,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 val viewModelModules = module{
     viewModel<AuthViewModel> { AuthViewModel(get()) }
-    viewModel<HomeViewModel> { HomeViewModel(get(), get()) }
+    viewModel<HomeViewModel> { HomeViewModel(get()) }
 }
 
 val repositoryModule = module {
@@ -46,15 +49,19 @@ val networkModule = module {
 }
 
 val appModules = module {
-    val localModel = LocalModel.Builder()
-        .setAssetManifestFilePath("manifest.json")
-//        .setAssetFilePath("model")
-        // or .setAbsoluteManifestFilePath(absolute file path to manifest file)
-        .build() // Evaluate your model in the Cloud console
-    val customImageLabelerOptions = CustomImageLabelerOptions.Builder(localModel)
-        .setConfidenceThreshold(0.0f).build()
+//    val localModel = LocalModel.Builder()
+//        .setAssetManifestFilePath("manifest.json")
+//        .setAbsoluteFilePath("model.tflite")
+//        // or .setAbsoluteManifestFilePath(absolute file path to manifest file)
+//        .build() // Evaluate your model in the Cloud console
+//    val customImageLabelerOptions = CustomImageLabelerOptions.Builder(localModel)
+//        .setConfidenceThreshold(0.0f).build()
+//
+//    val labeler = ImageLabeling.getClient(customImageLabelerOptions)
 
-    val labeler = ImageLabeling.getClient(customImageLabelerOptions)
+    val firebaseModelSource = FirebaseModelSource.Builder("skin")
+        .build()
+    factory { CustomRemoteModel.Builder(firebaseModelSource).build() }
 
-    factory { ImageClassifier(labeler) }
+//    factory { ImageClassifier(labeler) }
 }
