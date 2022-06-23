@@ -123,15 +123,16 @@ class FirebaseRepo(private val applicationContext: Context, private val auth: Fi
         return diseases
     }
 
-    suspend fun processImage(image: Bitmap, rotationDegrees: Int): Flow<List<ImageLabel>> = flow {
-        imageClassifier.processImage(image, rotationDegrees).collect {
+    suspend fun processImage(image: Uri): Flow<List<ImageLabel>> = flow {
+        imageClassifier.processImage(image).collect {
             emit(it)
         }
     }
 
-    suspend fun processImage(image: Uri): Flow<List<ImageLabel>> = flow {
-        imageClassifier.processImage(image).collect {
-            emit(it)
+    fun uploadImage(imageUri: Uri, filename: String){
+        auth.currentUser?.let {
+            val storageReference = storage.reference.child("images/${it.uid}}/$filename")
+            storageReference.putFile(imageUri)
         }
     }
 }

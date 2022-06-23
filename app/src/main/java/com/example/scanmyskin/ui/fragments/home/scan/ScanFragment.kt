@@ -1,11 +1,9 @@
 package com.example.scanmyskin.ui.fragments.home.scan
 
+import android.R.attr.path
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
 import android.net.Uri
-import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
@@ -15,13 +13,8 @@ import com.example.scanmyskin.databinding.FragmentScanBinding
 import com.example.scanmyskin.helpers.veryShortDelay
 import com.example.scanmyskin.ui.fragments.base.BaseFragment
 import com.example.scanmyskin.ui.viewmodels.HomeViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.io.File
-import java.io.FileOutputStream
 
 
 class ScanFragment : BaseFragment<FragmentScanBinding>() {
@@ -44,39 +37,32 @@ class ScanFragment : BaseFragment<FragmentScanBinding>() {
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentScanBinding
         get() = FragmentScanBinding::inflate
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
         if(resultCode != Activity.RESULT_CANCELED){
-            if(requestCode == HomeViewModel.REQUEST_TAKE_PHOTO && resultCode == Activity.RESULT_OK){
-                CoroutineScope(Dispatchers.IO).launch {
-                    try{
-                        withContext(Dispatchers.Main) {
-                            viewModel.imageUri = Uri.fromFile(viewModel.imagePath?.let { File(it) })
-                            updateImage(Uri.fromFile(viewModel.imagePath?.let { File(it) }))
+            if(resultCode == Activity.RESULT_OK){
+                if(requestCode == HomeViewModel.REQUEST_TAKE_PHOTO){
+                    viewModel.imageUri = Uri.fromFile(File(viewModel.imagePath)).also {
+                        updateImage(it)
+                    }
+                } else if(requestCode == HomeViewModel.REQUEST_SELECT_IMAGE_IN_ALBUM){
+                    viewModel.imageUri = data?.data.also {
+                        viewModel.imageName = with(it.toString()){
+                            this.substring(this.lastIndexOf("/") + 1)
                         }
-                        viewModel.imageUri?.let { viewModel.processImage(it) }
-                    } catch (e: Exception){
-                        Log.d(TAG,e.message.toString())
+                        updateImage(it)
                     }
                 }
-
-            } else if(requestCode == HomeViewModel.REQUEST_SELECT_IMAGE_IN_ALBUM && resultCode == Activity.RESULT_OK){
-                val imageUri = data?.data
-                imageUri?.let {
-                    viewModel.imageUri = it
-                    updateImage(it)
-                    viewModel.processImage(it)
-                }
+                viewModel.uploadImage()
+                viewModel.processImage()
             }
         }
     }
 
-    private fun updateImage(uri: Uri){
-        try {
+    private fun updateImage(uri: Uri?){
+        uri?.let {
             Glide.with(binding.root)
-                .load(uri)
+                .load(it)
                 .into(binding.imageContainer)
-        } catch (e: Exception){
-            e.printStackTrace()
         }
     }
 }

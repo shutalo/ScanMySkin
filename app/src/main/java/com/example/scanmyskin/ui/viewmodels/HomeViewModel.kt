@@ -45,7 +45,8 @@ class HomeViewModel(private val repo: FirebaseRepo) : BaseViewModel() {
     private var _diseasesRetrieved: MutableLiveData<List<Disease>> = MutableLiveData()
     var diseasesRetrieved: LiveData<List<Disease>> = _diseasesRetrieved
     var imageUri: Uri? = null
-    var imagePath: String? = null
+    lateinit var imagePath: String
+    lateinit var imageName: String
 
     companion object {
         val REQUEST_TAKE_PHOTO = 0
@@ -90,6 +91,7 @@ class HomeViewModel(private val repo: FirebaseRepo) : BaseViewModel() {
         ).apply {
             // Save a file: path for use with ACTION_VIEW intents
             imagePath = absolutePath
+            imageName = this.name
         }
     }
 
@@ -167,23 +169,25 @@ class HomeViewModel(private val repo: FirebaseRepo) : BaseViewModel() {
         return result
     }
 
-    fun processImage(image: Bitmap){
+    fun processImage(){
         viewModelScope.launch {
-            repo.processImage(image, 0)
-        }
-    }
-
-    fun processImage(image: Uri){
-        viewModelScope.launch {
-            repo.processImage(image).collect {
-                if(it.isNotEmpty()){
-                    for (label in it) {
-                        Log.d(TAG, label.text)
-                        Log.d(TAG, label.confidence.toString())
-                        Log.d(TAG, label.index.toString())
+            imageUri?.let {
+                repo.processImage(it).collect { labels ->
+                    if(labels.isNotEmpty()){
+                        for (label in labels) {
+                            Log.d(TAG, label.text)
+                            Log.d(TAG, label.confidence.toString())
+                            Log.d(TAG, label.index.toString())
+                        }
                     }
                 }
             }
+        }
+    }
+
+    fun uploadImage(){
+        viewModelScope.launch {
+            imageUri?.let { repo.uploadImage(it, imageName) }
         }
     }
 
