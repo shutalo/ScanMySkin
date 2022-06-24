@@ -28,6 +28,7 @@ import com.example.scanmyskin.data.repository.FirebaseRepo
 import com.example.scanmyskin.helpers.SingleLiveEvent
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata
+import com.google.mlkit.vision.label.ImageLabel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.io.File
@@ -44,6 +45,8 @@ class HomeViewModel(private val repo: FirebaseRepo) : BaseViewModel() {
     var isUserSignedOut: LiveData<Boolean> = _isUserSignedOut
     private var _diseasesRetrieved: MutableLiveData<List<Disease>> = MutableLiveData()
     var diseasesRetrieved: LiveData<List<Disease>> = _diseasesRetrieved
+    private var _imageLabeled: MutableLiveData<ImageLabel> = MutableLiveData()
+    var imageLabeled: LiveData<ImageLabel> = _imageLabeled
     var imageUri: Uri? = null
     lateinit var imagePath: String
     lateinit var imageName: String
@@ -171,14 +174,18 @@ class HomeViewModel(private val repo: FirebaseRepo) : BaseViewModel() {
 
     fun processImage(){
         viewModelScope.launch {
-            imageUri?.let {
-                repo.processImage(it).collect { labels ->
+            imageUri?.let { uri ->
+                repo.processImage(uri).collect { labels ->
                     if(labels.isNotEmpty()){
                         for (label in labels) {
                             Log.d(TAG, label.text)
                             Log.d(TAG, label.confidence.toString())
-                            Log.d(TAG, label.index.toString())
                         }
+                        _imageLabeled.postValue(labels.maxByOrNull { it.confidence }.also {
+                            it?.let {
+                                repo.saveResult(imageName, it)
+                            }
+                        })
                     }
                 }
             }

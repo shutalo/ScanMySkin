@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.example.scanmyskin.databinding.FragmentStartingBinding
+import com.example.scanmyskin.helpers.ImageClassifier
 import com.example.scanmyskin.helpers.shortDelay
 import com.example.scanmyskin.helpers.veryShortDelay
 import com.example.scanmyskin.ui.fragments.base.BaseFragment
@@ -80,10 +81,23 @@ class StartingFragment : BaseFragment<FragmentStartingBinding>() {
         val downloadConditions = DownloadConditions.Builder()
             .requireWifi()
             .build()
-        RemoteModelManager.getInstance().download(remoteModel, downloadConditions)
+        RemoteModelManager.getInstance().isModelDownloaded(remoteModel)
             .addOnSuccessListener {
-                Log.d(TAG,"model retrieved")
-                updateUI()
+                if(it){
+                    Log.d(TAG, "model available")
+                    updateUI()
+                } else {
+                    RemoteModelManager.getInstance().download(remoteModel, downloadConditions)
+                        .addOnSuccessListener {
+                            Log.d(TAG,"model retrieved")
+                            updateUI()
+                        }
+                        .addOnFailureListener{ ex ->
+                            Log.d(TAG,"model retrieve failed.")
+                            Log.d(TAG,ex.toString())
+                        }
+                }
             }
+
     }
 }

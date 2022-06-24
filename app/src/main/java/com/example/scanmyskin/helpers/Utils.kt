@@ -26,6 +26,10 @@ fun makeToast(message: String, lengthLong: Boolean = false){
     }
 }
 
+fun formatStringDisease(string: String): String{
+    return string.replace("_"," ")
+}
+
 fun String.isPasswordValid(): Boolean{
     if(this.length < 8){
         return false

@@ -36,7 +36,7 @@ class FirebaseRepo(private val applicationContext: Context, private val auth: Fi
             .addOnSuccessListener {
                 if(it){
                     Log.d(TAG, "model available")
-                    val options = CustomImageLabelerOptions.Builder(remoteModel).setConfidenceThreshold(0.0f).build()
+                    val options = CustomImageLabelerOptions.Builder(remoteModel).setConfidenceThreshold(0.0f).setMaxResultCount(20).build()
                     imageClassifier = ImageClassifier(ImageLabeling.getClient(options))
                 }
             }
@@ -46,6 +46,7 @@ class FirebaseRepo(private val applicationContext: Context, private val auth: Fi
         var isRegistrationSuccessful = false
         try {
             auth.createUserWithEmailAndPassword(email,password).await()
+            setupDatabase()
             Log.d(TAG,ScanMySkin.context.getString(R.string.user_added_to_database))
             isRegistrationSuccessful = true
             makeToast(ScanMySkin.context.getString(R.string.registered_successfully))
@@ -54,6 +55,16 @@ class FirebaseRepo(private val applicationContext: Context, private val auth: Fi
             makeToast(e.message.toString())
         }
         return isRegistrationSuccessful
+    }
+
+    private fun setupDatabase(){
+        try {
+            database.collection("results").document(getCurrentUser().uid).update("results",HashMap<String, Float>()).addOnCompleteListener {
+                Log.d(TAG,"results updated")
+            }
+        } catch (e: Exception){
+            e.printStackTrace()
+        }
     }
 
     suspend fun signIn(email: String, password: String): Boolean{
@@ -133,6 +144,21 @@ class FirebaseRepo(private val applicationContext: Context, private val auth: Fi
         auth.currentUser?.let {
             val storageReference = storage.reference.child("images/${it.uid}}/$filename")
             storageReference.putFile(imageUri)
+        }
+    }
+
+    suspend fun saveResult(imageName: String, label: ImageLabel){
+        val snapshot = database.collection("results").document(getCurrentUser().uid).get().await()
+        try {
+            val newResults = (snapshot.data?.get("results") as HashMap<String,HashMap<String,Float>>)
+            val result: HashMap<String, Float> = HashMap()
+            result[label.text] = label.confidence
+            newResults[imageName] = result
+            database.collection("results").document(getCurrentUser().uid).update("results",newResults).addOnCompleteListener {
+                Log.d(TAG,"results updated")
+            }
+        } catch (e: Exception){
+            e.printStackTrace()
         }
     }
 }

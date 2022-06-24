@@ -9,7 +9,9 @@ import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
+import com.example.scanmyskin.R
 import com.example.scanmyskin.databinding.FragmentScanBinding
+import com.example.scanmyskin.helpers.formatStringDisease
 import com.example.scanmyskin.helpers.veryShortDelay
 import com.example.scanmyskin.ui.fragments.base.BaseFragment
 import com.example.scanmyskin.ui.viewmodels.HomeViewModel
@@ -26,6 +28,11 @@ class ScanFragment : BaseFragment<FragmentScanBinding>() {
     override fun setupUi(){
         viewModel.imageUri?.let {
             updateImage(it)
+        }
+        viewModel.imageLabeled.observe(this){
+            it?.let {
+                binding.result.text = getString(R.string.there_is_chance, (it.confidence * 100).toString().subSequence(0,4), formatStringDisease(it.text))
+            }
         }
         binding.scan.setOnClickListener{
             YoYo.with(Techniques.Pulse).duration(veryShortDelay).onEnd{
