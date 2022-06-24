@@ -73,4 +73,13 @@
             android:name="url"
             app:argType="string" />
     </fragment>
+
+    <action
+        android:id="@+id/action_back_to_init"
+        app:destination="@id/loginActivity"
+        app:popUpToInclusive="true" />
+    <activity
+        android:id="@+id/loginActivity"
+        android:name="com.example.scanmyskin.ui.activities.LoginActivity"
+        android:label="LoginActivity"/>
 </navigation>

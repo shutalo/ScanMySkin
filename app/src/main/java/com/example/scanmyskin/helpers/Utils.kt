@@ -1,8 +1,11 @@
 package com.example.scanmyskin.helpers
 
 import android.R.attr
+import android.content.Context
 import android.os.Handler
 import android.text.TextUtils
+import android.view.View
+import android.widget.PopupMenu
 import android.widget.Toast
 import com.example.scanmyskin.R
 import com.example.scanmyskin.ScanMySkin
@@ -61,4 +64,12 @@ fun validateRegistrationInput(email: String, password: String, confirmedPassword
         makeToast(ScanMySkin.context.getString(R.string.email_error))
     }
     return false
+}
+
+fun initPopupMenu(anchor: View, context: Context, listener: PopupMenu.OnMenuItemClickListener) {
+    val popup = PopupMenu(context, anchor)
+    val inflater = popup.menuInflater
+    inflater.inflate(R.menu.menu, popup.menu)
+    popup.setOnMenuItemClickListener(listener)
+    popup.show()
 }

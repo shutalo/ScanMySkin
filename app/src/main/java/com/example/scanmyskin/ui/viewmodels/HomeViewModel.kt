@@ -43,6 +43,8 @@ class HomeViewModel(private val repo: FirebaseRepo) : BaseViewModel() {
     private val ORIENTATIONS = SparseIntArray()
     private var _isUserSignedOut: SingleLiveEvent<Boolean> = SingleLiveEvent()
     var isUserSignedOut: LiveData<Boolean> = _isUserSignedOut
+    private var _accountDeleted: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    var accountDeleted: LiveData<Boolean> = _accountDeleted
     private var _diseasesRetrieved: MutableLiveData<List<Disease>> = MutableLiveData()
     var diseasesRetrieved: LiveData<List<Disease>> = _diseasesRetrieved
     private var _imageLabeled: MutableLiveData<ImageLabel> = MutableLiveData()
@@ -202,6 +204,15 @@ class HomeViewModel(private val repo: FirebaseRepo) : BaseViewModel() {
         viewModelScope.launch {
             repo.signOut()
             _isUserSignedOut.postValue(true)
+        }
+    }
+
+    fun deleteAccount(){
+        viewModelScope.launch {
+            repo.deleteAccount().collect {
+                shouldShowProgressDialog(true)
+                _accountDeleted.postValue(it)
+            }
         }
     }
 

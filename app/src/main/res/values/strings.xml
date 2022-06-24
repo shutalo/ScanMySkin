@@ -18,6 +18,8 @@
     <string name="make_sure_remember">Make sure you remember this time!</string>
     <string name="confirm">Confirm</string>
     <string name="log_in">Log in</string>
+    <string name="sign_out">Sign out</string>
+    <string name="delete_account">Delete account</string>
     <string name="register">Register</string>
     <string name="cant_remember">Can\'t remember?</string>
     <string name="no_worries">No worries let’s get you a new one!</string>

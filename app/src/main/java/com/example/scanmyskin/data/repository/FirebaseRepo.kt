@@ -82,7 +82,7 @@ class FirebaseRepo(private val auth: FirebaseAuth, private val database: Firebas
         return signingSuccessful
     }
 
-    suspend fun signOut(){
+    fun signOut(){
         auth.signOut()
     }
 
@@ -122,10 +122,17 @@ class FirebaseRepo(private val auth: FirebaseAuth, private val database: Firebas
         return currentUser != null
     }
 
-    suspend fun deleteAccount(): Boolean{
-        getCurrentUser().delete().await()
-        makeToast(Resources.getSystem().getString(R.string.account_deleted))
-        return true
+    suspend fun deleteAccount(): Flow<Boolean> = flow{
+        try{
+            storage.reference.child("images/${getCurrentUser().uid}").delete().await()
+            database.collection("results").document(getCurrentUser().uid).delete().await()
+            getCurrentUser().delete().await()
+            makeToast(Resources.getSystem().getString(R.string.account_deleted))
+            emit(true)
+        } catch (e: Exception){
+            e.printStackTrace()
+            emit(false)
+        }
     }
 
     suspend fun retrieveDiseases(): List<Disease>? {

@@ -22,18 +22,12 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
             viewModel.shouldShowProgressDialog(false)
             if(it){
                 activity?.finish()
-                val extras = ActivityNavigator.Extras.Builder()
-                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-                    .build()
-                findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToHomeActivity(), extras)
+                findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToHomeActivity())
             }
         }
         binding.login.setOnClickListener{
             YoYo.with(Techniques.Pulse).duration(veryShortDelay).onEnd{
-//            viewModel.signIn(binding.email.text.toString(), binding.password.text.toString())
-                viewModel.signIn("test@test.com", "Test1234!")
+            viewModel.signIn(binding.email.text.toString(), binding.password.text.toString())
             }.playOn(it)
         }
         binding.forgotPasswordTv.setOnClickListener{

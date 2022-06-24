@@ -6,13 +6,13 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Toast
+import androidx.navigation.ActivityNavigator
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.example.scanmyskin.R
 import com.example.scanmyskin.ScanMySkin
 import com.example.scanmyskin.databinding.ActivityHomeBinding
-import com.example.scanmyskin.ui.adapters.DiseaseRecyclerViewAdapter
 import com.example.scanmyskin.ui.viewmodels.HomeViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import pub.devrel.easypermissions.AppSettingsDialog
@@ -38,6 +38,13 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>(), EasyPer
         viewModel.retrieveDiseases()
         viewModel.diseasesRetrieved.observe(this){
             dismissProgressDialog()
+        }
+        viewModel.accountDeleted.observe(this){
+
+        }
+        viewModel.isUserSignedOut.observe(this){
+            finish()
+            findNavController(R.id.fragmentContainer).navigate(R.id.action_back_to_init)
         }
         NavigationUI.setupWithNavController(binding.bottomNavigationView,findNavController(R.id.fragmentContainer))
     }

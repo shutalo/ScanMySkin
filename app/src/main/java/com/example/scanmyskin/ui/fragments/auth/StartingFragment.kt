@@ -42,18 +42,12 @@ class StartingFragment : BaseFragment<FragmentStartingBinding>() {
 
     private fun updateUI(){
         viewModel.isUserSignedIn.observe(this) {
-            Timer().schedule(500) {
+            Timer().schedule(250) {
                 activity?.runOnUiThread {
                     if (it) {
                         activity?.finish()
-                        val extras = ActivityNavigator.Extras.Builder()
-                            .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                            .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-                            .build()
                         findNavController().navigate(
-                            StartingFragmentDirections.actionStartingFragmentToHomeActivity(),
-                            extras
+                            StartingFragmentDirections.actionStartingFragmentToHomeActivity()
                         )
                     } else {
                         with(binding) {

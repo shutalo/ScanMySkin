@@ -22,12 +22,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
             viewModel.shouldShowProgressDialog(false)
             if (it) {
                 activity?.finish()
-                val extras = ActivityNavigator.Extras.Builder()
-                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-                    .build()
-                findNavController().navigate(RegisterFragmentDirections.actionRegistrationFragmentToHomeActivity(), extras)
+                findNavController().navigate(RegisterFragmentDirections.actionRegistrationFragmentToHomeActivity())
             }
         }
         binding.register.setOnClickListener{
