@@ -27,18 +27,20 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 
 
-class FirebaseRepo(private val applicationContext: Context, private val auth: FirebaseAuth, private val database: FirebaseFirestore, private val storage: FirebaseStorage, private val remoteModel: CustomRemoteModel) {
+class FirebaseRepo(private val auth: FirebaseAuth, private val database: FirebaseFirestore, private val storage: FirebaseStorage, private val remoteModel: CustomRemoteModel) {
     private val TAG = "FirebaseRepo"
 
-    private lateinit var imageClassifier: ImageClassifier
+    private var imageClassifier: ImageClassifier? = null
 
-    init {
+    fun setupImageClassifier(){
         RemoteModelManager.getInstance().isModelDownloaded(remoteModel)
             .addOnSuccessListener {
                 if(it){
                     Log.d(TAG, "model available")
                     val options = CustomImageLabelerOptions.Builder(remoteModel).setConfidenceThreshold(0.0f).setMaxResultCount(20).build()
                     imageClassifier = ImageClassifier(ImageLabeling.getClient(options))
+                } else {
+                    Log.d(TAG, "model unavailable")
                 }
             }
     }
@@ -136,7 +138,7 @@ class FirebaseRepo(private val applicationContext: Context, private val auth: Fi
     }
 
     suspend fun processImage(image: Uri): Flow<List<ImageLabel>> = flow {
-        imageClassifier.processImage(image).collect {
+        imageClassifier?.processImage(image)?.collect {
             emit(it)
         }
     }

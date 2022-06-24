@@ -64,4 +64,8 @@ class AuthViewModel(private val repo: FirebaseRepo) : BaseViewModel() {
             _isUserSignedIn.postValue(repo.checkIfUserIsSignedIn())
         }
     }
+
+    fun setupImageClassifier(){
+        repo.setupImageClassifier()
+    }
 }

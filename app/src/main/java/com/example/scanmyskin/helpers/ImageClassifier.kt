@@ -20,30 +20,8 @@ class ImageClassifier(private val labeler: ImageLabeler) {
         return InputImage.fromFilePath(context, uri)
     }
 
-    private fun getInputImageFromByteArray(byteBuffer: ByteBuffer, rotationDegrees: Int): InputImage{
-        return InputImage.fromByteBuffer(
-            byteBuffer,
-            /* image width */ 480,
-            /* image height */ 360,
-            rotationDegrees,
-            InputImage.IMAGE_FORMAT_NV21 // or IMAGE_FORMAT_YV12
-        )
-    }
-
-    private fun getInputImageFromBitmap(bitmap: Bitmap, rotationDegrees: Int): InputImage{
-        return InputImage.fromBitmap(bitmap, rotationDegrees)
-    }
-
     suspend fun processImage(image: Uri): Flow<List<ImageLabel>> = flow{
         emit(labelImage(getInputImageFromUri(image)))
-    }
-
-    suspend fun processImage(image: Bitmap, rotationDegrees: Int): Flow<List<ImageLabel>> = flow{
-        emit(labelImage(getInputImageFromBitmap(image, rotationDegrees)))
-    }
-
-    suspend fun processImage(image: ByteBuffer, rotationDegrees: Int = 0): Flow<List<ImageLabel>> = flow{
-        emit(labelImage(getInputImageFromByteArray(image, rotationDegrees)))
     }
 
     private suspend fun labelImage(image: InputImage): List<ImageLabel> {

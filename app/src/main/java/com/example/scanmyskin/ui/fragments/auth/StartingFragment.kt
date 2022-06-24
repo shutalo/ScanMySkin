@@ -81,23 +81,17 @@ class StartingFragment : BaseFragment<FragmentStartingBinding>() {
         val downloadConditions = DownloadConditions.Builder()
             .requireWifi()
             .build()
-        RemoteModelManager.getInstance().isModelDownloaded(remoteModel)
+        RemoteModelManager.getInstance().download(remoteModel, downloadConditions)
             .addOnSuccessListener {
-                if(it){
-                    Log.d(TAG, "model available")
-                    updateUI()
-                } else {
-                    RemoteModelManager.getInstance().download(remoteModel, downloadConditions)
-                        .addOnSuccessListener {
-                            Log.d(TAG,"model retrieved")
-                            updateUI()
-                        }
-                        .addOnFailureListener{ ex ->
-                            Log.d(TAG,"model retrieve failed.")
-                            Log.d(TAG,ex.toString())
-                        }
-                }
+                Log.d(TAG,"model retrieved")
             }
-
+            .addOnFailureListener{ ex ->
+                Log.d(TAG,ex.toString())
+            }
+            .addOnCompleteListener {
+                Log.d(TAG,"setting up image classifier")
+                viewModel.setupImageClassifier()
+                updateUI()
+            }
     }
 }

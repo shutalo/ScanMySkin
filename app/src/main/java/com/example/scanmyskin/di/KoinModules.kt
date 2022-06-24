@@ -28,7 +28,7 @@ val viewModelModules = module{
 }
 
 val repositoryModule = module {
-    single { FirebaseRepo(androidApplication(),get(),get(),get(),get()) }
+    single { FirebaseRepo(get(),get(),get(),get()) }
 }
 
 val firebaseModule = module {
