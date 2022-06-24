@@ -60,6 +60,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/email"
+            android:text="test@test.com"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textColor="@color/black"
@@ -87,6 +88,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/password"
+            android:text="Lukenda1234!"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fontFamily="@font/poppins"
@@ -115,6 +117,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/repeatPassword"
+            android:text="Lukenda1234!"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fontFamily="@font/poppins"

@@ -14,6 +14,7 @@ import com.example.scanmyskin.helpers.makeToast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import kotlinx.coroutines.flow.Flow
 import com.google.firebase.storage.FirebaseStorage
 import com.google.mlkit.common.model.CustomRemoteModel
@@ -59,9 +60,9 @@ class FirebaseRepo(private val applicationContext: Context, private val auth: Fi
 
     private fun setupDatabase(){
         try {
-            database.collection("results").document(getCurrentUser().uid).update("results",HashMap<String, Float>()).addOnCompleteListener {
-                Log.d(TAG,"results updated")
-            }
+            val newResults = HashMap<String,HashMap<String,Float>>()
+            newResults["results"] = hashMapOf()
+            database.collection("results").document(getCurrentUser().uid).set(newResults)
         } catch (e: Exception){
             e.printStackTrace()
         }
