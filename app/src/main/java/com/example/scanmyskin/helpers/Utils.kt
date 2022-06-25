@@ -20,12 +20,21 @@ import java.util.regex.Pattern
 
 
 fun camelCaseString(string: String): String {
-    return string.substring(0,1).uppercase(Locale.getDefault()) + string.substring(1).uppercase(Locale.getDefault())
+    return string.substring(0,1).uppercase(Locale.getDefault()) + string.substring(1).lowercase(Locale.getDefault())
 }
 
 fun makeToast(message: String, lengthLong: Boolean = false){
     CoroutineScope(Dispatchers.Main).launch {
         Toast.makeText(ScanMySkin.context, message, if(lengthLong) Toast.LENGTH_LONG else Toast.LENGTH_SHORT).show()
+    }
+}
+
+fun formatChance(chance: Float): String{
+    val percentage = chance * 100
+    return if(percentage.toString().length >= 5){
+        percentage.toString().subSequence(0,5).toString()
+    } else {
+        percentage.toString()
     }
 }
 

@@ -35,7 +35,6 @@ val firebaseModule = module {
     single { FirebaseAuth.getInstance() }
     single { FirebaseFirestore.getInstance() }
     single { FirebaseStorage.getInstance("gs://scanmyskin.appspot.com") }
-    single { FirebaseVisionCloudDetectorOptions.Builder().setMaxResults(3).build()  }
 }
 
 val networkModule = module {

@@ -42,7 +42,7 @@ class StartingFragment : BaseFragment<FragmentStartingBinding>() {
 
     private fun updateUI(){
         viewModel.isUserSignedIn.observe(this) {
-            Timer().schedule(250) {
+            Timer().schedule(shortDelay) {
                 activity?.runOnUiThread {
                     if (it) {
                         activity?.finish()

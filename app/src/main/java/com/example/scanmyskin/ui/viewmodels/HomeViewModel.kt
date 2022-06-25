@@ -24,6 +24,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.scanmyskin.R
 import com.example.scanmyskin.ScanMySkin
 import com.example.scanmyskin.data.models.Disease
+import com.example.scanmyskin.data.models.HistoryItem
 import com.example.scanmyskin.data.repository.FirebaseRepo
 import com.example.scanmyskin.helpers.SingleLiveEvent
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -49,9 +50,12 @@ class HomeViewModel(private val repo: FirebaseRepo) : BaseViewModel() {
     var diseasesRetrieved: LiveData<List<Disease>> = _diseasesRetrieved
     private var _imageLabeled: MutableLiveData<ImageLabel> = MutableLiveData()
     var imageLabeled: LiveData<ImageLabel> = _imageLabeled
+    private var _historyRetrieved: MutableLiveData<List<HistoryItem>> = MutableLiveData()
+    var historyRetrieved: LiveData<List<HistoryItem>> = _historyRetrieved
     var imageUri: Uri? = null
     lateinit var imagePath: String
     lateinit var imageName: String
+    var shouldRetrieveHistory: Boolean = true
 
     companion object {
         val REQUEST_TAKE_PHOTO = 0
@@ -183,20 +187,15 @@ class HomeViewModel(private val repo: FirebaseRepo) : BaseViewModel() {
                             Log.d(TAG, label.text)
                             Log.d(TAG, label.confidence.toString())
                         }
-                        _imageLabeled.postValue(labels.maxByOrNull { it.confidence }.also {
-                            it?.let {
-                                repo.saveResult(imageName, it)
+                        labels.maxByOrNull { it.confidence }.apply {
+                            this?.let {
+                                _imageLabeled.postValue(it)
+                                repo.saveResult(imageName, uri, it)
                             }
-                        })
+                        }
                     }
                 }
             }
-        }
-    }
-
-    fun uploadImage(){
-        viewModelScope.launch {
-            imageUri?.let { repo.uploadImage(it, imageName) }
         }
     }
 
@@ -220,6 +219,15 @@ class HomeViewModel(private val repo: FirebaseRepo) : BaseViewModel() {
         viewModelScope.launch {
             shouldShowProgressDialog(true)
             _diseasesRetrieved.postValue(repo.retrieveDiseases())
+        }
+    }
+
+    fun retrieveHistory(){
+        viewModelScope.launch {
+            shouldShowProgressDialog(true)
+            repo.retrieveHistory().collect {
+                _historyRetrieved.postValue(it)
+            }
         }
     }
 }

@@ -42,4 +42,6 @@
     <string name="permission_granted_already">permission granted already!</string>
     <string name="find_more_info">You can find more info here</string>
     <string name="there_is_chance">There is %1$s%% chance for you to have %2$s.</string>
+    <string name="model_determination">Model could not determine any disease.</string>
+    <string name="consult_doctor">We recommend consulting your doctor.</string>
 </resources>

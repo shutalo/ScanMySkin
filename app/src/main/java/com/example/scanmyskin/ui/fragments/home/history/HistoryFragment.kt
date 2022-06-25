@@ -7,16 +7,28 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.scanmyskin.R
 import com.example.scanmyskin.databinding.FragmentHistoryBinding
+import com.example.scanmyskin.ui.adapters.DiseaseRecyclerViewAdapter
+import com.example.scanmyskin.ui.adapters.HistoryRecyclerViewAdapter
 import com.example.scanmyskin.ui.fragments.base.BaseFragment
 import com.example.scanmyskin.ui.fragments.home.info.InfoFragment
+import com.example.scanmyskin.ui.viewmodels.HomeViewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class HistoryFragment : BaseFragment<FragmentHistoryBinding>(){
 
+    private lateinit var historyRecyclerViewAdapter: HistoryRecyclerViewAdapter
+    private val viewModel by sharedViewModel<HomeViewModel>()
+
     override fun setupUi(){
-    //        binding.navigate.setOnClickListener{
-    //            YoYo.with(Techniques.Bounce).playOn(it)
-    //            findNavController().navigate(HomeFragment)
-    //        }
+        if(viewModel.shouldRetrieveHistory){
+            viewModel.retrieveHistory()
+            viewModel.shouldRetrieveHistory = false
+        }
+        viewModel.historyRetrieved.observe(this){
+            dismissProgressDialog()
+            historyRecyclerViewAdapter = HistoryRecyclerViewAdapter(it)
+            binding.historyRecyclerView.adapter = historyRecyclerViewAdapter
+        }
     }
 
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentHistoryBinding

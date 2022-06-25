@@ -11,6 +11,7 @@ import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.example.scanmyskin.R
 import com.example.scanmyskin.databinding.FragmentScanBinding
+import com.example.scanmyskin.helpers.formatChance
 import com.example.scanmyskin.helpers.formatStringDisease
 import com.example.scanmyskin.helpers.veryShortDelay
 import com.example.scanmyskin.ui.fragments.base.BaseFragment
@@ -31,7 +32,11 @@ class ScanFragment : BaseFragment<FragmentScanBinding>() {
         }
         viewModel.imageLabeled.observe(this){
             it?.let {
-                binding.result.text = getString(R.string.there_is_chance, (it.confidence * 100).toString().subSequence(0,4), formatStringDisease(it.text))
+                if(it.confidence < 0.5){
+                    binding.result.text = getString(R.string.model_determination).plus(" ").plus(getString(R.string.consult_doctor))
+                } else {
+                    binding.result.text = getString(R.string.there_is_chance, formatChance(it.confidence), formatStringDisease(it.text))
+                }
             }
         }
         binding.scan.setOnClickListener{
@@ -59,8 +64,8 @@ class ScanFragment : BaseFragment<FragmentScanBinding>() {
                         updateImage(it)
                     }
                 }
-                viewModel.uploadImage()
                 viewModel.processImage()
+                viewModel.shouldRetrieveHistory = true
             }
         }
     }

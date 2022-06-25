@@ -1,27 +1,25 @@
 package com.example.scanmyskin.data.repository
 
-import android.content.Context
 import android.content.res.Resources
-import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
 import com.example.scanmyskin.R
 import com.example.scanmyskin.ScanMySkin
 import com.example.scanmyskin.data.models.Disease
+import com.example.scanmyskin.data.models.HistoryItem
 import com.example.scanmyskin.helpers.ImageClassifier
 import com.example.scanmyskin.helpers.isPasswordValid
 import com.example.scanmyskin.helpers.makeToast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.SetOptions
-import kotlinx.coroutines.flow.Flow
 import com.google.firebase.storage.FirebaseStorage
 import com.google.mlkit.common.model.CustomRemoteModel
 import com.google.mlkit.common.model.RemoteModelManager
 import com.google.mlkit.vision.label.ImageLabel
 import com.google.mlkit.vision.label.ImageLabeling
 import com.google.mlkit.vision.label.custom.CustomImageLabelerOptions
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
@@ -150,25 +148,61 @@ class FirebaseRepo(private val auth: FirebaseAuth, private val database: Firebas
         }
     }
 
-    fun uploadImage(imageUri: Uri, filename: String){
+    private suspend fun uploadImage(imageUri: Uri, filename: String): Flow<Uri> = flow{
         auth.currentUser?.let {
             val storageReference = storage.reference.child("images/${it.uid}}/$filename")
-            storageReference.putFile(imageUri)
+            val url = storageReference.putFile(imageUri).await().storage.downloadUrl.await()
+            emit(url)
         }
     }
 
-    suspend fun saveResult(imageName: String, label: ImageLabel){
-        val snapshot = database.collection("results").document(getCurrentUser().uid).get().await()
-        try {
-            val newResults = (snapshot.data?.get("results") as HashMap<String,HashMap<String,Float>>)
-            val result: HashMap<String, Float> = HashMap()
-            result[label.text] = label.confidence
-            newResults[imageName] = result
-            database.collection("results").document(getCurrentUser().uid).update("results",newResults).addOnCompleteListener {
-                Log.d(TAG,"results updated")
+    suspend fun saveResult(imageName: String, uri: Uri, label: ImageLabel){
+        uploadImage(uri,imageName).collect {
+            val snapshot = database.collection("results").document(getCurrentUser().uid).get().await()
+            try {
+                val newResults = (snapshot.data?.get("results") as HashMap<String,HashMap<String,String>>)
+                val result: HashMap<String, String> = HashMap()
+                result[label.text] = label.confidence.toString()
+                result["url"] = it.toString()
+                newResults[imageName] = result
+                database.collection("results").document(getCurrentUser().uid).update("results",newResults).addOnCompleteListener {
+                    Log.d(TAG,"results updated")
+                }
+            } catch (e: Exception){
+                e.printStackTrace()
             }
-        } catch (e: Exception){
-            e.printStackTrace()
         }
+
+    }
+
+    suspend fun retrieveHistory(): Flow<List<HistoryItem>> = flow{
+        val snapshot = database.collection("results").document(getCurrentUser().uid).get().await()
+        val results = (snapshot.data?.get("results") as HashMap<String,HashMap<String,String>>)
+        val items = ArrayList<HistoryItem>()
+        val imageKeys = ArrayList<String>()
+        results.forEach{
+            imageKeys.add(it.key)
+        }
+        imageKeys.forEach {
+            results[it].apply {
+                val diseaseKey = this?.keys.run{
+                    lateinit var diseaseKey: String
+                        this!!.forEach { key ->
+                            if(key != "url"){
+                                diseaseKey = key
+                            }
+                        }
+                    diseaseKey
+                }
+                val chance = this?.get(diseaseKey)
+                val url = this?.get("url")
+                items.add(HistoryItem(chance!!, diseaseKey, url!!))
+            }
+        }
+        emit(items)
+        Log.d(TAG,"history retrieved")
+        Log.d(TAG,results.toString())
+        Log.d(TAG,"history retrieved")
+        Log.d(TAG,items.toString())
     }
 }
