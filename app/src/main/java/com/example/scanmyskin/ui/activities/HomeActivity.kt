@@ -5,7 +5,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuItem
+import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.navigation.ActivityNavigator
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -13,13 +16,14 @@ import androidx.navigation.ui.NavigationUI
 import com.example.scanmyskin.R
 import com.example.scanmyskin.ScanMySkin
 import com.example.scanmyskin.databinding.ActivityHomeBinding
+import com.example.scanmyskin.helpers.initPopupMenu
 import com.example.scanmyskin.ui.viewmodels.HomeViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 
 
-class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>(), EasyPermissions.PermissionCallbacks{
+class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>(), EasyPermissions.PermissionCallbacks, PopupMenu.OnMenuItemClickListener{
 
     override val bindingInflater: (LayoutInflater) -> ActivityHomeBinding
         get() = ActivityHomeBinding::inflate
@@ -27,7 +31,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>(), EasyPer
     override val viewModel: HomeViewModel by viewModel()
 
     companion object {
-        private const val TAG = "MainActivity"
+        private const val TAG = "HomeActivity"
         private const val REQUEST_CODE_PERMISSIONS = 1
     }
 
@@ -35,12 +39,17 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>(), EasyPer
         super.onCreate(savedInstanceState)
         this.supportActionBar?.hide()
         askForPermissions()
+        binding.menu.setOnClickListener{
+            initPopupMenu(it, this, this)
+        }
         viewModel.retrieveDiseases()
         viewModel.diseasesRetrieved.observe(this){
             dismissProgressDialog()
         }
         viewModel.accountDeleted.observe(this){
-
+            dismissProgressDialog()
+            finish()
+            findNavController(R.id.fragmentContainer).navigate(R.id.action_back_to_init)
         }
         viewModel.isUserSignedOut.observe(this){
             finish()
@@ -85,5 +94,15 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>(), EasyPer
             navHostFragment.childFragmentManager.fragments[0].onActivityResult(requestCode, resultCode, data)
             super.onActivityResult(requestCode, resultCode, data)
         }
+    }
+
+    override fun onMenuItemClick(item: MenuItem?): Boolean {
+        when(item?.itemId) {
+            R.id.delete_account ->
+                viewModel.deleteAccount()
+            R.id.sign_out ->
+                viewModel.signOut()
+        }
+        return true
     }
 }

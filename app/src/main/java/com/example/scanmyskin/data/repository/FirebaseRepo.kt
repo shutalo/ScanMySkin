@@ -11,6 +11,7 @@ import com.example.scanmyskin.helpers.ImageClassifier
 import com.example.scanmyskin.helpers.isPasswordValid
 import com.example.scanmyskin.helpers.makeToast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthRecentLoginRequiredException
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -122,11 +123,19 @@ class FirebaseRepo(private val auth: FirebaseAuth, private val database: Firebas
 
     suspend fun deleteAccount(): Flow<Boolean> = flow{
         try{
-            storage.reference.child("images/${getCurrentUser().uid}").delete().await()
+            val snapshot = database.collection("results").document(getCurrentUser().uid).get().await()
+            val results = (snapshot.data?.get("results") as HashMap<String,HashMap<String,String>>)
+            results.forEach{
+                storage.getReferenceFromUrl(it.value["url"]!!).delete().await()
+            }
             database.collection("results").document(getCurrentUser().uid).delete().await()
             getCurrentUser().delete().await()
             makeToast(Resources.getSystem().getString(R.string.account_deleted))
             emit(true)
+        } catch (e: FirebaseAuthRecentLoginRequiredException){
+            signOut()
+            e.message?.substringAfterLast("authentication. ")?.let { makeToast(it) }
+            emit(false)
         } catch (e: Exception){
             e.printStackTrace()
             emit(false)
@@ -200,9 +209,5 @@ class FirebaseRepo(private val auth: FirebaseAuth, private val database: Firebas
             }
         }
         emit(items)
-        Log.d(TAG,"history retrieved")
-        Log.d(TAG,results.toString())
-        Log.d(TAG,"history retrieved")
-        Log.d(TAG,items.toString())
     }
 }

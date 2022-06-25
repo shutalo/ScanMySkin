@@ -208,8 +208,8 @@ class HomeViewModel(private val repo: FirebaseRepo) : BaseViewModel() {
 
     fun deleteAccount(){
         viewModelScope.launch {
+            shouldShowProgressDialog(true)
             repo.deleteAccount().collect {
-                shouldShowProgressDialog(true)
                 _accountDeleted.postValue(it)
             }
         }
