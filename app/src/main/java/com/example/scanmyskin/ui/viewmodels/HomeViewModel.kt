@@ -28,6 +28,7 @@ import com.example.scanmyskin.data.models.HistoryItem
 import com.example.scanmyskin.data.repository.FirebaseRepo
 import com.example.scanmyskin.helpers.SingleLiveEvent
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.imageview.ShapeableImageView
 import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata
 import com.google.mlkit.vision.label.ImageLabel
 import kotlinx.coroutines.flow.collect
@@ -73,10 +74,10 @@ class HomeViewModel(private val repo: FirebaseRepo) : BaseViewModel() {
         viewModelScope.launch {
             val bottomSheetDialog: BottomSheetDialog = BottomSheetDialog(activity)
             bottomSheetDialog.setContentView(R.layout.dialog_take_photo)
-            val takePhotoButton : ImageButton = bottomSheetDialog.findViewById(R.id.takePhoto)!!
-            val chooseFromGallery : ImageButton = bottomSheetDialog.findViewById(R.id.gallery)!!
+            val takePhoto : ShapeableImageView = bottomSheetDialog.findViewById(R.id.takePhoto)!!
+            val chooseFromGallery : ShapeableImageView = bottomSheetDialog.findViewById(R.id.gallery)!!
 
-            takePhotoButton.setOnClickListener {
+            takePhoto.setOnClickListener {
                 bottomSheetDialog.dismiss()
                 dispatchTakePictureIntent(activity)
             }
