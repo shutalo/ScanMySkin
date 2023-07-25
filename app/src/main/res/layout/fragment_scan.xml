@@ -1,43 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     tools:context=".ui.fragments.home.scan.ScanFragment">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imageContainer"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_medium"
-        android:src="@drawable/camera_placeholder"
         android:layout_marginBottom="@dimen/margin_medium"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"/>
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/result"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageContainer"
+        android:src="@drawable/image_placeholder"
         app:layout_constraintBottom_toTopOf="@id/scan"
-        android:gravity="center"
-        style="@style/diseaseTitle"
-        tools:text="@string/there_is_chance"
-        android:padding="@dimen/padding_small"
-        android:layout_margin="@dimen/margin_very_small"
-        android:layout_width="0dp"
-        android:layout_height="100dp"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.button.MaterialButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/scan"
+        style="@style/blue_button"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:layout_marginBottom="@dimen/margin_large"
+        android:background="@drawable/blue_button"
+        android:text="@string/scan"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:text="@string/scan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        app:layout_constraintRight_toRightOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

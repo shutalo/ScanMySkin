@@ -3,7 +3,6 @@ package com.example.scanmyskin.ui.viewmodels
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.hardware.camera2.CameraAccessException
 import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CameraManager
@@ -14,7 +13,6 @@ import android.provider.MediaStore
 import android.util.Log
 import android.util.SparseIntArray
 import android.view.Surface
-import android.widget.ImageButton
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.FileProvider
@@ -25,12 +23,14 @@ import com.example.scanmyskin.R
 import com.example.scanmyskin.ScanMySkin
 import com.example.scanmyskin.data.models.Disease
 import com.example.scanmyskin.data.models.HistoryItem
-import com.example.scanmyskin.data.repository.FirebaseRepo
+import com.example.scanmyskin.data.repository.FirebaseRepositoryImpl
+import com.example.scanmyskin.helpers.Event
+import com.example.scanmyskin.helpers.HomeEvent
 import com.example.scanmyskin.helpers.SingleLiveEvent
+import com.example.scanmyskin.helpers.makeToast
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata
-import com.google.mlkit.vision.label.ImageLabel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.io.File
@@ -38,9 +38,12 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
-class HomeViewModel(private val repo: FirebaseRepo) : BaseViewModel() {
+class HomeViewModel(private val repo: FirebaseRepositoryImpl) : BaseViewModel() {
 
     private val TAG = "HomeViewModel"
+
+    private var _events: MutableLiveData<Event<HomeEvent>> = MutableLiveData()
+    var events: LiveData<Event<HomeEvent>> = _events
 
     private val ORIENTATIONS = SparseIntArray()
     private var _isUserSignedOut: SingleLiveEvent<Boolean> = SingleLiveEvent()
@@ -49,8 +52,6 @@ class HomeViewModel(private val repo: FirebaseRepo) : BaseViewModel() {
     var accountDeleted: LiveData<Boolean> = _accountDeleted
     private var _diseasesRetrieved: MutableLiveData<List<Disease>> = MutableLiveData()
     var diseasesRetrieved: LiveData<List<Disease>> = _diseasesRetrieved
-    private var _imageLabeled: MutableLiveData<ImageLabel> = MutableLiveData()
-    var imageLabeled: LiveData<ImageLabel> = _imageLabeled
     private var _historyRetrieved: MutableLiveData<List<HistoryItem>> = MutableLiveData()
     var historyRetrieved: LiveData<List<HistoryItem>> = _historyRetrieved
     var imageUri: Uri? = null
@@ -74,8 +75,9 @@ class HomeViewModel(private val repo: FirebaseRepo) : BaseViewModel() {
         viewModelScope.launch {
             val bottomSheetDialog: BottomSheetDialog = BottomSheetDialog(activity)
             bottomSheetDialog.setContentView(R.layout.dialog_take_photo)
-            val takePhoto : ShapeableImageView = bottomSheetDialog.findViewById(R.id.takePhoto)!!
-            val chooseFromGallery : ShapeableImageView = bottomSheetDialog.findViewById(R.id.gallery)!!
+            val takePhoto: ShapeableImageView = bottomSheetDialog.findViewById(R.id.takePhoto)!!
+            val chooseFromGallery: ShapeableImageView =
+                bottomSheetDialog.findViewById(R.id.gallery)!!
 
             takePhoto.setOnClickListener {
                 bottomSheetDialog.dismiss()
@@ -93,7 +95,8 @@ class HomeViewModel(private val repo: FirebaseRepo) : BaseViewModel() {
     private fun createImageFile(): File {
         // Create an image file name
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val storageDir: File? = ScanMySkin.context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val storageDir: File? =
+            ScanMySkin.context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File.createTempFile(
             "JPEG_${timeStamp}_", /* prefix */
             ".jpg", /* suffix */
@@ -142,13 +145,18 @@ class HomeViewModel(private val repo: FirebaseRepo) : BaseViewModel() {
             )
         }
     }
+
     /**
      * Get the angle by which an image must be rotated given the device's current
      * orientation.
      */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Throws(CameraAccessException::class)
-    private fun getRotationCompensation(cameraId: String, activity: Activity, context: Context): Int {
+    private fun getRotationCompensation(
+        cameraId: String,
+        activity: Activity,
+        context: Context
+    ): Int {
         // Get the device's current rotation relative to its "native" orientation.
         // Then, from the ORIENTATIONS table, look up the angle the image must be
         // rotated to compensate for the device's rotation.
@@ -179,20 +187,29 @@ class HomeViewModel(private val repo: FirebaseRepo) : BaseViewModel() {
         return result
     }
 
-    fun processImage(){
+    fun processImage() {
         viewModelScope.launch {
             imageUri?.let { uri ->
                 repo.processImage(uri).collect { labels ->
-                    if(labels.isNotEmpty()){
+                    if (labels.isNotEmpty()) {
                         for (label in labels) {
                             Log.d(TAG, label.text)
                             Log.d(TAG, label.confidence.toString())
                         }
-                        labels.maxByOrNull { it.confidence }.apply {
-                            this?.let {
-                                _imageLabeled.postValue(it)
+                        labels.maxByOrNull { it.confidence }?.apply {
+                            let {
+                                _events.postValue(
+                                    Event(
+                                        HomeEvent.ShowResult(
+                                            getResultDisease(it.text),
+                                            it.confidence
+                                        )
+                                    )
+                                )
                                 repo.saveResult(imageName, uri, it)
                             }
+                        } ?: kotlin.run {
+                            makeToast("max couldnt be found.")
                         }
                     }
                 }
@@ -200,14 +217,14 @@ class HomeViewModel(private val repo: FirebaseRepo) : BaseViewModel() {
         }
     }
 
-    fun signOut(){
+    fun signOut() {
         viewModelScope.launch {
             repo.signOut()
             _isUserSignedOut.postValue(true)
         }
     }
 
-    fun deleteAccount(){
+    fun deleteAccount() {
         viewModelScope.launch {
             shouldShowProgressDialog(true)
             repo.deleteAccount().collect {
@@ -216,19 +233,23 @@ class HomeViewModel(private val repo: FirebaseRepo) : BaseViewModel() {
         }
     }
 
-    fun retrieveDiseases(){
+    fun retrieveDiseases() {
         viewModelScope.launch {
             shouldShowProgressDialog(true)
             _diseasesRetrieved.postValue(repo.retrieveDiseases())
         }
     }
 
-    fun retrieveHistory(){
+    fun retrieveHistory() {
         viewModelScope.launch {
             shouldShowProgressDialog(true)
             repo.retrieveHistory().collect {
                 _historyRetrieved.postValue(it)
             }
         }
+    }
+
+    fun getResultDisease(title: String): Disease? {
+        return diseasesRetrieved.value?.find { it.title.equals(title.replace("_", " "), ignoreCase = true) }
     }
 }

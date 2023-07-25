@@ -1,34 +1,27 @@
 package com.example.scanmyskin.di
 
 import com.example.scanmyskin.BuildConfig
-import com.example.scanmyskin.data.repository.FirebaseRepo
-import com.example.scanmyskin.helpers.ImageClassifier
+import com.example.scanmyskin.data.repository.FirebaseRepositoryImpl
 import com.example.scanmyskin.ui.viewmodels.AuthViewModel
 import com.example.scanmyskin.ui.viewmodels.HomeViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ml.vision.cloud.FirebaseVisionCloudDetectorOptions
 import com.google.firebase.storage.FirebaseStorage
 import com.google.mlkit.common.model.CustomRemoteModel
-import com.google.mlkit.common.model.LocalModel
-import com.google.mlkit.common.model.RemoteModel
 import com.google.mlkit.linkfirebase.FirebaseModelSource
-import com.google.mlkit.vision.label.ImageLabeling
-import com.google.mlkit.vision.label.custom.CustomImageLabelerOptions
 import okhttp3.OkHttpClient
-import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-val viewModelModules = module{
+val viewModelModules = module {
     viewModel<AuthViewModel> { AuthViewModel(get()) }
     viewModel<HomeViewModel> { HomeViewModel(get()) }
 }
 
 val repositoryModule = module {
-    single { FirebaseRepo(get(),get(),get(),get()) }
+    single { FirebaseRepositoryImpl(get(), get(), get(), get()) }
 }
 
 val firebaseModule = module {

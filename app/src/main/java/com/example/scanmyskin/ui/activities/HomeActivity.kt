@@ -8,8 +8,6 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.widget.PopupMenu
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import androidx.navigation.ActivityNavigator
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
@@ -23,7 +21,8 @@ import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 
 
-class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>(), EasyPermissions.PermissionCallbacks, PopupMenu.OnMenuItemClickListener{
+class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>(),
+    EasyPermissions.PermissionCallbacks, PopupMenu.OnMenuItemClickListener {
 
     override val bindingInflater: (LayoutInflater) -> ActivityHomeBinding
         get() = ActivityHomeBinding::inflate
@@ -39,67 +38,111 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>(), EasyPer
         super.onCreate(savedInstanceState)
         this.supportActionBar?.hide()
         askForPermissions()
-        binding.menu.setOnClickListener{
+        binding.menu.setOnClickListener {
             initPopupMenu(it, this, this)
         }
         viewModel.retrieveDiseases()
-        viewModel.diseasesRetrieved.observe(this){
+        viewModel.diseasesRetrieved.observe(this) {
             dismissProgressDialog()
         }
-        viewModel.accountDeleted.observe(this){
+        viewModel.accountDeleted.observe(this) {
             dismissProgressDialog()
             finish()
             findNavController(R.id.fragmentContainer).navigate(R.id.action_back_to_init)
         }
-        viewModel.isUserSignedOut.observe(this){
+        viewModel.isUserSignedOut.observe(this) {
             finish()
             findNavController(R.id.fragmentContainer).navigate(R.id.action_back_to_init)
         }
-        NavigationUI.setupWithNavController(binding.bottomNavigationView,findNavController(R.id.fragmentContainer))
+        binding.centerMenuItem.setOnClickListener {
+            val middleMenuItem = binding.bottomNavigationView.menu.findItem(R.id.scanFragment)
+            binding.bottomNavigationView.selectedItemId = middleMenuItem.itemId
+        }
+        NavigationUI.setupWithNavController(
+            binding.bottomNavigationView,
+            findNavController(R.id.fragmentContainer)
+        )
     }
 
-    private fun askForPermissions(){
-        if(EasyPermissions.hasPermissions(this, android.Manifest.permission.CAMERA,android.Manifest.permission.INTERNET,android.Manifest.permission.READ_EXTERNAL_STORAGE,android.Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+    private fun askForPermissions() {
+        if (EasyPermissions.hasPermissions(
+                this,
+                android.Manifest.permission.CAMERA,
+                android.Manifest.permission.INTERNET,
+                android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )
+        ) {
             Log.d(TAG, "permissions already granted!")
-            Toast.makeText(this,ScanMySkin.context.getString(R.string.permission_granted_already), Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this,
+                ScanMySkin.context.getString(R.string.permission_granted_already),
+                Toast.LENGTH_SHORT
+            ).show()
         } else {
-            EasyPermissions.requestPermissions(this, ScanMySkin.context.getString(R.string.permission_explanation), REQUEST_CODE_PERMISSIONS, android.Manifest.permission.CAMERA,android.Manifest.permission.INTERNET,android.Manifest.permission.READ_EXTERNAL_STORAGE,android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            EasyPermissions.requestPermissions(
+                this,
+                ScanMySkin.context.getString(R.string.permission_explanation),
+                REQUEST_CODE_PERMISSIONS,
+                android.Manifest.permission.CAMERA,
+                android.Manifest.permission.INTERNET,
+                android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
-        EasyPermissions.onRequestPermissionsResult(requestCode,permissions,grantResults)
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
     override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
         Log.d(TAG, "permissions granted!")
-        Toast.makeText(this,ScanMySkin.context.getString(R.string.permission_granted), Toast.LENGTH_SHORT).show()
+        Toast.makeText(
+            this,
+            ScanMySkin.context.getString(R.string.permission_granted),
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
-        if(EasyPermissions.somePermissionPermanentlyDenied(this,perms)){
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
             Log.d(TAG, "permissions denied!")
             AppSettingsDialog.Builder(this).build().show()
-            Toast.makeText(this,ScanMySkin.context.getString(R.string.permission_denied), Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this,
+                ScanMySkin.context.getString(R.string.permission_denied),
+                Toast.LENGTH_SHORT
+            ).show()
             finish()
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode != Activity.RESULT_CANCELED) {
-            val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer) as NavHostFragment
-            navHostFragment.childFragmentManager.fragments[0].onActivityResult(requestCode, resultCode, data)
+        if (resultCode != Activity.RESULT_CANCELED) {
+            val navHostFragment =
+                supportFragmentManager.findFragmentById(R.id.fragmentContainer) as NavHostFragment
+            navHostFragment.childFragmentManager.fragments[0].onActivityResult(
+                requestCode,
+                resultCode,
+                data
+            )
             super.onActivityResult(requestCode, resultCode, data)
         }
     }
 
     override fun onMenuItemClick(item: MenuItem?): Boolean {
-        when(item?.itemId) {
+        when (item?.itemId) {
             R.id.delete_account ->
                 viewModel.deleteAccount()
+
             R.id.sign_out ->
                 viewModel.signOut()
         }

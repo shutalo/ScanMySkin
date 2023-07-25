@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">ScanMySkin</string>
     <string name="scan">Scan</string>
+    <string name="more_info">More information</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="welcome_back">Welcome back</string>
     <string name="log_in_to_your_account">Log in to your account</string>
@@ -9,7 +10,7 @@
     <string name="repeat_password">Repeat password</string>
     <string name="password">Password</string>
     <string name="password_must_not_be_empty">Password entry must not be empty!</string>
-    <string name="password_wrong_format">Password must be at least 8 characters long, containing at least 1 upper case and special character</string>
+    <string name="password_wrong_format">Password is not strong enough!</string>
     <string name="password_must_match">Password must match!</string>
     <string name="password_changed">Password changed successfully!</string>
     <string name="email_for_password_reset">We have sent you an email.</string>
@@ -40,10 +41,12 @@
     <string name="permission_granted">permissions granted!</string>
     <string name="permission_explanation">We need permissions for scanning images</string>
     <string name="permission_granted_already">permission granted already!</string>
-    <string name="find_more_info">You can find more info here</string>
-    <string name="there_is_chance">There is %1$s%% chance for you to have %2$s.</string>
-    <string name="model_determination">Model could not determine any disease.</string>
-    <string name="consult_doctor">We recommend consulting your doctor.</string>
+    <string name="find_more_info">You can find more info below</string>
+    <string name="there_is_chance"><![CDATA[There is <b>%1$s%%</b> chance for you to have %2$s.]]></string>
+    <string name="model_determination">Model could not determine any disease. Please try again with different picture.</string>
+    <string name="unknown_disease">Unidentified disease</string>
+    <string name="consult_doctor">Based on the analysis, no specific disease was identified. While this application can be helpful, it\'s not a substitute for professional medical advice. We advise you to seek consultation with a dermatologist to receive a comprehensive evaluation of your skin condition and appropriate recommendations for your health.</string>
     <string name="take_a_photo">Take a photo</string>
     <string name="gallery">Gallery</string>
+    <string name="advice">Please note that this advice should not replace the guidance of a qualified healthcare professional. It is essential to consult a doctor or dermatologist for a proper diagnosis and individualized treatment plan.</string>
 </resources>

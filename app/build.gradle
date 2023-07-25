@@ -7,12 +7,12 @@ plugins {
 apply plugin: "androidx.navigation.safeargs.kotlin"
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.example.scanmyskin"
-        minSdk 21
-        targetSdk 32
+        minSdk 24
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -60,6 +60,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.mlkit:common:18.3.0'
     implementation 'com.google.mlkit:linkfirebase:17.0.0'
+    implementation 'com.google.mlkit:image-labeling-common:18.0.0'
 
     //testing
     testImplementation 'junit:junit:4.13.2'

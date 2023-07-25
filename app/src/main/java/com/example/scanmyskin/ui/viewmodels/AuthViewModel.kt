@@ -5,14 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.scanmyskin.R
 import com.example.scanmyskin.ScanMySkin
-import com.example.scanmyskin.data.repository.FirebaseRepo
+import com.example.scanmyskin.data.repository.FirebaseRepositoryImpl
 import com.example.scanmyskin.helpers.SingleLiveEvent
 import com.example.scanmyskin.helpers.isEmailValid
 import com.example.scanmyskin.helpers.makeToast
 import com.example.scanmyskin.helpers.validateRegistrationInput
 import kotlinx.coroutines.launch
 
-class AuthViewModel(private val repo: FirebaseRepo) : BaseViewModel() {
+class AuthViewModel(private val repo: FirebaseRepositoryImpl) : BaseViewModel() {
 
     private val TAG = "AuthViewModel"
     private var _isUserRegisteredSuccessfully: MutableLiveData<Boolean> = MutableLiveData(false)
@@ -26,25 +26,25 @@ class AuthViewModel(private val repo: FirebaseRepo) : BaseViewModel() {
     private var _isUserSignedIn: SingleLiveEvent<Boolean> = SingleLiveEvent()
     var isUserSignedIn: LiveData<Boolean> = _isUserSignedIn
 
-    fun register(email: String, password: String, confirmedPassword: String){
+    fun register(email: String, password: String, confirmedPassword: String) {
         viewModelScope.launch {
-            if(validateRegistrationInput(email,password,confirmedPassword)){
+            if (validateRegistrationInput(email, password, confirmedPassword)) {
                 shouldShowProgressDialog(true)
-                _isUserRegisteredSuccessfully.postValue(repo.register(email,password))
+                _isUserRegisteredSuccessfully.postValue(repo.register(email, password))
             }
         }
     }
 
-    fun signIn(email: String, password: String){
+    fun signIn(email: String, password: String) {
         viewModelScope.launch {
             shouldShowProgressDialog(true)
-            _isSigningInSuccessful.postValue(repo.signIn(email,password))
+            _isSigningInSuccessful.postValue(repo.signIn(email, password))
         }
     }
 
-    fun requestPasswordChange(email: String){
+    fun requestPasswordChange(email: String) {
         viewModelScope.launch {
-            if(email.isEmailValid()){
+            if (email.isEmailValid()) {
                 _isPasswordChangeRequested.postValue(repo.changePassword(email))
             } else {
                 makeToast(ScanMySkin.context.getString(R.string.email_error))
@@ -52,20 +52,20 @@ class AuthViewModel(private val repo: FirebaseRepo) : BaseViewModel() {
         }
     }
 
-    fun changePassword(oldPassword: String, newPassword: String){
+    fun changePassword(oldPassword: String, newPassword: String) {
         viewModelScope.launch {
             shouldShowProgressDialog(true)
-            _isPasswordChangedSuccessfully.postValue(repo.updatePassword(oldPassword,newPassword))
+            _isPasswordChangedSuccessfully.postValue(repo.updatePassword(oldPassword, newPassword))
         }
     }
 
-    fun checkIfUserIsSignedIn(){
+    fun checkIfUserIsSignedIn() {
         viewModelScope.launch {
             _isUserSignedIn.postValue(repo.checkIfUserIsSignedIn())
         }
     }
 
-    fun setupImageClassifier(){
+    fun setupImageClassifier() {
         repo.setupImageClassifier()
     }
 }

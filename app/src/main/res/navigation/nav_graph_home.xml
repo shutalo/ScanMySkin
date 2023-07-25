@@ -3,83 +3,104 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_home"
-    app:startDestination="@id/infoFragment">
-
+    app:startDestination="@id/scanFragment">
 
     <fragment
         android:id="@+id/infoFragment"
         android:name="com.example.scanmyskin.ui.fragments.home.info.InfoFragment"
-        android:label="InfoFragment" >
-        <action
-            android:id="@+id/action_infoFragment_to_historyFragment"
-            app:destination="@id/historyFragment" />
-        <action
-            android:id="@+id/action_infoFragment_to_scanFragment"
-            app:destination="@id/scanFragment" />
+        android:label="InfoFragment">
         <action
             android:id="@+id/action_infoFragment_to_diseaseInfoFragment"
             app:destination="@id/diseaseInfoFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:enterAnim="@anim/slide_in_from_bot_to_top"
+            app:popExitAnim="@anim/slide_in_from_top_to_bot" />
+        <argument
+            android:name="diseaseTitle"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/historyFragment"
         android:name="com.example.scanmyskin.ui.fragments.home.history.HistoryFragment"
         android:label="fragment_history"
-        tools:layout="@layout/fragment_history" >
+        tools:layout="@layout/fragment_history">
         <action
-            android:id="@+id/action_historyFragment_to_infoFragment"
-            app:destination="@id/infoFragment" />
-        <action
-            android:id="@+id/action_historyFragment_to_scanFragment"
-            app:destination="@id/scanFragment" />
+            android:id="@+id/action_historyFragment_to_resultFragment"
+            app:destination="@id/resultFragment"
+            app:enterAnim="@anim/slide_in_from_bot_to_top"
+            app:popExitAnim="@anim/slide_in_from_top_to_bot" />
     </fragment>
     <fragment
         android:id="@+id/scanFragment"
         android:name="com.example.scanmyskin.ui.fragments.home.scan.ScanFragment"
         android:label="fragment_scan"
-        tools:layout="@layout/fragment_scan" >
+        tools:layout="@layout/fragment_scan">
         <action
-            android:id="@+id/action_scanFragment_to_infoFragment"
-            app:destination="@id/infoFragment" />
-        <action
-            android:id="@+id/action_scanFragment_to_historyFragment"
-            app:destination="@id/historyFragment" />
+            android:id="@+id/action_scanFragment_to_resultFragment"
+            app:destination="@id/resultFragment"
+            app:enterAnim="@anim/slide_in_from_bot_to_top"
+            app:exitAnim="@anim/slide_in_from_top_to_bot"
+            app:popExitAnim="@anim/slide_in_from_top_to_bot" />
     </fragment>
     <fragment
         android:id="@+id/diseaseInfoFragment"
         android:name="com.example.scanmyskin.ui.fragments.home.info.DiseaseInfoFragment"
         android:label="fragment_disease_info"
-        tools:layout="@layout/fragment_disease_info" >
+        tools:layout="@layout/fragment_disease_info">
         <action
             android:id="@+id/action_diseaseInfoFragment_to_webViewFragment"
             app:destination="@id/webViewFragment"
-            app:exitAnim="@anim/fade_out"
             app:enterAnim="@anim/slide_in_from_bot_to_top"
-            app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/slide_in_from_top_to_bot"  />
+            app:exitAnim="@anim/fade_out"
+            app:popExitAnim="@anim/slide_in_from_top_to_bot" />
         <argument
             android:name="disease"
             app:argType="com.example.scanmyskin.data.models.Disease" />
+        <action
+            android:id="@+id/action_diseaseInfoFragment_to_infoFragment"
+            app:destination="@id/infoFragment" />
     </fragment>
     <fragment
         android:id="@+id/webViewFragment"
         android:name="com.example.scanmyskin.ui.fragments.home.info.WebViewFragment"
         android:label="fragment_web_view"
-        tools:layout="@layout/fragment_web_view" >
+        tools:layout="@layout/fragment_web_view">
         <argument
             android:name="url"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/resultFragment"
+        android:name="com.example.scanmyskin.ui.fragments.home.scan.ResultFragment"
+        android:label="ResultFragment">
+        <action
+            android:id="@+id/action_resultFragment_to_scanFragment"
+            app:destination="@id/scanFragment" />
+        <argument
+            android:name="disease"
+            app:argType="com.example.scanmyskin.data.models.Disease" />
+        <argument
+            android:name="chance"
+            app:argType="float" />
+        <argument
+            android:name="uri"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_resultFragment_to_infoFragment"
+            app:destination="@id/infoFragment" />
     </fragment>
 
     <action
         android:id="@+id/action_back_to_init"
         app:destination="@id/loginActivity"
         app:popUpToInclusive="true" />
+
     <activity
         android:id="@+id/loginActivity"
         android:name="com.example.scanmyskin.ui.activities.LoginActivity"
-        android:label="LoginActivity"/>
+        android:label="LoginActivity" />
+
 </navigation>

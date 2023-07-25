@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="margin_zero">0dp</dimen>
     <dimen name="margin_very_small">4dp</dimen>
     <dimen name="margin_small">8dp</dimen>
+    <dimen name="margin_small_to_medium">12dp</dimen>
     <dimen name="margin_medium">16dp</dimen>
     <dimen name="margin_large">24dp</dimen>
     <dimen name="margin_very_large">40dp</dimen>
@@ -17,4 +19,9 @@
     <dimen name="corner_medium">10dp</dimen>
     <dimen name="corner_large">15dp</dimen>
     <dimen name="corner_very_large">20dp</dimen>
+    <dimen name="radius_8">8dp</dimen>
+    <dimen name="elevation_2">2dp</dimen>
+    <dimen name="elevation_10">10dp</dimen>
+    <dimen name="elevation_6">6dp</dimen>
+    <dimen name="scroll_offset">10dp</dimen>
 </resources>

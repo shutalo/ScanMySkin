@@ -22,28 +22,12 @@ class ProgressDialog(private val activity: Activity) {
     private lateinit var dialog: Dialog
 
     fun show(): Dialog {
-        return show(null)
-    }
-
-    fun show(title: CharSequence?): Dialog {
         val inflater = activity.layoutInflater
         val view = ProgressDialogBinding.inflate(inflater)
-        if (title != null) {
-            view.progressTitle.text = title
-        }
-
-//        // Card Color
-//        view.progressCardView.setCardBackgroundColor(Color.parseColor("#70000000"))
-//
-//        // Progress Bar Color
-//        setColorFilter(view.progressBar.indeterminateDrawable, ResourcesCompat.getColor(activity.resources, R.color.blue, null))
-
-//        // Text Color
-//        view.progressTitle.setTextColor(Color.WHITE)
 
         val gradientDrawable = GradientDrawable()
         gradientDrawable.cornerRadius = 40f
-        gradientDrawable.setColor(ContextCompat.getColor(activity,R.color.gray))
+        gradientDrawable.setColor(ContextCompat.getColor(activity, R.color.transparent))
 
         dialog = Dialog(activity)
         dialog.window?.setBackgroundDrawable(gradientDrawable)
@@ -53,16 +37,7 @@ class ProgressDialog(private val activity: Activity) {
         return dialog
     }
 
-    fun dismiss(){
+    fun dismiss() {
         dialog.dismiss()
     }
-
-//    private fun setColorFilter(drawable: Drawable, color: Int) {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-//            drawable.colorFilter = BlendModeColorFilter(color, BlendMode.SRC_ATOP)
-//        } else {
-//            @Suppress("DEPRECATION")
-//            drawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
-//        }
-//    }
 }

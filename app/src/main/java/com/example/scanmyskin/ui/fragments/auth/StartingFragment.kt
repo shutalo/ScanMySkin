@@ -1,16 +1,13 @@
 package com.example.scanmyskin.ui.fragments.auth
 
-import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.ActivityNavigator
 import androidx.navigation.fragment.findNavController
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.example.scanmyskin.databinding.FragmentStartingBinding
-import com.example.scanmyskin.helpers.ImageClassifier
 import com.example.scanmyskin.helpers.shortDelay
 import com.example.scanmyskin.helpers.veryShortDelay
 import com.example.scanmyskin.ui.fragments.base.BaseFragment
@@ -18,9 +15,6 @@ import com.example.scanmyskin.ui.viewmodels.AuthViewModel
 import com.google.mlkit.common.model.CustomRemoteModel
 import com.google.mlkit.common.model.DownloadConditions
 import com.google.mlkit.common.model.RemoteModelManager
-import com.google.mlkit.linkfirebase.FirebaseModelSource
-import com.google.mlkit.vision.label.ImageLabeling
-import com.google.mlkit.vision.label.custom.CustomImageLabelerOptions
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.*
@@ -35,12 +29,12 @@ class StartingFragment : BaseFragment<FragmentStartingBinding>() {
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentStartingBinding
         get() = FragmentStartingBinding::inflate
 
-    override fun setupUi(){
+    override fun setupUi() {
         viewModel.checkIfUserIsSignedIn()
         retrieveModel()
     }
 
-    private fun updateUI(){
+    private fun updateUI() {
         viewModel.isUserSignedIn.observe(this) {
             Timer().schedule(shortDelay) {
                 activity?.runOnUiThread {
@@ -71,19 +65,19 @@ class StartingFragment : BaseFragment<FragmentStartingBinding>() {
 
     }
 
-    private fun retrieveModel(){
+    private fun retrieveModel() {
         val downloadConditions = DownloadConditions.Builder()
             .requireWifi()
             .build()
         RemoteModelManager.getInstance().download(remoteModel, downloadConditions)
             .addOnSuccessListener {
-                Log.d(TAG,"model retrieved")
+                Log.d(TAG, "model retrieved")
             }
-            .addOnFailureListener{ ex ->
-                Log.d(TAG,ex.toString())
+            .addOnFailureListener { ex ->
+                Log.d(TAG, ex.toString())
             }
             .addOnCompleteListener {
-                Log.d(TAG,"setting up image classifier")
+                Log.d(TAG, "setting up image classifier")
                 viewModel.setupImageClassifier()
                 updateUI()
             }
